@@ -431,10 +431,10 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
           <div class="pm" id="ea"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 459,00/ano</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−50%</span></div><span class="cu">R$</span><span class="am">19</span><span class="pe">,13/mês</span><div class="ec">💰 Economia de R$ 229,50/ano · R$ 17,21/mês no Pix</div></div></div>
       <ul class="plf"><li>Até <strong>30 apostilas por mês</strong></li><li>Bancas FCC, CEBRASPE e FGV</li><li>Teoria, Ancoragem e Alerta</li><li>Raio-X da Banca incluso</li><li>Mapa Mental gerado por IA</li><li>Teste com gabarito comentado</li><li class="off">Download / impressão em PDF</li></ul>
       <button class="plbtn o" onclick="go('auth')">Garantir desconto de lançamento</button><p style="font-size:.7rem;color:var(--muted);text-align:center;margin-top:.6rem;">🔒 Cancele a qualquer momento</p></div>
-    <div class="plcard hl"><div class="plbadge">⭐ Mais completo</div><div class="pln">Pro</div><div class="pld">Gere e imprima <strong>todos os assuntos que precisar</strong> — sem limites</div>
+    <div class="plcard hl"><div class="plbadge">⭐ Mais completo</div><div class="pln">Pro</div><div class="pld">Gere e imprima <strong>até 150 apostilas por mês</strong> — para qualquer assunto que precisar</div>
       <div class="plp">          <div class="pm show" id="pm"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 79,90</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−50%</span></div><span class="cu">R$</span><span class="am">39</span><span class="pe">,95/mês</span><div class="ec">💚 No Pix: R$ 35,96/mês</div></div>
           <div class="pm" id="pa"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 55,90/mês</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−50%</span></div><span class="cu">R$</span><span class="am">27</span><span class="pe">,95/mês</span><div class="ec">💰 Economia de R$ 335,40/ano · R$ 25,16/mês no Pix</div></div></div>
-      <ul class="plf"><li><strong>Apostilas ilimitadas</strong></li><li>Bancas FCC, CEBRASPE e FGV</li><li>Teoria, Ancoragem e Alerta</li><li>Raio-X da Banca incluso</li><li>Mapa Mental gerado por IA</li><li>Teste com gabarito comentado</li><li><strong>🖨️ Imprima qualquer apostila em PDF</strong></li></ul>
+      <ul class="plf"><li><strong>Até 150 apostilas por mês</strong> — raramente atingido</li><li>Bancas FCC, CEBRASPE, FGV e outras</li><li>Teoria, Ancoragem e Alerta</li><li>Raio-X da Banca incluso</li><li>Mapa Mental gerado por IA</li><li>Teste com gabarito comentado</li><li><strong>🖨️ Imprima qualquer apostila em PDF</strong></li></ul>
       <button class="plbtn g" onclick="go('auth')">Garantir desconto de lançamento</button>
       <div style="margin-top:.85rem;background:linear-gradient(135deg,rgba(240,180,41,0.12),rgba(240,180,41,0.05));border:1px solid rgba(240,180,41,0.3);border-radius:8px;padding:.6rem .85rem;font-size:.76rem;color:var(--navy);line-height:1.5;">📚 <strong>Estude do zero ao edital:</strong> gere assunto por assunto e imprima tudo sem custo adicional.</div></div>
   </div>
@@ -772,16 +772,16 @@ function initGerador(){
   var lbar=document.getElementById('glimbar');
   var fill=document.getElementById('gfill');
   var lim=document.getElementById('glim-txt');
-  var maxApostilas = CUR_PLANO==='essencial' ? 30 : (CUR_PLANO==='pro' ? Infinity : 5);
-  if(CUR_PLANO==='pro'){pEl.textContent='Pro ⭐';lbar.style.display='none';lim.style.display='none';}
-  else{pEl.textContent=CUR_PLANO==='essencial'?'Essencial':'Teste Grátis';cEl.textContent=APO_COUNT;lim.textContent='/'+maxApostilas;lim.style.display='';fill.style.width=Math.min(100,APO_COUNT/maxApostilas*100)+'%';}
+  var maxApostilas = CUR_PLANO==='essencial' ? 30 : (CUR_PLANO==='pro' ? 150 : 5);
+  pEl.textContent=CUR_PLANO==='essencial'?'Essencial':(CUR_PLANO==='pro'?'Pro ⭐':'Teste Grátis');
+  cEl.textContent=APO_COUNT;lim.textContent='/'+maxApostilas;lim.style.display='';fill.style.width=Math.min(100,APO_COUNT/maxApostilas*100)+'%';
   // verifica limite
   var wall=document.getElementById('limit-wall');
   var form=document.getElementById('gform');
-  if(CUR_PLANO!=='pro'&&APO_COUNT>=maxApostilas){
+  if(APO_COUNT>=maxApostilas){
     wall.style.display='block';form.style.display='none';
-    wall.querySelector('h3').textContent = CUR_PLANO==='trial' ? '🚫 Limite do teste grátis atingido' : '🚫 Limite do plano atingido';
-    wall.querySelector('p').textContent = CUR_PLANO==='trial' ? 'Você usou as 5 apostilas gratuitas do teste grátis. Assine um plano para continuar gerando apostilas ilimitadas ou até 30/mês.' : 'Você usou todas as 30 apostilas do plano Essencial este mês. Faça upgrade para o plano Pro e gere apostilas ilimitadas.';
+    wall.querySelector('h3').textContent = CUR_PLANO==='trial' ? '🚫 Limite do teste grátis atingido' : (CUR_PLANO==='pro' ? '🚫 Limite mensal do plano Pro atingido' : '🚫 Limite do plano atingido');
+    wall.querySelector('p').textContent = CUR_PLANO==='trial' ? 'Você usou as 5 apostilas gratuitas do teste grátis. Assine um plano para continuar gerando apostilas.' : (CUR_PLANO==='pro' ? 'Você atingiu as 150 apostilas incluídas este mês no plano Pro — um volume raramente alcançado. O limite renova no próximo ciclo.' : 'Você usou todas as 30 apostilas do plano Essencial este mês. Faça upgrade para o plano Pro e gere até 150 apostilas/mês.');
   }
   else{wall.style.display='none';form.style.display='block';}
   // reset view
@@ -861,8 +861,8 @@ function gerar(){
   if(!disc){alert('Selecione a disciplina.');return;}
   if(!mod){alert('Selecione o assunto.');return;}
   // verifica limite
-  var maxAp = CUR_PLANO==='essencial' ? 30 : (CUR_PLANO==='pro' ? Infinity : 5);
-  if(CUR_PLANO!=='pro'&&APO_COUNT>=maxAp){document.getElementById('limit-wall').style.display='block';document.getElementById('gform').style.display='none';return;}
+  var maxAp = CUR_PLANO==='essencial' ? 30 : (CUR_PLANO==='pro' ? 150 : 5);
+  if(APO_COUNT>=maxAp){document.getElementById('limit-wall').style.display='block';document.getElementById('gform').style.display='none';return;}
 
   document.getElementById('gform').style.display='none';
   document.getElementById('apostila-view').style.display='none';
