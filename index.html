@@ -430,12 +430,12 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
       <div class="plp">          <div class="pm show" id="em"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 49,90</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−50%</span></div><span class="cu">R$</span><span class="am">24</span><span class="pe">,95/mês</span><div class="ec">💚 No Pix: R$ 22,46/mês</div></div>
           <div class="pm" id="ea"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 459,00/ano</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−50%</span></div><span class="cu">R$</span><span class="am">19</span><span class="pe">,13/mês</span><div class="ec">💰 Economia de R$ 229,50/ano · R$ 17,21/mês no Pix</div></div></div>
       <ul class="plf"><li>Até <strong>30 apostilas por mês</strong></li><li>Bancas FCC, CEBRASPE e FGV</li><li>Teoria, Ancoragem e Alerta</li><li>Raio-X da Banca incluso</li><li>Mapa Mental gerado por IA</li><li>Teste com gabarito comentado</li><li class="off">Download / impressão em PDF</li></ul>
-      <button class="plbtn o" onclick="go('auth')">Garantir desconto de lançamento</button><p style="font-size:.7rem;color:var(--muted);text-align:center;margin-top:.6rem;">🔒 Cancele a qualquer momento</p></div>
+      <button class="plbtn o" onclick="assinarPlano('essencial')">Garantir desconto de lançamento</button><p style="font-size:.7rem;color:var(--muted);text-align:center;margin-top:.6rem;">🔒 Cancele a qualquer momento</p></div>
     <div class="plcard hl"><div class="plbadge">⭐ Mais completo</div><div class="pln">Pro</div><div class="pld">Gere e imprima <strong>todos os assuntos que precisar</strong> — sem limites</div>
       <div class="plp">          <div class="pm show" id="pm"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 79,90</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−50%</span></div><span class="cu">R$</span><span class="am">39</span><span class="pe">,95/mês</span><div class="ec">💚 No Pix: R$ 35,96/mês</div></div>
           <div class="pm" id="pa"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 55,90/mês</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−50%</span></div><span class="cu">R$</span><span class="am">27</span><span class="pe">,95/mês</span><div class="ec">💰 Economia de R$ 335,40/ano · R$ 25,16/mês no Pix</div></div></div>
       <ul class="plf"><li><strong>Apostilas ilimitadas</strong></li><li>Bancas FCC, CEBRASPE e FGV</li><li>Teoria, Ancoragem e Alerta</li><li>Raio-X da Banca incluso</li><li>Mapa Mental gerado por IA</li><li>Teste com gabarito comentado</li><li><strong>🖨️ Imprima qualquer apostila em PDF</strong></li></ul>
-      <button class="plbtn g" onclick="go('auth')">Garantir desconto de lançamento</button>
+      <button class="plbtn g" onclick="assinarPlano('pro')">Garantir desconto de lançamento</button>
       <div style="margin-top:.85rem;background:linear-gradient(135deg,rgba(240,180,41,0.12),rgba(240,180,41,0.05));border:1px solid rgba(240,180,41,0.3);border-radius:8px;padding:.6rem .85rem;font-size:.76rem;color:var(--navy);line-height:1.5;">📚 <strong>Estude do zero ao edital:</strong> gere assunto por assunto e imprima tudo sem custo adicional.</div></div>
   </div>
   <p style="text-align:center;margin-top:1.1rem;font-size:.8rem;color:var(--muted);">💳 Cartão · 🏦 Pix (−10%) · Cancele quando quiser</p></div>
@@ -598,6 +598,19 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 // ══════════════════════════════════════
 var SB_URL  = 'https://zmturipqsasbnjfaiehd.supabase.co';
 var SB_KEY  = 'sb_publishable_iGmTY-Ry_S90JyK9L5QZNg_k1hmJlos';
+
+// ══════════════════════════════════════
+// LINKS DE CHECKOUT DO HOTMART
+// ══════════════════════════════════════
+// Cole aqui os links de checkout assim que o produto estiver configurado no Hotmart.
+// Exemplo de link do Hotmart: https://pay.hotmart.com/A12345678B
+// Se um plano ainda não tiver link, deixe '' (vazio) — o botão mostra um aviso em vez de quebrar.
+var HOTMART_LINKS = {
+  essencial_mensal: '',
+  essencial_anual:  '',
+  pro_mensal:       '',
+  pro_anual:        ''
+};
 // Chave Anthropic — adicione no Vercel como variável de ambiente
 // Para uso direto (desenvolvimento) cole aqui:
 // Chave protegida no servidor — não precisa mudar nada aqui
@@ -734,6 +747,21 @@ function doForgot(){
     .catch(function(){setLd('btnforgot',false,'Enviar link de recuperação');});
 }
 function doLogout(){localStorage.removeItem('sb_tok');localStorage.removeItem('sb_usr');CUR_USER=null;go('landing');}
+
+// botão de assinatura: evita o loop de login e manda pro checkout do Hotmart certo
+function assinarPlano(plano){
+  if(!CUR_USER){ go('auth'); return; }
+  var ciclo = isAnl ? 'anual' : 'mensal';
+  var chave = plano+'_'+ciclo;
+  var link = HOTMART_LINKS[chave];
+  if(!link){
+    alert('O pagamento ainda está em configuração. Em breve você poderá assinar direto por aqui!\n\nPor enquanto, fale com a gente: contato@aprendai.net.br');
+    return;
+  }
+  var sep = link.indexOf('?')>-1 ? '&' : '?';
+  var url = link + sep + 'email=' + encodeURIComponent(CUR_USER.email||'');
+  window.open(url,'_blank');
+}
 
 // salva o novo total de apostilas no Supabase (user_metadata), para persistir entre logins
 function salvarApostilasMes(novoCount){
