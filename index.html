@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AprendAI — Apostilas Inteligentes para Concursos</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{--navy:#0a1628;--gold:#f0b429;--gold2:#e6a817;--white:#fff;--gray:#f4f6fb;--gray2:#e2e8f0;--text:#1e293b;--muted:#64748b;--green:#16a34a;--red:#dc2626;--r:14px;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;color:var(--text);background:var(--white);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(10,22,40,0.97);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;padding:0 4%;height:66px;border-bottom:1px solid rgba(240,180,41,0.15);}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none;cursor:pointer;}
+.logo-icon{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:var(--navy);}
+.logo-text{font-size:1.25rem;font-weight:800;color:#fff;letter-spacing:-.5px;}.logo-text span{color:var(--gold);}
+.nav-r{display:flex;gap:.6rem;align-items:center;}
+.nbtn{padding:.42rem 1rem;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all .2s;text-decoration:none;}
+.nbtn-out{border:1.5px solid rgba(255,255,255,0.25);color:#fff;background:none;}.nbtn-out:hover{border-color:var(--gold);color:var(--gold);}
+.nbtn-gold{background:var(--gold);color:var(--navy);font-weight:700;}.nbtn-gold:hover{background:var(--gold2);}
+
+/* PAGES */
+.page{display:none;}
+#page-landing{display:block;}
+
+/* ── LANDING ── */
+#hero{min-height:100vh;background:linear-gradient(160deg,var(--navy) 0%,#0d1f3c 60%,#1a2a4a 100%);display:flex;align-items:center;padding:100px 5% 60px;position:relative;overflow:hidden;}
+#hero::before{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(240,180,41,0.12),transparent 70%);top:-100px;right:-100px;pointer-events:none;}
+.hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;width:100%;position:relative;z-index:2;}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(240,180,41,0.12);border:1px solid rgba(240,180,41,0.3);color:var(--gold);padding:.4rem 1rem;border-radius:50px;font-size:.82rem;font-weight:600;margin-bottom:1.4rem;}
+h1{font-size:clamp(2rem,4vw,3.2rem);font-weight:900;color:#fff;line-height:1.1;letter-spacing:-1px;margin-bottom:1.2rem;}
+h1 em{font-style:normal;color:var(--gold);}
+.hero-sub{font-size:1.05rem;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:2rem;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);padding:.85rem 2rem;border-radius:10px;font-size:1rem;font-weight:700;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(240,180,41,0.35);transition:all .25s;}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(240,180,41,0.45);}
+.btn-ghost{border:2px solid rgba(255,255,255,0.25);color:#fff;padding:.85rem 2rem;border-radius:10px;font-size:1rem;font-weight:600;background:none;cursor:pointer;transition:all .25s;}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+.hero-stats{display:flex;gap:2rem;margin-top:2.5rem;flex-wrap:wrap;}
+.stat strong{display:block;font-size:1.8rem;font-weight:900;color:var(--gold);}
+.stat small{font-size:.8rem;color:rgba(255,255,255,0.55);}
+/* mockup */
+.mkw{background:#1e2d4a;border-radius:16px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.08);}
+.mkbar{background:#162036;padding:.65rem 1rem;display:flex;gap:.45rem;align-items:center;}
+.dot{width:11px;height:11px;border-radius:50%;}.dr{background:#ff5f57;}.dy{background:#ffc02c;}.dg{background:#29c940;}
+.mkbody{padding:1.1rem;}
+.mkhdr{background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:10px;padding:.9rem 1.1rem;margin-bottom:.9rem;display:flex;align-items:center;gap:.7rem;}
+.mkhdr-t{font-size:.9rem;font-weight:800;color:var(--navy);}.mkhdr-s{font-size:.7rem;color:rgba(10,22,40,0.65);}
+.mkgrid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.65rem;}
+.mkcard{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:9px;padding:.7rem;}
+.mkcard-l{font-size:.6rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.25rem;}
+.mkcard-v{font-size:1rem;font-weight:700;color:#fff;}.mkcard-s{font-size:.62rem;color:var(--gold);}
+.mkapost{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:9px;padding:.8rem;}
+.mkapost-t{font-size:.72rem;font-weight:700;color:#fff;margin-bottom:.45rem;}
+.ml{height:5px;background:rgba(255,255,255,0.1);border-radius:3px;margin-bottom:.2rem;}
+.ml.g{background:rgba(240,180,41,0.4);width:60%;}.ml.w8{width:80%;}.ml.w9{width:90%;}.ml.w7{width:70%;}
+.mktag{display:inline-block;background:rgba(240,180,41,0.15);color:var(--gold);font-size:.58rem;font-weight:700;padding:.18rem .45rem;border-radius:4px;margin-top:.4rem;}
+.fb{position:absolute;background:#fff;border-radius:11px;padding:.55rem .9rem;box-shadow:0 8px 28px rgba(0,0,0,0.25);display:flex;align-items:center;gap:.45rem;white-space:nowrap;}
+.fb1{top:-18px;right:-28px;}.fb2{bottom:18px;left:-36px;}
+.fb strong{display:block;font-size:.72rem;font-weight:700;color:var(--navy);}
+.fb small{font-size:.62rem;color:var(--muted);}
+
+/* sections */
+.lp-sec{padding:80px 5%;}
+.si{max-width:1200px;margin:0 auto;}
+.sl{text-transform:uppercase;letter-spacing:2px;font-size:.75rem;font-weight:700;color:var(--gold);margin-bottom:.7rem;}
+.st{font-size:clamp(1.5rem,3vw,2.3rem);font-weight:800;color:var(--navy);line-height:1.2;margin-bottom:.9rem;}
+.st em{font-style:normal;color:var(--gold);}
+.ss{font-size:1rem;color:var(--muted);max-width:540px;line-height:1.7;}
+.ctr{text-align:center;}.ctr .ss{margin:0 auto;}
+
+/* prob grid */
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2.5rem;}
+.pcard{background:#fff;border-radius:var(--r);padding:1.6rem;border:1.5px solid var(--gray2);transition:all .25s;position:relative;overflow:hidden;}
+.pcard:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(10,22,40,0.1);border-color:var(--gold);}
+.pcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));opacity:0;transition:opacity .25s;}
+.pcard:hover::before{opacity:1;}
+.pcard h3{font-size:.95rem;font-weight:700;color:var(--navy);margin:.7rem 0 .4rem;}
+.pcard p{font-size:.87rem;color:var(--muted);line-height:1.6;}
+
+/* steps */
+.steps{display:flex;gap:2rem;margin-top:3rem;flex-wrap:wrap;justify-content:center;}
+.step{flex:1;min-width:190px;max-width:270px;text-align:center;}
+.step-n{width:52px;height:52px;border-radius:50%;margin:0 auto 1rem;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:900;color:var(--navy);box-shadow:0 4px 18px rgba(240,180,41,0.35);}
+.step h3{font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:.4rem;}
+.step p{font-size:.85rem;color:var(--muted);line-height:1.6;}
+
+/* screens */
+.navy-sec{background:var(--navy);}
+.navy-sec .st{color:#fff;}.navy-sec .ss{color:rgba(255,255,255,0.6);}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem;margin-top:2.5rem;}
+.scard{background:#112040;border-radius:13px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);transition:all .25s;}
+.scard:hover{transform:translateY(-4px);border-color:rgba(240,180,41,0.3);box-shadow:0 12px 40px rgba(0,0,0,0.4);}
+.sprev{height:170px;display:flex;align-items:center;justify-content:center;}
+.sprev.s1{background:linear-gradient(135deg,#1a2a4a,#0d1f3c);}
+.sprev.s2{background:linear-gradient(135deg,#1e3a5f,#0d2a4a);}
+.sprev.s3{background:linear-gradient(135deg,#1a3040,#0d2030);}
+.sprev.s4{background:linear-gradient(135deg,#2a1a4a,#1a0d3c);}
+.sprev.s5{background:linear-gradient(135deg,#3a1a1a,#2a0d0d);}
+.sprev.s6{background:linear-gradient(135deg,#1a3a1a,#0d2a0d);}
+.sinn{padding:.9rem;}
+.sinn h4{font-size:.87rem;font-weight:700;color:#fff;margin-bottom:.25rem;}
+.sinn p{font-size:.75rem;color:rgba(255,255,255,0.5);line-height:1.5;}
+.mm{background:rgba(255,255,255,0.08);border-radius:7px;padding:.55rem;width:82%;}
+.mr{display:flex;gap:.35rem;margin-bottom:.25rem;align-items:center;}
+.md{width:7px;height:7px;border-radius:2px;background:var(--gold);flex-shrink:0;}
+.mln{height:5px;border-radius:3px;background:rgba(255,255,255,0.13);flex:1;}
+.mln.g{background:rgba(240,180,41,0.5);}
+
+/* planos */
+.tw{display:flex;align-items:center;justify-content:center;gap:1rem;margin:1.8rem 0;}
+.tl{font-size:.9rem;font-weight:600;color:var(--muted);}.tl.on{color:var(--navy);}
+.tog{width:54px;height:27px;background:var(--navy);border-radius:50px;position:relative;cursor:pointer;}
+.tth{width:21px;height:21px;background:var(--gold);border-radius:50%;position:absolute;top:3px;left:3px;transition:left .25s;}
+.tog.anl .tth{left:30px;}
+.db{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);font-size:.7rem;font-weight:800;padding:.22rem .55rem;border-radius:50px;}
+.plgrid{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem;max-width:800px;margin:1rem auto 0;}
+.plcard{background:#fff;border-radius:17px;padding:2rem;border:2px solid var(--gray2);position:relative;transition:all .25s;}
+.plcard:hover{transform:translateY(-3px);}
+.plcard.hl{border-color:var(--gold);box-shadow:0 8px 40px rgba(240,180,41,0.2);background:linear-gradient(170deg,#fff 80%,#fffbee 100%);}
+.plbadge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);font-size:.72rem;font-weight:800;padding:.28rem 1.1rem;border-radius:50px;white-space:nowrap;}
+.pln{font-size:1.05rem;font-weight:800;color:var(--navy);margin-bottom:.25rem;}
+.pld{font-size:.82rem;color:var(--muted);margin-bottom:1.3rem;}
+.plp{margin-bottom:1.3rem;}
+.plp .cu{font-size:.95rem;font-weight:700;color:var(--navy);vertical-align:top;line-height:2;}
+.plp .am{font-size:2.8rem;font-weight:900;color:var(--navy);line-height:1;}
+.plp .pe{font-size:.82rem;color:var(--muted);}
+.plp .ec{font-size:.75rem;color:#16a34a;font-weight:600;margin-top:.25rem;}
+.plf{list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.8rem;}
+.plf li{display:flex;align-items:flex-start;gap:.55rem;font-size:.86rem;color:var(--text);}
+.plf li::before{content:'✓';color:var(--gold);font-weight:700;flex-shrink:0;margin-top:1px;}
+.plf li.off{color:var(--muted);}.plf li.off::before{content:'✕';color:#cbd5e1;}
+.plbtn{display:block;text-align:center;padding:.85rem;border-radius:9px;font-size:.92rem;font-weight:700;cursor:pointer;border:none;font-family:inherit;width:100%;transition:all .25s;}
+.plbtn.g{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);box-shadow:0 4px 18px rgba(240,180,41,0.3);}
+.plbtn.g:hover{transform:translateY(-2px);}
+.plbtn.o{border:2px solid var(--navy);color:var(--navy);background:none;}.plbtn.o:hover{background:var(--navy);color:#fff;}
+.pm{display:none;}.pm.show{display:block;}
+
+/* cta */
+.cta-sec{background:linear-gradient(135deg,var(--navy),#0d2a4a);text-align:center;position:relative;overflow:hidden;}
+.cta-sec::before{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(240,180,41,0.12),transparent 70%);top:-100px;left:50%;transform:translateX(-50%);pointer-events:none;}
+.cta-sec .st{color:#fff;}.cta-sec .ss{color:rgba(255,255,255,0.65);margin:0 auto 2.2rem;}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+
+/* footer */
+footer{background:#060f1e;padding:2.5rem 5% 1.5rem;color:rgba(255,255,255,0.5);}
+.ft{max-width:1200px;margin:0 auto;}
+.ftop{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.5rem;margin-bottom:2rem;}
+.fcol h4{font-size:.88rem;font-weight:700;color:#fff;margin-bottom:.9rem;}
+.fcol ul{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
+.fcol a{color:rgba(255,255,255,0.5);text-decoration:none;font-size:.83rem;transition:color .2s;cursor:pointer;}.fcol a:hover{color:var(--gold);}
+.fbot{border-top:1px solid rgba(255,255,255,0.06);padding-top:1.3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem;}
+.fbot p{font-size:.78rem;}
+.socials{display:flex;gap:.6rem;}
+.soc{width:34px;height:34px;border-radius:7px;background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:.95rem;transition:all .2s;}.soc:hover{background:var(--gold);}
+
+/* ── AUTH ── */
+#page-auth{background:linear-gradient(160deg,var(--navy) 0%,#0d1f3c 60%,#1a2a4a 100%);min-height:100vh;display:none;align-items:center;justify-content:center;padding:90px 1rem 2rem;flex-direction:column;}
+.card{background:#fff;border-radius:20px;width:100%;max-width:430px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,0.4);}
+.chdr{background:linear-gradient(135deg,var(--navy),#1a3a6a);padding:1.8rem 1.8rem 1.4rem;text-align:center;}
+.chdr h2{color:#fff;font-size:1.3rem;font-weight:800;margin-bottom:.25rem;}
+.chdr p{color:rgba(255,255,255,0.6);font-size:.83rem;}
+.cbody{padding:1.8rem;}
+.tabs{display:flex;background:var(--gray);border-radius:9px;padding:3px;margin-bottom:1.5rem;}
+.tab{flex:1;text-align:center;padding:.5rem;border-radius:7px;font-size:.86rem;font-weight:600;cursor:pointer;color:var(--muted);transition:all .2s;border:none;background:none;}
+.tab.on{background:#fff;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+.fg{margin-bottom:1rem;}
+label{display:block;font-size:.78rem;font-weight:600;color:var(--navy);margin-bottom:.35rem;}
+input[type=text],input[type=email],input[type=password]{width:100%;padding:.7rem .95rem;border:1.5px solid var(--gray2);border-radius:9px;font-size:.9rem;font-family:inherit;color:var(--text);background:#fff;outline:none;transition:border-color .2s,box-shadow .2s;}
+input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);}
+.ferr{font-size:.73rem;color:var(--red);margin-top:.28rem;}
+.pw{position:relative;}
+.pt{position:absolute;right:.85rem;top:50%;transform:translateY(-50%);cursor:pointer;font-size:.95rem;color:var(--muted);}
+.abtn{width:100%;padding:.82rem;border-radius:9px;font-size:.94rem;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all .25s;}
+.abtn-g{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);box-shadow:0 4px 16px rgba(240,180,41,0.28);}
+.abtn-g:hover{transform:translateY(-1px);}.abtn-g:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+.abtn-o{background:#fff;color:var(--navy);border:2px solid var(--gray2);margin-top:.65rem;}.abtn-o:hover{border-color:var(--navy);}
+.alert{padding:.75rem .95rem;border-radius:8px;font-size:.81rem;margin-bottom:.9rem;display:none;align-items:flex-start;gap:.45rem;}
+.alert.show{display:flex;}
+.ae{background:#fef2f2;border:1px solid #fecaca;color:var(--red);}
+.as{background:#f0fdf4;border:1px solid #bbf7d0;color:var(--green);}
+.fl{display:block;text-align:right;font-size:.76rem;color:var(--muted);margin-top:-.4rem;margin-bottom:.9rem;cursor:pointer;}.fl:hover{color:var(--gold);}
+.cft{padding:.9rem 1.8rem;background:var(--gray);border-top:1px solid var(--gray2);text-align:center;font-size:.76rem;color:var(--muted);}
+.cft a{color:var(--gold);text-decoration:none;font-weight:600;}
+.promo-a{background:linear-gradient(135deg,rgba(240,180,41,0.1),rgba(240,180,41,0.05));border:1px solid rgba(240,180,41,0.3);border-radius:9px;padding:.7rem .95rem;font-size:.76rem;color:var(--navy);margin-bottom:1.1rem;text-align:center;}
+.spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(10,22,40,0.25);border-top-color:var(--navy);border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:.35rem;}
+@keyframes sp{to{transform:rotate(360deg);}}
+
+/* ── DASHBOARD ── */
+#page-dash{background:linear-gradient(160deg,var(--navy) 0%,#0d1f3c 60%,#1a2a4a 100%);min-height:100vh;display:none;padding-top:68px;}
+.dw{max-width:860px;width:100%;margin:0 auto;padding:2rem 1.5rem;}
+.dh{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.8rem;flex-wrap:wrap;gap:1rem;}
+.dh h2{color:#fff;font-size:1.35rem;font-weight:800;}
+.dh p{color:rgba(255,255,255,0.5);font-size:.83rem;}
+.sbtn{padding:.48rem 1rem;border-radius:8px;font-size:.8rem;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all .2s;}
+.sbtn-o{background:transparent;color:rgba(255,255,255,0.6);border:1.5px solid rgba(255,255,255,0.2);}.sbtn-o:hover{border-color:var(--gold);color:var(--gold);}
+.tbanner{background:linear-gradient(135deg,#0d2a4a,#1a3a6a);border:1px solid rgba(240,180,41,0.3);border-radius:12px;padding:1rem 1.3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem;margin-bottom:1.3rem;}
+.tbanner p{color:rgba(255,255,255,0.8);font-size:.83rem;}.tbanner strong{color:var(--gold);}
+.dgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-bottom:1.3rem;}
+.dc{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:13px;padding:1.3rem;}
+.dcl{font-size:.7rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.35rem;}
+.dcv{font-size:1.5rem;font-weight:900;color:#fff;}
+.dcs{font-size:.7rem;color:var(--gold);margin-top:.18rem;}
+.chip{display:inline-flex;align-items:center;gap:.35rem;padding:.32rem .85rem;border-radius:50px;font-size:.76rem;font-weight:700;}
+.cht{background:rgba(16,185,129,0.2);color:#6ee7b7;border:1px solid rgba(16,185,129,0.3);}
+.che{background:rgba(59,130,246,0.2);color:#93c5fd;border:1px solid rgba(59,130,246,0.3);}
+.chp{background:rgba(240,180,41,0.2);color:var(--gold);border:1px solid rgba(240,180,41,0.3);}
+.da{background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:15px;padding:1.8rem;text-align:center;cursor:pointer;transition:all .25s;border:none;width:100%;font-family:inherit;}
+.da:hover{transform:translateY(-2px);box-shadow:0 12px 38px rgba(240,180,41,0.3);}
+.da h3{color:var(--navy);font-size:1.1rem;font-weight:800;margin-bottom:.25rem;}
+.da p{color:rgba(10,22,40,0.65);font-size:.85rem;}
+.dlinks{display:flex;justify-content:center;gap:2rem;margin-top:1.2rem;flex-wrap:wrap;}
+.dlinks a{color:rgba(255,255,255,0.4);font-size:.8rem;cursor:pointer;text-decoration:none;}.dlinks a:hover{color:var(--gold);}
+
+/* ── GERADOR ── */
+#page-gen{background:linear-gradient(160deg,var(--navy) 0%,#0d1f3c 60%,#1a2a4a 100%);min-height:100vh;display:none;padding-top:68px;}
+.gw{max-width:900px;margin:0 auto;padding:2rem 1.5rem;}
+.gbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.8rem;}
+.gbar h2{color:#fff;font-size:1.2rem;font-weight:800;}
+.plan-bar{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:.6rem 1.1rem;display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;margin-bottom:1.3rem;}
+.plan-bar span{font-size:.8rem;color:rgba(255,255,255,0.7);}
+.plan-bar strong{color:var(--gold);}
+.limit-bar{flex:1;min-width:120px;height:6px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;}
+.limit-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .4s;}
+
+/* form */
+.gform{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:1.6rem;margin-bottom:1.3rem;}
+.gform-title{font-size:.95rem;font-weight:700;color:#fff;margin-bottom:1.2rem;}
+.gfl{font-size:.75rem;font-weight:600;color:rgba(255,255,255,0.6);margin-bottom:.5rem;display:block;}
+.banca-pills{display:flex;gap:.55rem;margin-bottom:1.2rem;flex-wrap:wrap;}
+.bp{padding:.45rem 1rem;border-radius:8px;font-size:.82rem;font-weight:700;cursor:pointer;border:2px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);background:none;font-family:inherit;transition:all .2s;}
+.bp.on{border-color:var(--gold);color:var(--gold);background:rgba(240,180,41,0.1);}
+.gsel{width:100%;padding:.68rem .95rem;border:1.5px solid rgba(255,255,255,0.15);border-radius:9px;font-size:.9rem;font-family:inherit;color:#fff;background:#0d1f3c;outline:none;transition:border-color .2s;margin-bottom:1.1rem;}
+.gsel:focus{border-color:var(--gold);}
+.gsel option{background:#0d1f3c;}
+.kinput-wrap{position:relative;margin-bottom:1.3rem;}
+.kinput{width:100%;padding:.68rem .95rem;border:1.5px solid rgba(255,255,255,0.15);border-radius:9px;font-size:.9rem;font-family:inherit;color:#fff;background:#0d1f3c;outline:none;transition:border-color .2s;}
+.kinput:focus{border-color:var(--gold);}
+.ksugg{position:absolute;top:100%;left:0;right:0;background:#1a2a4a;border:1px solid rgba(240,180,41,0.3);border-radius:0 0 9px 9px;z-index:10;display:none;max-height:180px;overflow-y:auto;}
+.ksugg.show{display:block;}
+.kitem{padding:.55rem .95rem;font-size:.85rem;color:rgba(255,255,255,0.8);cursor:pointer;transition:background .15s;}
+.kitem:hover{background:rgba(240,180,41,0.12);color:var(--gold);}
+.gbtn{width:100%;padding:.9rem;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);box-shadow:0 4px 18px rgba(240,180,41,0.3);transition:all .25s;}
+.gbtn:hover{transform:translateY(-1px);}.gbtn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+
+/* loader */
+.loader{display:none;text-align:center;padding:3rem 1rem;}
+.loader.show{display:block;}
+.loader-ring{width:56px;height:56px;border:4px solid rgba(240,180,41,0.2);border-top-color:var(--gold);border-radius:50%;animation:sp .9s linear infinite;margin:0 auto 1.2rem;}
+.loader p{color:rgba(255,255,255,0.7);font-size:.9rem;}
+.loader small{color:rgba(255,255,255,0.4);font-size:.78rem;}
+
+/* apostila */
+#apostila-view{display:none;}
+.apost-nav{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+.apill{padding:.38rem .85rem;border-radius:50px;font-size:.78rem;font-weight:600;cursor:pointer;border:1.5px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.55);background:none;font-family:inherit;transition:all .2s;}
+.apill.on{border-color:var(--gold);color:var(--gold);background:rgba(240,180,41,0.1);}
+.apostila{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4);}
+/* capa */
+.acapa{background:linear-gradient(135deg,var(--navy),#1a3a6a);padding:2rem;border-bottom:3px solid var(--gold);}
+.acapa-badge{display:inline-block;background:rgba(240,180,41,0.15);border:1px solid rgba(240,180,41,0.4);color:var(--gold);font-size:.72rem;font-weight:700;padding:.25rem .75rem;border-radius:50px;margin-bottom:.8rem;}
+.acapa h2{color:#fff;font-size:1.4rem;font-weight:800;margin-bottom:.3rem;}
+.acapa p{color:rgba(255,255,255,0.6);font-size:.85rem;}
+.ameta{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.8rem;}
+.atag{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);font-size:.7rem;padding:.2rem .6rem;border-radius:5px;}
+/* body */
+.abody{padding:1.8rem;}
+.ablock{margin-bottom:1.8rem;}
+.ablock-title{font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:.9rem;display:flex;align-items:center;gap:.5rem;}
+.ablock-title::after{content:'';flex:1;height:1px;background:var(--gray2);}
+/* teoria */
+.topico{margin-bottom:1.3rem;}
+.topico-nome{font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:.4rem;}
+.topico-text{font-size:.87rem;color:var(--text);line-height:1.7;margin-bottom:.6rem;}
+.anc{background:#eff6ff;border-left:3px solid #3b82f6;padding:.6rem .85rem;border-radius:0 7px 7px 0;margin-bottom:.5rem;font-size:.82rem;color:#1e40af;line-height:1.6;}
+.anc strong{display:block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem;color:#1d4ed8;}
+.alt{background:#fff7ed;border-left:3px solid #f97316;padding:.6rem .85rem;border-radius:0 7px 7px 0;font-size:.82rem;color:#9a3412;line-height:1.6;}
+.alt strong{display:block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem;color:#c2410c;}
+/* raio-x */
+.rx{background:linear-gradient(135deg,#1e1b4b,#2d1b69);border-radius:12px;padding:1.3rem;}
+.rx h3{color:var(--gold);font-size:.88rem;font-weight:700;margin-bottom:.7rem;}
+.rx ul{list-style:none;display:flex;flex-direction:column;gap:.4rem;}
+.rx li{font-size:.82rem;color:rgba(255,255,255,0.8);display:flex;align-items:flex-start;gap:.5rem;line-height:1.5;}
+.rx li::before{content:'⚡';flex-shrink:0;}
+.rxhot{margin-top:.9rem;}
+.rxhot h3{color:#f87171;font-size:.85rem;font-weight:700;margin-bottom:.5rem;}
+.rxtag{display:inline-block;background:rgba(240,180,41,0.15);color:var(--gold);font-size:.72rem;font-weight:600;padding:.2rem .55rem;border-radius:5px;margin:.2rem .2rem 0 0;}
+/* mapa */
+.mapa-svg-wrap{background:var(--gray);border-radius:12px;overflow-x:auto;padding:1rem;}
+/* teste */
+.qcard{background:var(--gray);border-radius:10px;padding:1.2rem;margin-bottom:1rem;border:1.5px solid var(--gray2);}
+.qnum{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.5rem;}
+.qenunc{font-size:.87rem;color:var(--text);line-height:1.6;margin-bottom:.9rem;}
+.qalts{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.8rem;}
+.qalt{padding:.5rem .75rem;border-radius:7px;font-size:.83rem;cursor:pointer;border:1.5px solid var(--gray2);background:#fff;color:var(--text);transition:all .2s;text-align:left;}
+.qalt:hover{border-color:var(--gold);background:#fffbee;}
+.qalt.correct{border-color:#16a34a;background:#f0fdf4;color:#166534;font-weight:600;}
+.qalt.wrong{border-color:var(--red);background:#fef2f2;color:#991b1b;}
+.qgab{display:none;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:7px;padding:.7rem .9rem;font-size:.82rem;color:#166534;line-height:1.6;margin-top:.5rem;}
+.qgab.show{display:block;}
+/* ações finais */
+.aactions{display:flex;gap:.8rem;padding:1.2rem 1.8rem;background:var(--gray);border-top:1px solid var(--gray2);flex-wrap:wrap;}
+.aact-btn{padding:.65rem 1.3rem;border-radius:9px;font-size:.88rem;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all .2s;}
+.aact-g{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);}
+.aact-g:hover{transform:translateY(-1px);}
+.aact-o{border:2px solid var(--gray2);color:var(--navy);background:#fff;}.aact-o:hover{border-color:var(--navy);}
+.aact-d{background:#0f172a;color:#fff;}.aact-d:hover{background:#1e293b;}
+.lock-msg{font-size:.78rem;color:var(--muted);align-self:center;}
+
+/* bloqueio plano */
+.limit-wall{background:linear-gradient(135deg,#0d2a4a,#1a3a6a);border:1px solid rgba(240,180,41,0.3);border-radius:14px;padding:2rem;text-align:center;margin-top:1rem;}
+.limit-wall h3{color:#fff;font-size:1.1rem;font-weight:800;margin-bottom:.5rem;}
+.limit-wall p{color:rgba(255,255,255,0.65);font-size:.88rem;margin-bottom:1.2rem;}
+
+/* responsive */
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;}.hero-mockup{display:none;}
+  .pgrid,.sgrid{grid-template-columns:1fr 1fr;}
+  .plgrid{grid-template-columns:1fr;max-width:400px;}
+  .ftop{grid-template-columns:1fr 1fr;}.dgrid{grid-template-columns:1fr 1fr;}
+  nav .nav-mid{display:none;}
+}
+@media(max-width:600px){.pgrid,.sgrid{grid-template-columns:1fr;}.ftop{grid-template-columns:1fr;}.dgrid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo" onclick="go('landing')">
+    <div class="logo-icon">A</div>
+    <span class="logo-text">Aprend<span>AI</span></span>
+  </div>
+  <div class="nav-mid nav-links" id="nav-mid" style="display:flex;gap:1.8rem;list-style:none;">
+    <a class="nbtn-out" style="background:none;border:none;cursor:pointer;font-size:.88rem;font-weight:500;color:rgba(255,255,255,0.7);" onclick="go('landing');setTimeout(()=>document.getElementById('como-funciona').scrollIntoView({behavior:'smooth'}),200)">Como funciona</a>
+    <a class="nbtn-out" style="background:none;border:none;cursor:pointer;font-size:.88rem;font-weight:500;color:rgba(255,255,255,0.7);" onclick="go('landing');setTimeout(()=>document.getElementById('planos').scrollIntoView({behavior:'smooth'}),200)">Planos</a>
+  </div>
+  <div class="nav-r">
+    <button class="nbtn nbtn-out" id="nav-area" onclick="go('auth')">Área de Membro</button>
+    <button class="nbtn nbtn-gold" id="nav-cta" onclick="go('auth')">Teste Grátis</button>
+    <button class="nbtn nbtn-out" id="nav-sair" style="display:none;" onclick="doLogout()">Sair</button>
+    <button class="nbtn nbtn-gold" id="nav-gen" style="display:none;" onclick="go('gen')">📚 Gerar Apostila</button>
+  </div>
+</nav>
+
+<!-- ══ LANDING ══ -->
+<div id="page-landing" class="page" style="display:block;">
+<section id="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">🤖 Inteligência Artificial a favor do concurseiro</div>
+      <h1>Chega de pagar caro para se afogar em <em>PDFs sem fim</em></h1>
+      <p class="hero-sub">
+        As grandes plataformas cobram fortunas e entregam milhares de páginas sem foco — deixando você horas perdido sem saber o que realmente cai na prova.<br><br>
+        O <strong>AprendAI</strong> faz diferente: gera sua apostila em segundos, só com o que a sua banca cobra, pelo preço que cabe no bolso de qualquer concurseiro.
+      </p>
+      <div class="hero-btns">
+        <button class="btn-gold" onclick="go('auth')">🚀 Comece Grátis</button>
+        <button class="btn-ghost" onclick="document.getElementById('como-funciona').scrollIntoView({behavior:'smooth'})">Ver como funciona</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><strong>+10 anos</strong><small>Experiência em concursos</small></div>
+        <div class="stat"><strong>Segundos</strong><small>Para gerar sua apostila</small></div>
+        <div class="stat"><strong>💰</strong><small>Preço que cabe no bolso</small></div>
+      </div>
+
+      <!-- Comparativo rápido -->
+      <div style="margin-top:2rem;display:flex;gap:.75rem;flex-wrap:wrap;">
+        <div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:10px;padding:.75rem 1rem;font-size:.8rem;color:#fca5a5;flex:1;min-width:160px;">
+          <div style="font-weight:700;margin-bottom:.3rem;">❌ Plataformas tradicionais</div>
+          Mensalidades altas · PDFs com milhares de páginas · Você estuda tudo, aprova pouco
+        </div>
+        <div style="background:rgba(240,180,41,0.1);border:1px solid rgba(240,180,41,0.3);border-radius:10px;padding:.75rem 1rem;font-size:.8rem;color:var(--gold);flex:1;min-width:160px;">
+          <div style="font-weight:700;margin-bottom:.3rem;">✅ AprendAI</div>
+          Preço acessível · Apostila gerada em segundos · Só o que cai na sua banca
+        </div>
+      </div>
+    </div>
+    <div class="hero-mockup" style="position:relative;">
+      <div style="position:relative;">
+        <div class="mkw"><div class="mkbar"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div></div><div class="mkbody"><div class="mkhdr"><span style="font-size:1.6rem;">📚</span><div><div class="mkhdr-t">AprendAI — Gerador de Apostilas</div><div class="mkhdr-s">Direito Tributário · FCC</div></div></div><div class="mkgrid"><div class="mkcard"><div class="mkcard-l">Apostilas</div><div class="mkcard-v">47</div><div class="mkcard-s">↑ 12 esta semana</div></div><div class="mkcard"><div class="mkcard-l">Disciplinas</div><div class="mkcard-v">13</div><div class="mkcard-s">Cobertura total</div></div></div><div class="mkapost"><div class="mkapost-t">📄 CTN — Crédito Tributário</div><div class="ml g"></div><div class="ml w9"></div><div class="ml w8"></div><div class="ml w7"></div><div class="mktag">✦ FCC · Pegadinhas marcadas</div></div></div></div>
+        <div class="fb fb1"><span>✅</span><div><strong>Apostila pronta!</strong><small>Gerada em 8 segundos</small></div></div>
+        <div class="fb fb2"><span>🎯</span><div><strong>Foco no edital</strong><small>Filtrado pela banca</small></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lp-sec" style="background:var(--gray);" id="beneficios">
+  <div class="si"><div class="ctr"><div class="sl">Por que o AprendAI?</div><h2 class="st">Chega de estudar o que <em>não cai</em></h2><p class="ss">Candidatos perdem centenas de horas com material genérico. O AprendAI muda isso.</p></div>
+  <div class="pgrid">
+    <div class="pcard"><div style="font-size:2rem;">⏳</div><h3>Sem tempo para montar resumos</h3><p>Com o AprendAI, a apostila já vem pronta, organizada e calibrada para a sua banca.</p></div>
+    <div class="pcard"><div style="font-size:2rem;">📦</div><h3>Material genérico demais</h3><p>O AprendAI filtra exatamente o que sua banca cobra — nada a mais, nada a menos.</p></div>
+    <div class="pcard"><div style="font-size:2rem;">🎯</div><h3>Foco total no seu edital</h3><p>Cada apostila é gerada com pegadinhas e pontos quentes da banca já sinalizados.</p></div>
+    <div class="pcard"><div style="font-size:2rem;">🧠</div><h3>IA treinada em concursos</h3><p>Modelo desenvolvido com foco em FCC, CEBRASPE e FGV. Sabe o que cada banca valoriza.</p></div>
+    <div class="pcard"><div style="font-size:2rem;">📱</div><h3>Estude em qualquer lugar</h3><p>Acesse pelo celular, tablet ou computador — a qualquer hora, de onde você estiver.</p></div>
+    <div class="pcard"><div style="font-size:2rem;">🔄</div><h3>Atualize sem esforço</h3><p>Novo edital? Regere a apostila em segundos com o conteúdo atualizado.</p></div>
+  </div></div>
+</section>
+
+<section class="lp-sec" id="como-funciona">
+  <div class="si"><div class="ctr"><div class="sl">Passo a passo</div><h2 class="st">Simples assim: <em>3 passos</em></h2><p class="ss">Do edital à apostila personalizada em menos de 1 minuto.</p></div>
+  <div class="steps">
+    <div class="step"><div style="font-size:1.8rem;">📋</div><div class="step-n">1</div><h3>Escolha banca e disciplina</h3><p>Selecione FCC, CEBRASPE ou FGV e a disciplina desejada.</p></div>
+    <div class="step"><div style="font-size:1.8rem;">⚡</div><div class="step-n">2</div><h3>A IA gera sua apostila</h3><p>Em segundos, o AprendAI cria uma apostila completa com foco no edital.</p></div>
+    <div class="step"><div style="font-size:1.8rem;">🏆</div><div class="step-n">3</div><h3>Estude e seja aprovado</h3><p>Leia online, navegue por assuntos e imprima em PDF (plano Pro).</p></div>
+  </div></div>
+</section>
+
+<section class="lp-sec navy-sec">
+  <div class="si"><div class="ctr"><div class="sl">Produto em ação</div><h2 class="st">Veja o <em>AprendAI</em> funcionando</h2><p class="ss">Interface pensada para o concurseiro que precisa de resultado.</p></div>
+  <div class="sgrid">
+    <div class="scard"><div class="sprev s1"><div class="mm" style="width:85%;"><div style="font-size:.55rem;color:var(--gold);font-weight:700;margin-bottom:.45rem;">⚡ Gerar Apostila</div><div style="font-size:.48rem;color:rgba(255,255,255,0.4);margin-bottom:.2rem;">BANCA</div><div style="display:flex;gap:.22rem;margin-bottom:.35rem;"><span style="background:rgba(240,180,41,0.35);color:var(--gold);font-size:.48rem;padding:.12rem .3rem;border-radius:3px;font-weight:700;">FCC</span><span style="background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.35);font-size:.48rem;padding:.12rem .3rem;border-radius:3px;">CEBRASPE</span><span style="background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.35);font-size:.48rem;padding:.12rem .3rem;border-radius:3px;">FGV</span></div><div style="background:rgba(255,255,255,0.07);border-radius:4px;padding:.22rem .38rem;font-size:.48rem;color:#fff;">Direito Tributário ▾</div></div></div><div class="sinn"><h4>Painel de geração</h4><p>Selecione banca, disciplina e palavra-chave — assunto localizado automaticamente.</p></div></div>
+    <div class="scard"><div class="sprev s2"><div class="mm" style="width:85%;"><div style="font-size:.55rem;color:#fff;font-weight:700;margin-bottom:.35rem;">📄 CTN — Crédito Tributário</div><div style="display:flex;gap:.22rem;margin-bottom:.3rem;"><span style="background:rgba(59,130,246,0.3);color:#93c5fd;font-size:.45rem;padding:.08rem .28rem;border-radius:3px;font-weight:700;">TEORIA</span><span style="background:rgba(240,180,41,0.22);color:var(--gold);font-size:.45rem;padding:.08rem .28rem;border-radius:3px;font-weight:700;">ANCORAGEM</span><span style="background:rgba(239,68,68,0.22);color:#fca5a5;font-size:.45rem;padding:.08rem .28rem;border-radius:3px;font-weight:700;">⚠ ALERTA</span></div><div class="mr"><div class="mln" style="background:rgba(59,130,246,0.4);width:90%;"></div></div><div class="mr"><div class="mln" style="width:80%;"></div></div><div style="background:rgba(239,68,68,0.1);border-left:2px solid #ef4444;padding:.18rem .28rem;border-radius:0 3px 3px 0;"><div class="mln" style="background:rgba(239,68,68,0.3);width:70%;margin:0;"></div></div></div></div><div class="sinn"><h4>Apostila gerada</h4><p>Seções Teoria, Ancoragem e Alerta — pontos críticos da banca em destaque.</p></div></div>
+    <div class="scard"><div class="sprev s4"><div class="mm" style="width:85%;"><div style="font-size:.52rem;color:#c084fc;font-weight:700;margin-bottom:.35rem;">🎯 Raio-X da Banca — FCC</div><div style="background:rgba(168,85,247,0.1);border-left:2px solid #a855f7;padding:.22rem .3rem;border-radius:0 4px 4px 0;margin-bottom:.25rem;"><div style="font-size:.45rem;color:#d8b4fe;font-weight:600;">Pegadinhas mais cobradas:</div><div class="mr" style="margin-top:.1rem;"><div style="width:5px;height:5px;border-radius:2px;background:#a855f7;flex-shrink:0;"></div><div class="mln" style="background:rgba(168,85,247,0.3);width:78%;"></div></div></div><div style="font-size:.45rem;color:var(--gold);font-weight:600;">⭐ Temas quentes 2024–2026</div></div></div><div class="sinn"><h4>Raio-X da Banca</h4><p>Pegadinhas históricas e temas quentes da banca, direto na apostila.</p></div></div>
+    <div class="scard"><div class="sprev s5"><div class="mm" style="width:85%;"><div style="font-size:.52rem;color:#f87171;font-weight:700;margin-bottom:.35rem;">🗺️ Mapa Mental</div><div style="position:relative;height:55px;display:flex;align-items:center;justify-content:center;"><div style="background:rgba(240,180,41,0.2);border:1px solid rgba(240,180,41,0.5);border-radius:4px;padding:.12rem .28rem;font-size:.45rem;color:var(--gold);font-weight:700;z-index:2;">CTN</div><div style="position:absolute;top:8px;right:8px;background:rgba(59,130,246,0.2);border:1px solid rgba(59,130,246,0.4);border-radius:3px;padding:.08rem .22rem;font-size:.4rem;color:#93c5fd;">Lançamento</div><div style="position:absolute;top:50%;right:2px;transform:translateY(-50%);background:rgba(16,185,129,0.2);border:1px solid rgba(16,185,129,0.4);border-radius:3px;padding:.08rem .22rem;font-size:.4rem;color:#6ee7b7;">Extinção</div><div style="position:absolute;bottom:8px;right:8px;background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.4);border-radius:3px;padding:.08rem .22rem;font-size:.4rem;color:#fca5a5;">Exclusão</div></div></div></div><div class="sinn"><h4>Mapa Mental com IA</h4><p>Mapas gerados em SVG com ramos e conexões do tema estudado.</p></div></div>
+    <div class="scard"><div class="sprev s6"><div class="mm" style="width:85%;"><div style="font-size:.52rem;color:#34d399;font-weight:700;margin-bottom:.3rem;">✅ Teste Imediato</div><div style="background:rgba(16,185,129,0.08);border-radius:4px;padding:.28rem;margin-bottom:.28rem;"><div style="font-size:.45rem;color:#fff;margin-bottom:.18rem;">(FCC 2023) Sobre o lançamento...</div><div style="display:flex;gap:.18rem;"><span style="background:rgba(16,185,129,0.25);color:#34d399;font-size:.42rem;padding:.08rem .18rem;border-radius:2px;">A ✓</span><span style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.25);font-size:.42rem;padding:.08rem .18rem;border-radius:2px;">B</span><span style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.25);font-size:.42rem;padding:.08rem .18rem;border-radius:2px;">C</span></div></div><span style="background:rgba(16,185,129,0.2);color:#34d399;font-size:.45rem;padding:.12rem .3rem;border-radius:3px;">🖨️ PDF — Plano Pro</span></div></div><div class="sinn"><h4>Teste + Gabarito Comentado</h4><p>Questões no estilo da banca com gabarito explicado. PDF no plano Pro.</p></div></div>
+    <div class="scard"><div class="sprev s3"><div class="mm" style="width:88%;"><div style="font-size:.52rem;color:var(--gold);font-weight:700;margin-bottom:.35rem;">📑 Assuntos da disciplina</div><div style="display:flex;gap:.18rem;flex-wrap:wrap;"><span style="background:rgba(240,180,41,0.35);color:var(--gold);font-size:.45rem;padding:.12rem .3rem;border-radius:50px;font-weight:700;">Obrigação Trib.</span><span style="background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.45);font-size:.45rem;padding:.12rem .3rem;border-radius:50px;">Crédito Trib.</span><span style="background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.45);font-size:.45rem;padding:.12rem .3rem;border-radius:50px;">Exclusão</span></div></div></div><div class="sinn"><h4>Navegação por assuntos</h4><p>Pills clicáveis para navegar e gerar apostilas por subtópico específico.</p></div></div>
+  </div></div>
+</section>
+
+<section class="lp-sec" id="planos" style="background:var(--gray);">
+  <div class="si"><div class="ctr"><div class="sl">Planos e preços</div><h2 class="st">Escolha seu <em>plano</em></h2><p class="ss">Comece grátis por 7 dias. Sem cartão de crédito.</p></div>
+  <div class="tw"><span class="tl on" id="lm">Mensal</span><div class="tog" id="tog" onclick="toggleB()"><div class="tth"></div></div><span class="tl" id="la">Anual</span><span class="db">−30% OFF</span></div>
+  <div style="max-width:800px;margin:0 auto 1.3rem;background:linear-gradient(135deg,#0a1628,#1a3a6a);border:1.5px solid rgba(240,180,41,0.4);border-radius:13px;padding:.9rem 1.3rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+    <div style="font-size:1.4rem;">🔥</div><div style="flex:1;min-width:180px;"><div style="font-size:.85rem;font-weight:800;color:var(--gold);">Oferta de lançamento — primeiros 100 membros</div><div style="font-size:.77rem;color:rgba(255,255,255,0.6);margin-top:.15rem;">50% de desconto · Pagamento via Pix tem mais 10% OFF</div></div>
+    <div style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);font-size:.72rem;font-weight:900;padding:.35rem .9rem;border-radius:50px;white-space:nowrap;">Vagas: 87/100</div>
+  </div>
+  <div class="plgrid">
+    <div class="plcard"><div class="pln">Essencial</div><div class="pld">Para o concurseiro que está começando</div>
+      <div class="plp">          <div class="pm show" id="em"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 49,90</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−50%</span></div><span class="cu">R$</span><span class="am">24</span><span class="pe">,95/mês</span><div class="ec">💚 No Pix: R$ 22,46/mês</div></div>
+          <div class="pm" id="ea"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 459,00/ano</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−50%</span></div><span class="cu">R$</span><span class="am">19</span><span class="pe">,13/mês</span><div class="ec">💰 Economia de R$ 229,50/ano · R$ 17,21/mês no Pix</div></div></div>
+      <ul class="plf"><li>Até <strong>30 apostilas por mês</strong></li><li>Bancas FCC, CEBRASPE e FGV</li><li>Teoria, Ancoragem e Alerta</li><li>Raio-X da Banca incluso</li><li>Mapa Mental gerado por IA</li><li>Teste com gabarito comentado</li><li class="off">Download / impressão em PDF</li></ul>
+      <button class="plbtn o" onclick="go('auth')">Garantir desconto de lançamento</button><p style="font-size:.7rem;color:var(--muted);text-align:center;margin-top:.6rem;">🔒 Cancele a qualquer momento</p></div>
+    <div class="plcard hl"><div class="plbadge">⭐ Mais completo</div><div class="pln">Pro</div><div class="pld">Gere e imprima <strong>todos os assuntos que precisar</strong> — sem limites</div>
+      <div class="plp">          <div class="pm show" id="pm"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 79,90</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−50%</span></div><span class="cu">R$</span><span class="am">39</span><span class="pe">,95/mês</span><div class="ec">💚 No Pix: R$ 35,96/mês</div></div>
+          <div class="pm" id="pa"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 55,90/mês</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−50%</span></div><span class="cu">R$</span><span class="am">27</span><span class="pe">,95/mês</span><div class="ec">💰 Economia de R$ 335,40/ano · R$ 25,16/mês no Pix</div></div></div>
+      <ul class="plf"><li><strong>Apostilas ilimitadas</strong></li><li>Bancas FCC, CEBRASPE e FGV</li><li>Teoria, Ancoragem e Alerta</li><li>Raio-X da Banca incluso</li><li>Mapa Mental gerado por IA</li><li>Teste com gabarito comentado</li><li><strong>🖨️ Imprima qualquer apostila em PDF</strong></li></ul>
+      <button class="plbtn g" onclick="go('auth')">Garantir desconto de lançamento</button>
+      <div style="margin-top:.85rem;background:linear-gradient(135deg,rgba(240,180,41,0.12),rgba(240,180,41,0.05));border:1px solid rgba(240,180,41,0.3);border-radius:8px;padding:.6rem .85rem;font-size:.76rem;color:var(--navy);line-height:1.5;">📚 <strong>Estude do zero ao edital:</strong> gere assunto por assunto e imprima tudo sem custo adicional.</div></div>
+  </div>
+  <p style="text-align:center;margin-top:1.1rem;font-size:.8rem;color:var(--muted);">💳 Cartão · 🏦 Pix (−10%) · Cancele quando quiser</p></div>
+</section>
+
+<section class="lp-sec cta-sec" style="position:relative;">
+  <div class="si" style="position:relative;z-index:2;text-align:center;">
+    <div class="sl" style="color:var(--gold);">Comece hoje mesmo</div>
+    <h2 class="st" style="color:#fff;">Sua aprovação começa com <em>o material certo</em></h2>
+    <p class="ss" style="color:rgba(255,255,255,0.65);margin:0 auto 2rem;">Junte-se aos primeiros candidatos que já estudam de forma mais inteligente.</p>
+    <div class="cta-btns"><button class="btn-gold" style="font-size:1rem;padding:.9rem 2.2rem;" onclick="go('auth')">🚀 Testar grátis por 7 dias</button>      <button class="btn-ghost" style="font-size:1rem;padding:.9rem 2.2rem;" onclick="go('auth')">Área de Membro</button></div>
+    <p style="font-size:.8rem;color:rgba(255,255,255,0.4);margin-top:1rem;">Sem cartão de crédito · Cancele quando quiser</p>
+  </div>
+</section>
+
+<footer>
+  <div class="ft">
+    <div class="ftop">
+      <div><div class="logo" onclick="go('landing')"><div class="logo-icon" style="width:32px;height:32px;font-size:15px;">A</div><span class="logo-text" style="font-size:1.1rem;">Aprend<span>AI</span></span></div><p style="margin-top:.75rem;font-size:.85rem;line-height:1.7;">Apostilas inteligentes geradas por IA para candidatos a concursos públicos.</p></div>
+      <div class="fcol"><h4>Produto</h4><ul><li><a onclick="document.getElementById('como-funciona').scrollIntoView({behavior:'smooth'})">Como funciona</a></li><li><a onclick="document.getElementById('planos').scrollIntoView({behavior:'smooth'})">Planos</a></li></ul></div>
+      <div class="fcol"><h4>Acesso</h4><ul><li><a onclick="go('auth')">Criar conta</a></li>          <li><a onclick="go('auth')">Área de Membro</a></li></ul></div>
+      <div class="fcol"><h4>Suporte</h4><ul><li><a href="mailto:contato@aprendai.net.br">Contato</a></li><li><a href="#">Termos de uso</a></li></ul></div>
+    </div>
+    <div class="fbot"><p>© 2026 AprendAI · aprendai.net.br</p><div class="socials"><a href="https://instagram.com/aprovaiconcursos" target="_blank" class="soc">📸</a><a href="#" class="soc">💬</a></div></div>
+  </div>
+</footer>
+</div><!-- /landing -->
+
+<!-- ══ AUTH ══ -->
+<div id="page-auth" class="page" style="display:none;flex-direction:column;">
+  <div class="card">
+    <div class="chdr"><h2 id="ctitle">Bem-vindo ao AprendAI</h2><p id="csub">Acesse sua conta ou crie uma gratuitamente</p></div>
+    <div class="cbody">
+      <div class="tabs"><button class="tab on" onclick="stab('login')">Entrar</button><button class="tab" onclick="stab('cadastro')">Criar conta</button></div>
+      <div class="promo-a">🔥 <strong>7 dias grátis</strong> + 50% OFF nos primeiros 100 membros</div>
+      <div class="alert ae" id="aerr"><span id="aerrmsg"></span></div>
+      <div class="alert as" id="aok"><span id="aokmsg"></span></div>
+      <div id="flogin">
+        <div class="fg"><label>E-mail</label><input type="email" id="lemail" placeholder="seu@email.com"/><div class="ferr" id="errle"></div></div>
+        <div class="fg"><label>Senha</label><div class="pw"><input type="password" id="lsenha" placeholder="Sua senha"/><span class="pt" onclick="tp('lsenha',this)">👁️</span></div><div class="ferr" id="errls"></div></div>
+        <span class="fl" onclick="sforgot()">Esqueci minha senha</span>
+        <button class="abtn abtn-g" id="btnlogin" onclick="doLogin()">Entrar</button>
+        <button class="abtn abtn-o" onclick="stab('cadastro')">Não tenho conta — Criar agora</button>
+      </div>
+      <div id="fcad" style="display:none;">
+        <div class="fg"><label>Nome completo</label><input type="text" id="cnome" placeholder="Seu nome"/><div class="ferr" id="errcn"></div></div>
+        <div class="fg"><label>E-mail</label><input type="email" id="cemail" placeholder="seu@email.com"/><div class="ferr" id="errce"></div></div>
+        <div class="fg"><label>Senha</label><div class="pw"><input type="password" id="csenha" placeholder="Mínimo 6 caracteres"/><span class="pt" onclick="tp('csenha',this)">👁️</span></div><div class="ferr" id="errcs"></div></div>
+        <div class="fg"><label>Confirmar senha</label><div class="pw"><input type="password" id="cconf" placeholder="Repita a senha"/><span class="pt" onclick="tp('cconf',this)">👁️</span></div><div class="ferr" id="errcc"></div></div>
+        <button class="abtn abtn-g" id="btncad" onclick="doCad()">Criar conta grátis — 7 dias</button>
+        <button class="abtn abtn-o" onclick="stab('login')">Já tenho conta — Entrar</button>
+      </div>
+      <div id="fforgot" style="display:none;">
+        <div class="fg"><label>E-mail cadastrado</label><input type="email" id="femail" placeholder="seu@email.com"/><div class="ferr" id="errfe"></div></div>
+        <button class="abtn abtn-g" id="btnforgot" onclick="doForgot()">Enviar link de recuperação</button>
+        <button class="abtn abtn-o" onclick="sforgot(true)">← Voltar ao login</button>
+      </div>
+    </div>
+    <div class="cft">Ao criar sua conta você concorda com os <a href="#">Termos de Uso</a></div>
+  </div>
+</div>
+
+<!-- ══ DASHBOARD ══ -->
+<div id="page-dash" class="page">
+  <div class="dw">
+    <div class="dh"><div><h2 id="dnom">Olá! 👋</h2><p id="demail"></p></div><button class="sbtn sbtn-o" onclick="doLogout()">Sair da conta</button></div>
+    <div class="tbanner" id="tbanner"><p>🎉 Você está no <strong>período gratuito de 7 dias</strong>. Aproveite todos os recursos!</p><button class="sbtn" style="background:var(--gold);color:var(--navy);font-weight:700;" onclick="go('landing');setTimeout(()=>document.getElementById('planos').scrollIntoView({behavior:'smooth'}),250)">Assinar com 50% OFF →</button></div>
+    <div class="dgrid">
+      <div class="dc"><div class="dcl">Plano atual</div><div id="dchip" style="margin-top:.35rem;"></div></div>
+      <div class="dc"><div class="dcl">Apostilas este mês</div><div class="dcv" id="dcnt">0</div><div class="dcs" id="dlim">de 30 disponíveis</div></div>
+      <div class="dc"><div class="dcl">Impressão PDF</div><div class="dcv" id="dpdf">—</div><div class="dcs" id="dpdfs"></div></div>
+    </div>
+    <button class="da" onclick="go('gen')">
+      <div style="font-size:2.2rem;margin-bottom:.4rem;">📚</div>
+      <h3>Abrir Gerador de Apostilas</h3>
+      <p>Clique para gerar sua próxima apostila com IA</p>
+    </button>
+    <div class="dlinks">
+      <a onclick="go('landing');setTimeout(()=>document.getElementById('planos').scrollIntoView({behavior:'smooth'}),250)">Gerenciar assinatura →</a>
+      <a href="mailto:contato@aprendai.net.br">Suporte →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ GERADOR ══ -->
+<div id="page-gen" class="page">
+  <div class="gw">
+    <div class="gbar">
+      <h2>📚 Gerador de Apostilas</h2>
+      <button class="sbtn sbtn-o" onclick="go('dash')">← Voltar ao painel</button>
+    </div>
+
+    <!-- barra de plano -->
+    <div class="plan-bar">
+      <span>Plano: <strong id="gplano">—</strong></span>
+      <span id="gcnt-txt">Apostilas: <strong id="gcnt">0</strong><span id="glim-txt">/30</span></span>
+      <div class="limit-bar" id="glimbar"><div class="limit-fill" id="gfill" style="width:0%"></div></div>
+    </div>
+
+    <!-- muro de limite -->
+    <div class="limit-wall" id="limit-wall" style="display:none;">
+      <h3>🚫 Limite do plano atingido</h3>
+      <p>Você usou todas as 30 apostilas do plano Essencial este mês. Faça upgrade para o plano Pro e gere apostilas ilimitadas.</p>
+      <button class="btn-gold" onclick="go('landing');setTimeout(()=>document.getElementById('planos').scrollIntoView({behavior:'smooth'}),250)">Ver plano Pro →</button>
+    </div>
+
+    <!-- formulário -->
+    <div class="gform" id="gform">
+      <div class="gform-title">📋 Configure sua apostila</div>
+      <span class="gfl">BANCA</span>
+      <div class="banca-pills">
+        <button class="bp on" data-b="FCC" onclick="selB(this)">FCC</button>
+        <button class="bp" data-b="CEBRASPE" onclick="selB(this)">CEBRASPE</button>
+        <button class="bp" data-b="FGV" onclick="selB(this)">FGV</button>
+        <button class="bp" data-b="VUNESP" onclick="selB(this)">VUNESP</button>
+        <button class="bp" data-b="IBFC" onclick="selB(this)">IBFC</button>
+        <button class="bp" data-b="IADES" onclick="selB(this)">IADES</button>
+        <button class="bp" id="bp-outra" onclick="selOutraBanca(this)">✏️ Outra banca...</button>
+      </div>
+      <input class="kinput" id="banca-custom" type="text" placeholder="Digite o nome da banca (ex: AOCP, IBFC, Quadrix...)" style="display:none;margin-bottom:1.2rem;" oninput="SEL_BANCA=this.value||'banca personalizada'"/>
+      <span class="gfl">DISCIPLINA</span>
+      <select class="gsel" id="gdisc" onchange="atualizarModulos()">
+        <option value="">Selecione a disciplina...</option>
+      </select>
+      <span class="gfl">ASSUNTO</span>
+      <select class="gsel" id="gmod"><option value="">Selecione o assunto...</option></select>
+      <span class="gfl">PALAVRA-CHAVE (opcional — localiza o assunto automaticamente)</span>
+      <div class="kinput-wrap">
+        <input class="kinput" id="gkey" type="text" placeholder="Ex: crédito tributário, lançamento..." oninput="onKey()" autocomplete="off"/>
+        <div class="ksugg" id="ksugg"></div>
+      </div>
+      <button class="gbtn" id="gbtn" onclick="gerar()">⚡ Gerar Apostila com IA</button>
+    </div>
+
+    <!-- loader -->
+    <div class="loader" id="gloader">
+      <div class="loader-ring"></div>
+      <p id="loader-msg">Gerando sua apostila...</p>
+      <small>A IA está preparando o conteúdo focado na sua banca</small>
+    </div>
+
+    <!-- resultado -->
+    <div id="apostila-view">
+      <!-- pills de assuntos -->
+      <div class="apost-nav" id="apost-pills"></div>
+      <!-- apostila -->
+      <div class="apostila" id="apostila-doc">
+        <div class="acapa" id="a-capa"></div>
+        <div class="abody" id="a-body"></div>
+        <div class="aactions" id="a-actions"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+// CONFIGURAÇÃO
+// ══════════════════════════════════════
+var SB_URL  = 'https://zmturipqsasbnjfaiehd.supabase.co';
+var SB_KEY  = 'sb_publishable_iGmTY-Ry_S90JyK9L5QZNg_k1hmJlos';
+// Chave Anthropic — adicione no Vercel como variável de ambiente
+// Para uso direto (desenvolvimento) cole aqui:
+// Chave protegida no servidor — não precisa mudar nada aqui
+
+// ══════════════════════════════════════
+// DISCIPLINAS E MÓDULOS
+// ══════════════════════════════════════
+var DISCS = {
+  "Direito Tributário":{"mod":["Obrigação Tributária","Crédito Tributário","Lançamento Tributário","Extinção do Crédito Tributário","Exclusão do Crédito Tributário","Responsabilidade Tributária","Administração Tributária","Dívida Ativa e Execução Fiscal","Simples Nacional","Impostos Federais","Impostos Estaduais","Impostos Municipais"],"ext":["CTN","IPTU","ISS","ICMS","IR","IPI","decadência","prescrição","compensação","parcelamento","crédito tributário","lançamento"]},
+  "Direito Administrativo":{"mod":["Princípios da Administração Pública","Poderes Administrativos","Atos Administrativos","Contratos Administrativos","Licitações (Lei 14.133/21)","Serviços Públicos","Bens Públicos","Responsabilidade Civil do Estado","Controle da Administração","Agentes Públicos","Improbidade Administrativa"],"ext":["Lei 8.112","Lei 14.133","pregão","concurso público","demissão","sindicância","discricionariedade"]},
+  "Direito Constitucional":{"mod":["Princípios Fundamentais","Direitos e Garantias Fundamentais","Organização do Estado","Organização dos Poderes","Controle de Constitucionalidade","Tributação e Orçamento","Ordem Social","Defesa do Estado"],"ext":["ADI","ADPF","mandado de segurança","habeas corpus","cláusulas pétreas","remédios constitucionais"]},
+  "Contabilidade Geral":{"mod":["Patrimônio e Equação Patrimonial","Escrituração Contábil","Plano de Contas","Balanço Patrimonial","DRE","DLPA e DMPL","DFC","Estoques","Ativo Imobilizado","Depreciação","Provisões e Contingências","NBC TG e CPC"],"ext":["SPED","lucro real","lucro presumido","CPC","regime de competência","juros sobre capital próprio"]},
+  "Contabilidade de Custos":{"mod":["Conceitos e Terminologia","Custeio por Absorção","Custeio Variável","Custeio ABC","Ponto de Equilíbrio","Margem de Contribuição","Custos para Decisão","Orçamento e Controle"],"ext":["custo fixo","custo variável","overhead","rateio","margem de segurança"]},
+  "Auditoria":{"mod":["Conceitos e Tipos de Auditoria","Planejamento da Auditoria","Controle Interno","Risco de Auditoria","Evidências e Procedimentos","Papéis de Trabalho","Relatório do Auditor","Auditoria Governamental","TCU — Normas e Jurisprudência","CGU e Controle Interno"],"ext":["NBC TA","materialidade","ceticismo","ISSAI","auditoria operacional"]},
+  "Administração Pública":{"mod":["Teorias da Administração","Reforma do Estado","Nova Gestão Pública","Governança Pública","Planejamento Estratégico","Gestão por Resultados","Processo Administrativo (Lei 9.784)","Ética no Serviço Público"],"ext":["PDRAE","BSC","OKR","gestão de pessoas","decreto 1.171"]},
+  "Legislação Tributária":{"mod":["Legislação Federal","Legislação Estadual","Legislação Municipal","ICMS","ISS","IPVA","IPTU","Simples Nacional","Substituição Tributária"],"ext":["RICMS","lei Kandir","convênio ICMS","regulamento"]},
+  "Economia":{"mod":["Oferta e Demanda","Elasticidade","Teoria do Consumidor","Estruturas de Mercado","Contas Nacionais","Política Fiscal","Política Monetária","Inflação e Índices de Preços","Setor Externo e Câmbio"],"ext":["PIB","IPCA","SELIC","política cambial","multiplicador fiscal"]},
+  "Direito Civil":{"mod":["LINDB","Pessoas Físicas e Jurídicas","Bens","Negócio Jurídico","Prescrição e Decadência","Obrigações","Contratos","Responsabilidade Civil","Família","Sucessões"],"ext":["LINDB","CC 2002","nulidade","anulabilidade","mora","solidariedade"]},
+  "Direito Processual Civil":{"mod":["Princípios do CPC","Competência","Atos Processuais","Tutelas de Urgência","Provas","Sentença e Coisa Julgada","Recursos","Processo de Execução"],"ext":["CPC 2015","tutela antecipada","embargos","agravo de instrumento"]},
+  "Raciocínio Lógico":{"mod":["Proposições Lógicas","Conectivos e Tabela Verdade","Equivalências Lógicas","Silogismo","Conjuntos","Sequências e Progressões","Probabilidade","Porcentagem","Razão e Proporção"],"ext":["negação","contrapositiva","diagrama"]},
+  "Língua Portuguesa":{"mod":["Interpretação de Texto","Coesão e Coerência","Ortografia","Acentuação Gráfica","Classes de Palavras","Concordância Nominal e Verbal","Regência","Crase","Pontuação","Redação Oficial"],"ext":["certo errado","frase","oração","período","manual de redação"]}
+};
+
+// ══════════════════════════════════════
+// ESTADO GLOBAL
+// ══════════════════════════════════════
+var CUR_USER = null, CUR_PLANO = 'trial', APO_COUNT = 0;
+var SEL_BANCA = 'FCC', CUR_DATA = null;
+var loaderMsgs = ['Consultando o estilo da banca...','Estruturando os tópicos...','Gerando teoria e ancoragem...','Criando o Raio-X da Banca...','Montando o mapa mental...','Finalizando teste imediato...'];
+var loaderIdx = 0, loaderTimer = null;
+
+// ══════════════════════════════════════
+// NAVEGAÇÃO
+// ══════════════════════════════════════
+function go(page) {
+  var pages = ['landing','auth','dash','gen'];
+  pages.forEach(function(p){
+    var el = document.getElementById('page-'+p);
+    el.style.display = 'none';
+  });
+  var target = document.getElementById('page-'+page);
+  target.style.display = (page==='landing') ? 'block' : 'flex';
+  if(page!=='landing') target.style.flexDirection = 'column';
+  // nav state
+  var isLogged = !!CUR_USER;
+  document.getElementById('nav-area').style.display  = isLogged ? 'none' : '';
+  document.getElementById('nav-cta').style.display   = isLogged ? 'none' : '';
+  document.getElementById('nav-sair').style.display  = isLogged ? '' : 'none';
+  document.getElementById('nav-gen').style.display   = isLogged ? '' : 'none';
+  document.getElementById('nav-mid').style.display   = (page==='landing') ? 'flex' : 'none';
+  window.scrollTo(0,0);
+  if(page==='gen') initGerador();
+}
+
+// ══════════════════════════════════════
+// AUTH
+// ══════════════════════════════════════
+function sbPost(path,body,tok){
+  return fetch(SB_URL+path,{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+(tok||SB_KEY)},body:JSON.stringify(body)}).then(function(r){return r.json();});
+}
+function sbGet(path,tok){
+  return fetch(SB_URL+path,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+(tok||SB_KEY)}}).then(function(r){return r.json();});
+}
+function stab(t){
+  hideA(); clearE();
+  var isL=t==='login';
+  document.getElementById('flogin').style.display=isL?'':'none';
+  document.getElementById('fcad').style.display=isL?'none':'';
+  document.getElementById('fforgot').style.display='none';
+  document.getElementById('ctitle').textContent=isL?'Bem-vindo ao AprendAI':'Crie sua conta grátis';
+  document.getElementById('csub').textContent=isL?'Acesse sua conta para estudar':'7 dias grátis · Sem cartão';
+  document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('on',isL?i===0:i===1);});
+}
+function sforgot(back){
+  document.getElementById('flogin').style.display=back?'':'none';
+  document.getElementById('fforgot').style.display=back?'none':'';
+  document.getElementById('fcad').style.display='none';
+  if(!back){document.getElementById('ctitle').textContent='Recuperar senha';document.getElementById('csub').textContent='Enviaremos um link para seu e-mail';}
+  else{document.getElementById('ctitle').textContent='Bem-vindo ao AprendAI';document.getElementById('csub').textContent='Acesse sua conta para estudar';}
+}
+function showA(t,m){hideA();var el=document.getElementById(t==='err'?'aerr':'aok');document.getElementById(t==='err'?'aerrmsg':'aokmsg').textContent=m;el.classList.add('show');}
+function hideA(){['aerr','aok'].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.remove('show');});}
+function clearE(){document.querySelectorAll('.ferr').forEach(function(el){el.textContent='';});}
+function tp(id,btn){var i=document.getElementById(id);i.type=i.type==='password'?'text':'password';btn.textContent=i.type==='password'?'👁️':'🙈';}
+function setLd(id,on,lbl){var b=document.getElementById(id);if(!b)return;b.disabled=on;b.innerHTML=on?'<span class="spin"></span>Aguarde...':lbl;}
+
+function doLogin(){
+  clearE();hideA();
+  var email=document.getElementById('lemail').value.trim();
+  var senha=document.getElementById('lsenha').value;
+  if(!email){document.getElementById('errle').textContent='Informe seu e-mail';return;}
+  if(!senha){document.getElementById('errls').textContent='Informe sua senha';return;}
+  setLd('btnlogin',true,'Entrar');
+  sbPost('/auth/v1/token?grant_type=password',{email:email,password:senha})
+    .then(function(d){
+      setLd('btnlogin',false,'Entrar');
+      if(d.error){showA('err','E-mail ou senha incorretos.');return;}
+      localStorage.setItem('sb_tok',d.access_token);
+      localStorage.setItem('sb_usr',JSON.stringify(d.user));
+      CUR_USER=d.user; renderDash(d.user); go('dash');
+    }).catch(function(){setLd('btnlogin',false,'Entrar');showA('err','Erro de conexão.');});
+}
+function doCad(){
+  clearE();hideA();
+  var nome=document.getElementById('cnome').value.trim();
+  var email=document.getElementById('cemail').value.trim();
+  var senha=document.getElementById('csenha').value;
+  var conf=document.getElementById('cconf').value;
+  var ok=true;
+  if(!nome){document.getElementById('errcn').textContent='Informe seu nome';ok=false;}
+  if(!email){document.getElementById('errce').textContent='Informe seu e-mail';ok=false;}
+  if(senha.length<6){document.getElementById('errcs').textContent='Mínimo 6 caracteres';ok=false;}
+  if(senha!==conf){document.getElementById('errcc').textContent='Senhas não coincidem';ok=false;}
+  if(!ok)return;
+  setLd('btncad',true,'Criar conta grátis — 7 dias');
+  sbPost('/auth/v1/signup',{email:email,password:senha,data:{full_name:nome,plano:'trial',trial_start:new Date().toISOString(),apostilas_mes:0}})
+    .then(function(d){
+      setLd('btncad',false,'Criar conta grátis — 7 dias');
+      if(d.error){showA('err',d.error.message||'Erro ao criar conta.');return;}
+      if(d.user&&d.user.id){
+        if(d.access_token){localStorage.setItem('sb_tok',d.access_token);localStorage.setItem('sb_usr',JSON.stringify(d.user));}
+        CUR_USER=d.user;
+        showA('ok','Conta criada! Verifique seu e-mail para confirmar.');
+        setTimeout(function(){renderDash(d.user);go('dash');},1800);
+      } else {showA('ok','Quase lá! Confirme seu e-mail para ativar a conta.');}
+    }).catch(function(){setLd('btncad',false,'Criar conta grátis — 7 dias');showA('err','Erro de conexão.');});
+}
+function doForgot(){
+  var email=document.getElementById('femail').value.trim();
+  if(!email){document.getElementById('errfe').textContent='Informe seu e-mail';return;}
+  setLd('btnforgot',true,'Enviar');
+  sbPost('/auth/v1/recover',{email:email})
+    .then(function(){setLd('btnforgot',false,'Enviar link de recuperação');showA('ok','Link enviado para '+email);})
+    .catch(function(){setLd('btnforgot',false,'Enviar link de recuperação');});
+}
+function doLogout(){localStorage.removeItem('sb_tok');localStorage.removeItem('sb_usr');CUR_USER=null;go('landing');}
+
+// ══════════════════════════════════════
+// DASHBOARD
+// ══════════════════════════════════════
+function renderDash(user){
+  var meta=(user&&user.user_metadata)||{};
+  var nome=meta.full_name||(user.email?user.email.split('@')[0]:'Aluno');
+  CUR_PLANO=meta.plano||'trial';
+  APO_COUNT=parseInt(meta.apostilas_mes)||0;
+  document.getElementById('dnom').textContent='Olá, '+nome.split(' ')[0]+'! 👋';
+  document.getElementById('demail').textContent=user.email||'';
+  var chip=document.getElementById('dchip');
+  var pdf=document.getElementById('dpdf');
+  var pdfs=document.getElementById('dpdfs');
+  var lim=document.getElementById('dlim');
+  var cnt=document.getElementById('dcnt');
+  var tb=document.getElementById('tbanner');
+  cnt.textContent=APO_COUNT;
+  if(CUR_PLANO==='trial'){chip.innerHTML='<span class="chip cht">✨ Teste Grátis</span>';pdf.textContent='✓ Liberado';pdfs.textContent='Aproveite os 7 dias';lim.textContent='de 5 disponíveis';tb.style.display='flex';}
+  else if(CUR_PLANO==='essencial'){chip.innerHTML='<span class="chip che">📘 Essencial</span>';pdf.textContent='✕ Não incluído';pdfs.textContent='Faça upgrade para Pro';lim.textContent='de 30 disponíveis';tb.style.display='none';}
+  else{chip.innerHTML='<span class="chip chp">⭐ Pro</span>';pdf.textContent='✓ Ilimitado';pdfs.textContent='Imprima à vontade';lim.textContent='ilimitadas';cnt.textContent=APO_COUNT+'+ ∞';tb.style.display='none';}
+}
+
+// ══════════════════════════════════════
+// GERADOR
+// ══════════════════════════════════════
+function initGerador(){
+  // popula disciplinas
+  var sel=document.getElementById('gdisc');
+  if(sel.options.length<=1){
+    Object.keys(DISCS).forEach(function(d){var o=document.createElement('option');o.value=d;o.textContent=d;sel.appendChild(o);});
+  }
+  // barra de plano
+  var pEl=document.getElementById('gplano');
+  var cEl=document.getElementById('gcnt');
+  var lbar=document.getElementById('glimbar');
+  var fill=document.getElementById('gfill');
+  var lim=document.getElementById('glim-txt');
+  var maxApostilas = CUR_PLANO==='essencial' ? 30 : (CUR_PLANO==='pro' ? Infinity : 5);
+  if(CUR_PLANO==='pro'){pEl.textContent='Pro ⭐';lbar.style.display='none';lim.style.display='none';}
+  else{pEl.textContent=CUR_PLANO==='essencial'?'Essencial':'Teste Grátis';cEl.textContent=APO_COUNT;lim.textContent='/'+maxApostilas;lim.style.display='';fill.style.width=Math.min(100,APO_COUNT/maxApostilas*100)+'%';}
+  // verifica limite
+  var wall=document.getElementById('limit-wall');
+  var form=document.getElementById('gform');
+  if(CUR_PLANO!=='pro'&&APO_COUNT>=maxApostilas){
+    wall.style.display='block';form.style.display='none';
+    wall.querySelector('h3').textContent = CUR_PLANO==='trial' ? '🚫 Limite do teste grátis atingido' : '🚫 Limite do plano atingido';
+    wall.querySelector('p').textContent = CUR_PLANO==='trial' ? 'Você usou as 5 apostilas gratuitas do teste grátis. Assine um plano para continuar gerando apostilas ilimitadas ou até 30/mês.' : 'Você usou todas as 30 apostilas do plano Essencial este mês. Faça upgrade para o plano Pro e gere apostilas ilimitadas.';
+  }
+  else{wall.style.display='none';form.style.display='block';}
+  // reset view
+  document.getElementById('gloader').classList.remove('show');
+  document.getElementById('apostila-view').style.display='none';
+  CUR_DATA=null;
+}
+function selB(el){
+  document.querySelectorAll('.bp').forEach(function(b){b.classList.remove('on');});
+  el.classList.add('on');
+  SEL_BANCA=el.getAttribute('data-b');
+  document.getElementById('banca-custom').style.display='none';
+}
+function selOutraBanca(el){
+  document.querySelectorAll('.bp').forEach(function(b){b.classList.remove('on');});
+  el.classList.add('on');
+  var inp=document.getElementById('banca-custom');
+  inp.style.display='block';
+  inp.focus();
+  SEL_BANCA=inp.value||'banca personalizada';
+}
+function atualizarModulos(){
+  var d=document.getElementById('gdisc').value;
+  var sel=document.getElementById('gmod');
+  sel.innerHTML='<option value="">Selecione o assunto...</option>';
+  if(!d||!DISCS[d])return;
+  DISCS[d].mod.forEach(function(m){var o=document.createElement('option');o.value=m;o.textContent=m;sel.appendChild(o);});
+}
+function onKey(){
+  var v=document.getElementById('gkey').value.toLowerCase().trim();
+  var sugg=document.getElementById('ksugg');
+  sugg.innerHTML='';
+  if(v.length<2){sugg.classList.remove('show');return;}
+  var disc=document.getElementById('gdisc').value;
+  var results=[];
+  Object.keys(DISCS).forEach(function(d){
+    var data=DISCS[d];
+    data.mod.forEach(function(m){if(m.toLowerCase().includes(v))results.push({d:d,m:m});});
+    data.ext.forEach(function(e){if(e.toLowerCase().includes(v)){var mBest=data.mod[0];results.push({d:d,m:mBest,k:e});}});
+  });
+  results=results.slice(0,8);
+  if(!results.length){sugg.classList.remove('show');return;}
+  results.forEach(function(r){
+    var el=document.createElement('div');
+    el.className='kitem';
+    el.textContent=(r.k?r.k+' → ':'')+r.m+' ('+r.d+')';
+    el.onclick=function(){
+      document.getElementById('gkey').value=r.k||r.m;
+      document.getElementById('gdisc').value=r.d;
+      atualizarModulos();
+      document.getElementById('gmod').value=r.m;
+      sugg.classList.remove('show');
+    };
+    sugg.appendChild(el);
+  });
+  sugg.classList.add('show');
+}
+document.addEventListener('click',function(e){
+  var s=document.getElementById('ksugg');
+  if(s&&!s.contains(e.target)&&e.target.id!=='gkey')s.classList.remove('show');
+});
+
+function repairJSON(str){
+  var s=str.trim();
+  if(s.startsWith('```')){s=s.replace(/```json?/g,'').replace(/```/g,'').trim();}
+  try{return JSON.parse(s);}catch(e){}
+  // tenta fechar objetos/arrays abertos
+  var depth=0;var inStr=false;var esc=false;
+  for(var i=0;i<s.length;i++){var c=s[i];if(esc){esc=false;continue;}if(c==='\\'){esc=true;continue;}if(c==='"'){inStr=!inStr;continue;}if(!inStr){if(c==='{'||c==='[')depth++;else if(c==='}'||c===']')depth--;}}
+  while(depth>0){s+='}';depth--;}
+  try{return JSON.parse(s);}catch(e){return null;}
+}
+
+function gerar(){
+  var disc=document.getElementById('gdisc').value;
+  var mod=document.getElementById('gmod').value;
+  if(!disc){alert('Selecione a disciplina.');return;}
+  if(!mod){alert('Selecione o assunto.');return;}
+  // verifica limite
+  var maxAp = CUR_PLANO==='essencial' ? 30 : (CUR_PLANO==='pro' ? Infinity : 5);
+  if(CUR_PLANO!=='pro'&&APO_COUNT>=maxAp){document.getElementById('limit-wall').style.display='block';document.getElementById('gform').style.display='none';return;}
+
+  document.getElementById('gform').style.display='none';
+  document.getElementById('apostila-view').style.display='none';
+  var loader=document.getElementById('gloader');
+  loader.classList.add('show');
+  loaderIdx=0;
+  document.getElementById('loader-msg').textContent=loaderMsgs[0];
+  loaderTimer=setInterval(function(){loaderIdx=(loaderIdx+1)%loaderMsgs.length;document.getElementById('loader-msg').textContent=loaderMsgs[loaderIdx];},2500);
+
+  var prompt='Você é especialista em concursos públicos, com foco na banca '+SEL_BANCA+'.\n'+
+    'Gere uma apostila COMPLETA e DETALHADA sobre "'+mod+'" da disciplina "'+disc+'" para concurseiros que estudam para provas da banca '+SEL_BANCA+'.\n\n'+
+    'RETORNE APENAS JSON VÁLIDO, sem markdown, sem texto extra:\n'+
+    '{"titulo":"título da apostila","introducao":"introdução do tema (3 parágrafos)","teoria":[{"topico":"nome do tópico","conteudo":"explicação detalhada (mínimo 150 palavras)","ancoragem":"exemplo prático ou mnemônico para fixação","alerta":"pegadinha ou ponto de atenção específico da banca '+SEL_BANCA+'"}],"raio_x_banca":{"pegadinhas":["pegadinha 1","pegadinha 2","pegadinha 3","pegadinha 4"],"temas_quentes":["tema 1","tema 2","tema 3"],"dica_banca":"dica específica sobre o estilo de cobrança da banca '+SEL_BANCA+'"},"mapa_mental":{"centro":"'+mod+'","ramos":[{"titulo":"ramo 1","subitens":["item 1","item 2","item 3"]},{"titulo":"ramo 2","subitens":["item 1","item 2"]},{"titulo":"ramo 3","subitens":["item 1","item 2","item 3"]},{"titulo":"ramo 4","subitens":["item 1","item 2"]}]},"teste_imediato":[{"enunciado":"questão 1 no estilo '+SEL_BANCA+' (certa/errada ou múltipla escolha)","alternativas":{"A":"...","B":"...","C":"...","D":"...","E":"..."},"gabarito":"letra","comentario":"explicação detalhada do gabarito e por que as outras estão erradas"},{"enunciado":"questão 2","alternativas":{"A":"...","B":"...","C":"...","D":"...","E":"..."},"gabarito":"letra","comentario":"explicação"},{"enunciado":"questão 3","alternativas":{"A":"...","B":"...","C":"...","D":"...","E":"..."},"gabarito":"letra","comentario":"explicação"}]}';
+
+  fetch('/api/generate',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({prompt:prompt})
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    clearInterval(loaderTimer);loader.classList.remove('show');
+    var txt='';
+    if(d.content&&d.content.length){d.content.forEach(function(b){if(b.type==='text')txt+=b.text;});}
+    var data=repairJSON(txt);
+    if(!data){document.getElementById('gform').style.display='block';alert('Erro ao interpretar resposta. Tente novamente.');return;}
+    CUR_DATA=data;
+    // incrementa contador
+    APO_COUNT++;
+    document.getElementById('gcnt').textContent=APO_COUNT;
+    document.getElementById('dcnt').textContent=APO_COUNT;
+    document.getElementById('gfill').style.width=Math.min(100,APO_COUNT/30*100)+'%';
+    renderApostila(data,disc,mod);
+  })
+  .catch(function(e){
+    clearInterval(loaderTimer);loader.classList.remove('show');
+    document.getElementById('gform').style.display='block';
+    alert('Erro de conexão com a IA. Verifique a chave da API e tente novamente.\n\n'+e.message);
+  });
+}
+
+function renderApostila(d,disc,mod){
+  // pills de assuntos da disciplina
+  var pillsEl=document.getElementById('apost-pills');
+  pillsEl.innerHTML='';
+  if(DISCS[disc]){
+    DISCS[disc].mod.forEach(function(m){
+      var b=document.createElement('button');
+      b.className='apill'+(m===mod?' on':'');
+      b.textContent=m;
+      b.onclick=function(){
+        document.getElementById('gmod').value=m;
+        document.getElementById('apostila-view').style.display='none';
+        document.getElementById('gform').style.display='block';
+        document.getElementById('gmod').value=m;
+      };
+      pillsEl.appendChild(b);
+    });
+  }
+
+  // capa
+  var capa=document.getElementById('a-capa');
+  capa.innerHTML='<div class="acapa-badge">'+disc+' · '+SEL_BANCA+'</div>'+
+    '<h2>'+d.titulo+'</h2>'+
+    '<p>'+d.introducao+'</p>'+
+    '<div class="ameta"><span class="atag">📚 '+disc+'</span><span class="atag">🎯 '+SEL_BANCA+'</span><span class="atag">📄 '+mod+'</span><span class="atag">🤖 Gerado por IA</span></div>';
+
+  // body
+  var body=document.getElementById('a-body');
+  var html='';
+
+  // teoria
+  if(d.teoria&&d.teoria.length){
+    html+='<div class="ablock"><div class="ablock-title">📖 Teoria</div>';
+    d.teoria.forEach(function(t){
+      html+='<div class="topico">'+
+        '<div class="topico-nome">'+t.topico+'</div>'+
+        '<div class="topico-text">'+t.conteudo+'</div>'+
+        '<div class="anc"><strong>🔗 Ancoragem</strong>'+t.ancoragem+'</div>'+
+        '<div class="alt"><strong>⚠️ Alerta '+SEL_BANCA+'</strong>'+t.alerta+'</div>'+
+        '</div>';
+    });
+    html+='</div>';
+  }
+
+  // raio-x
+  if(d.raio_x_banca){
+    var rx=d.raio_x_banca;
+    html+='<div class="ablock"><div class="ablock-title">🎯 Raio-X da Banca</div><div class="rx">';
+    html+='<h3>⚡ Pegadinhas mais cobradas pela '+SEL_BANCA+'</h3><ul>';
+    (rx.pegadinhas||[]).forEach(function(p){html+='<li>'+p+'</li>';});
+    html+='</ul>';
+    if(rx.temas_quentes){html+='<div class="rxhot"><h3>🔥 Temas quentes</h3>';(rx.temas_quentes||[]).forEach(function(t){html+='<span class="rxtag">'+t+'</span>';});html+='</div>';}
+    if(rx.dica_banca)html+='<div style="margin-top:.9rem;font-size:.82rem;color:rgba(255,255,255,0.7);line-height:1.6;border-top:1px solid rgba(255,255,255,0.1);padding-top:.75rem;">💡 <strong style=\'color:var(--gold)\'>Dica:</strong> '+rx.dica_banca+'</div>';
+    html+='</div></div>';
+  }
+
+  // mapa mental
+  if(d.mapa_mental){
+    html+='<div class="ablock"><div class="ablock-title">🗺️ Mapa Mental</div><div class="mapa-svg-wrap">'+buildSVG(d.mapa_mental)+'</div></div>';
+  }
+
+  // teste
+  if(d.teste_imediato&&d.teste_imediato.length){
+    html+='<div class="ablock"><div class="ablock-title">✅ Teste Imediato</div>';
+    d.teste_imediato.forEach(function(q,qi){
+      html+='<div class="qcard" id="q'+qi+'"><div class="qnum">Questão '+(qi+1)+' · '+SEL_BANCA+' estilo</div><div class="qenunc">'+q.enunciado+'</div><div class="qalts">';
+      ['A','B','C','D','E'].forEach(function(l){
+        if(q.alternativas&&q.alternativas[l])
+          html+='<button class="qalt" onclick="responder('+qi+',\''+l+'\',\''+q.gabarito+'\',`'+escHTML(q.comentario)+'`)">'+l+') '+q.alternativas[l]+'</button>';
+      });
+      html+='</div><div class="qgab" id="gab'+qi+'">📘 <strong>Gabarito: '+q.gabarito+'</strong> — '+escHTML(q.comentario)+'</div></div>';
+    });
+    html+='</div>';
+  }
+  body.innerHTML=html;
+
+  // ações
+  var canPDF = (CUR_PLANO==='pro'||CUR_PLANO==='trial');
+  var actEl=document.getElementById('a-actions');
+  actEl.innerHTML='<button class="aact-btn aact-o" onclick="novaApostila()">📋 Nova apostila</button>'+
+    (canPDF?'<button class="aact-btn aact-d" onclick="imprimirPDF()">🖨️ Imprimir / Salvar PDF</button>':
+    '<span class="lock-msg">🔒 PDF disponível no plano Pro</span>');
+
+  document.getElementById('apostila-view').style.display='block';
+  document.getElementById('apostila-view').scrollIntoView({behavior:'smooth'});
+}
+
+function escHTML(str){return (str||'').replace(/`/g,"'").replace(/"/g,"'");}
+
+function responder(qi,letra,gab,comentario){
+  var card=document.getElementById('q'+qi);
+  var alts=card.querySelectorAll('.qalt');
+  alts.forEach(function(a){
+    a.disabled=true;
+    if(a.textContent.startsWith(letra+')'))a.classList.add(letra===gab?'correct':'wrong');
+    if(a.textContent.startsWith(gab+')')&&letra!==gab)a.classList.add('correct');
+  });
+  var gabEl=document.getElementById('gab'+qi);
+  gabEl.innerHTML='📘 <strong>Gabarito: '+gab+'</strong> — '+comentario;
+  gabEl.classList.add('show');
+}
+
+function buildSVG(mm){
+  var cx=320,cy=180,cr=50;
+  var ramos=mm.ramos||[];
+  var w=700,h=360;
+  var svg='<svg viewBox="0 0 '+w+' '+h+'" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:0 auto;">';
+  var colors=['#f0b429','#3b82f6','#10b981','#a855f7','#ef4444','#f97316'];
+  var angles=[];
+  var total=ramos.length;
+  for(var i=0;i<total;i++)angles.push((i/total)*2*Math.PI - Math.PI/2);
+  var rx=240,ry=140;
+  ramos.forEach(function(r,i){
+    var a=angles[i];
+    var bx=Math.round(cx+rx*Math.cos(a)),by=Math.round(cy+ry*Math.sin(a));
+    var c=colors[i%colors.length];
+    svg+='<line x1="'+cx+'" y1="'+cy+'" x2="'+bx+'" y2="'+by+'" stroke="'+c+'" stroke-width="2" stroke-dasharray="4,3" opacity="0.5"/>';
+    svg+='<rect x="'+(bx-55)+'" y="'+(by-13)+'" width="110" height="26" rx="8" fill="'+c+'" opacity="0.18"/>';
+    svg+='<text x="'+bx+'" y="'+(by+4)+'" text-anchor="middle" font-size="10" font-weight="700" fill="'+c+'" font-family="Inter,sans-serif">'+r.titulo+'</text>';
+    if(r.subitens){r.subitens.slice(0,3).forEach(function(s,si){
+      var sa=a+(si-1)*0.28;var sr=rx*0.42,sry=ry*0.42;
+      var sx=Math.round(bx+sr*Math.cos(sa)),sy=Math.round(by+sry*Math.sin(sa));
+      svg+='<line x1="'+bx+'" y1="'+by+'" x2="'+sx+'" y2="'+sy+'" stroke="'+c+'" stroke-width="1" opacity="0.3"/>';
+      svg+='<text x="'+sx+'" y="'+(sy+3)+'" text-anchor="middle" font-size="8" fill="'+c+'" opacity="0.8" font-family="Inter,sans-serif">'+s.substring(0,18)+'</text>';
+    });}
+  });
+  svg+='<circle cx="'+cx+'" cy="'+cy+'" r="'+cr+'" fill="#0a1628" stroke="'+colors[0]+'" stroke-width="2.5"/>';
+  var words=(mm.centro||'').split(' ');
+  if(words.length<=2){svg+='<text x="'+cx+'" y="'+(cy+5)+'" text-anchor="middle" font-size="11" font-weight="800" fill="'+colors[0]+'" font-family="Inter,sans-serif">'+mm.centro+'</text>';}
+  else{svg+='<text x="'+cx+'" y="'+(cy-4)+'" text-anchor="middle" font-size="10" font-weight="800" fill="'+colors[0]+'" font-family="Inter,sans-serif">'+words.slice(0,2).join(' ')+'</text>';svg+='<text x="'+cx+'" y="'+(cy+9)+'" text-anchor="middle" font-size="10" font-weight="800" fill="'+colors[0]+'" font-family="Inter,sans-serif">'+words.slice(2).join(' ')+'</text>';}
+  svg+='</svg>';
+  return svg;
+}
+
+function novaApostila(){
+  document.getElementById('apostila-view').style.display='none';
+  document.getElementById('gform').style.display='block';
+  window.scrollTo(0,0);
+}
+
+function imprimirPDF(){
+  var doc=document.getElementById('apostila-doc');
+  if(!doc)return;
+  var css=Array.from(document.styleSheets).map(function(ss){try{return Array.from(ss.cssRules).map(function(r){return r.cssText;}).join('\n');}catch(e){return '';}}).join('\n');
+  var html='<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>AprendAI — Apostila</title><style>'+css+'body{background:#fff;padding:0;margin:0}.apostila{border-radius:0;box-shadow:none;}@media print{@page{margin:1cm}}</style><script>window.onload=function(){window.print();}<\/script></head><body>'+doc.outerHTML+'</body></html>';
+  var blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='apostila-aprendai.html';a.style.display='none';
+  document.body.appendChild(a);a.click();
+  setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},1000);
+}
+
+// ══════════════════════════════════════
+// TOGGLE PLANOS
+// ══════════════════════════════════════
+var isAnl=false;
+function toggleB(){
+  isAnl=!isAnl;
+  document.getElementById('tog').classList.toggle('anl',isAnl);
+  document.getElementById('lm').classList.toggle('on',!isAnl);
+  document.getElementById('la').classList.toggle('on',isAnl);
+  ['em','pm'].forEach(function(id){document.getElementById(id).classList.toggle('show',!isAnl);});
+  ['ea','pa'].forEach(function(id){document.getElementById(id).classList.toggle('show',isAnl);});
+}
+
+// ══════════════════════════════════════
+// SESSÃO SALVA
+// ══════════════════════════════════════
+window.addEventListener('load',function(){
+  var tok=localStorage.getItem('sb_tok');
+  var cached=localStorage.getItem('sb_usr');
+  if(tok&&cached){
+    try{CUR_USER=JSON.parse(cached);renderDash(CUR_USER);go('dash');}catch(e){}
+    fetch(SB_URL+'/auth/v1/user',{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+tok}}).then(function(r){return r.json();}).then(function(u){if(u&&u.id){CUR_USER=u;localStorage.setItem('sb_usr',JSON.stringify(u));renderDash(u);}}).catch(function(){});
+  }
+});
+</script>
+</body>
+</html>
