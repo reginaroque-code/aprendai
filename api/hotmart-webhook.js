@@ -100,6 +100,12 @@ module.exports = async function handler(req, res) {
       novaMeta.apostilas_mes = 0; // zera a contagem a cada ativação ou renovação mensal
       novaMeta.hotmart_offer = offerCode;
       novaMeta.plano_ativado_em = new Date().toISOString();
+      // Guarda a data da próxima cobrança (quando o Hotmart envia essa informação),
+      // para mostrar ao aluno quando ele atingir o limite de apostilas do mês
+      var proximaCobranca = dados.purchase && dados.purchase.date_next_charge;
+      if (proximaCobranca) {
+        novaMeta.proxima_renovacao = new Date(proximaCobranca).toISOString();
+      }
     } else if (EVENTOS_CANCELAMENTO.indexOf(evento) !== -1) {
       novaMeta.plano = 'trial';
       novaMeta.plano_cancelado_em = new Date().toISOString();
