@@ -538,8 +538,12 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
     <!-- muro de limite -->
     <div class="limit-wall" id="limit-wall" style="display:none;">
       <h3>🚫 Limite do plano atingido</h3>
-      <p>Você usou todas as apostilas disponíveis no seu plano este mês. Faça upgrade para continuar gerando apostilas.</p>
-      <button class="btn-gold" onclick="go('landing');setTimeout(()=>document.getElementById('planos').scrollIntoView({behavior:'smooth'}),250)">Ver plano Pro →</button>
+      <p>Você usou todas as apostilas disponíveis no seu plano este mês.</p>
+      <div id="wall-opcoes-renovacao" style="display:none;flex-direction:column;gap:.6rem;align-items:center;margin-top:.5rem;">
+        <button class="btn-gold" onclick="goCheckoutAnualAtual()">📆 Mudar para o plano anual e economizar</button>
+        <button class="btn-ghost" onclick="go('dash')">🗓️ Vou aguardar — renova em <span id="wall-renova-data">breve</span></button>
+      </div>
+      <button class="btn-gold" id="wall-btn-assinar" onclick="go('landing');setTimeout(()=>document.getElementById('planos').scrollIntoView({behavior:'smooth'}),250)">Ver planos e assinar →</button>
     </div>
 
     <!-- formulário -->
@@ -633,7 +637,7 @@ var DISCS = {
 // ══════════════════════════════════════
 // ESTADO GLOBAL
 // ══════════════════════════════════════
-var CUR_USER = null, CUR_PLANO = 'trial', APO_COUNT = 0;
+var CUR_USER = null, CUR_PLANO = 'trial', APO_COUNT = 0, CUR_RENOVACAO = null;
 var SEL_BANCA = 'FCC', CUR_DATA = null;
 var loaderMsgs = ['Consultando o estilo da banca...','Estruturando os tópicos...','Gerando teoria e ancoragem...','Criando o Raio-X da Banca...','Montando o mapa mental...','Finalizando teste imediato...'];
 var loaderIdx = 0, loaderTimer = null;
@@ -752,6 +756,7 @@ function renderDash(user){
   var nome=meta.full_name||(user.email?user.email.split('@')[0]:'Aluno');
   CUR_PLANO=meta.plano||'trial';
   APO_COUNT=parseInt(meta.apostilas_mes)||0;
+  CUR_RENOVACAO=meta.proxima_renovacao||null;
   document.getElementById('dnom').textContent='Olá, '+nome.split(' ')[0]+'! 👋';
   document.getElementById('demail').textContent=user.email||'';
   var chip=document.getElementById('dchip');
@@ -789,8 +794,9 @@ function initGerador(){
   var form=document.getElementById('gform');
   if(APO_COUNT>=maxApostilas){
     wall.style.display='block';form.style.display='none';
-    wall.querySelector('h3').textContent = CUR_PLANO==='trial' ? '🚫 Limite do teste grátis atingido' : (CUR_PLANO==='pro' ? '🚫 Limite mensal do plano Pro atingido' : '🚫 Limite do plano atingido');
-    wall.querySelector('p').textContent = CUR_PLANO==='trial' ? 'Você usou as 5 apostilas gratuitas do teste grátis. Assine um plano para continuar gerando apostilas.' : (CUR_PLANO==='pro' ? 'Você atingiu as 150 apostilas incluídas este mês no plano Pro — um volume raramente alcançado. O limite renova no próximo ciclo.' : 'Você usou todas as 30 apostilas do plano Essencial este mês. Faça upgrade para o plano Pro e gere até 150 apostilas/mês.');
+    wall.querySelector('h3').textContent = CUR_PLANO==='trial' ? '🚫 Limite do teste grátis atingido' : (CUR_PLANO==='pro' ? '🚫 Limite mensal do plano Pro atingido' : '🚫 Limite do plano Essencial atingido');
+    wall.querySelector('p').textContent = CUR_PLANO==='trial' ? 'Você usou as 5 apostilas gratuitas do teste grátis. Assine um plano para continuar gerando apostilas.' : (CUR_PLANO==='pro' ? 'Você atingiu as 150 apostilas incluídas este mês no plano Pro.' : 'Você usou todas as 30 apostilas do plano Essencial este mês.');
+    atualizarOpcoesLimite();
   }
   else{wall.style.display='none';form.style.display='block';}
   // reset view
@@ -871,7 +877,7 @@ function gerar(){
   if(!mod){alert('Selecione o assunto.');return;}
   // verifica limite
   var maxAp = CUR_PLANO==='essencial' ? 30 : (CUR_PLANO==='pro' ? 150 : 5);
-  if(APO_COUNT>=maxAp){document.getElementById('limit-wall').style.display='block';document.getElementById('gform').style.display='none';return;}
+  if(APO_COUNT>=maxAp){document.getElementById('limit-wall').style.display='block';document.getElementById('gform').style.display='none';atualizarOpcoesLimite();return;}
 
   document.getElementById('gform').style.display='none';
   document.getElementById('apostila-view').style.display='none';
@@ -1095,6 +1101,33 @@ function goCheckout(plano){
   var chave = plano + '_' + (isAnl ? 'anual' : 'mensal');
   var url = HOTMART_LINKS[chave];
   if(url) window.location.href = url;
+}
+
+// Leva direto para o checkout ANUAL do plano que o aluno já tem (Essencial ou Pro)
+function goCheckoutAnualAtual(){
+  var chave = (CUR_PLANO==='pro' ? 'pro' : 'essencial') + '_anual';
+  var url = HOTMART_LINKS[chave];
+  if(url) window.location.href = url;
+}
+
+// Alterna entre "assinar" (Teste Grátis) e "mudar p/ anual ou aguardar" (Essencial/Pro) no muro de limite
+function atualizarOpcoesLimite(){
+  var opcoes = document.getElementById('wall-opcoes-renovacao');
+  var btnAssinar = document.getElementById('wall-btn-assinar');
+  if(CUR_PLANO==='essencial' || CUR_PLANO==='pro'){
+    opcoes.style.display='flex';
+    btnAssinar.style.display='none';
+    var dataEl = document.getElementById('wall-renova-data');
+    if(CUR_RENOVACAO){
+      var d = new Date(CUR_RENOVACAO);
+      dataEl.textContent = d.toLocaleDateString('pt-BR');
+    } else {
+      dataEl.textContent = 'no início do próximo ciclo';
+    }
+  } else {
+    opcoes.style.display='none';
+    btnAssinar.style.display='';
+  }
 }
 
 // ══════════════════════════════════════
