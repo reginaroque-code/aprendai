@@ -29,6 +29,33 @@ const EVENTOS_CANCELAMENTO = [
   'SUBSCRIPTION_CANCELLATION'
 ];
 
+// Busca um usuário do Supabase pelo e-mail, percorrendo as páginas de resultados
+// (a API do Supabase não filtra de forma confiável por e-mail via query string,
+// então comparamos manualmente até encontrar a conta certa)
+async function encontrarUsuarioPorEmail(email) {
+  var emailAlvo = String(email).trim().toLowerCase();
+  var porPagina = 200;
+  for (var pagina = 1; pagina <= 15; pagina++) {
+    var resp = await fetch(
+      `${SUPABASE_URL}/auth/v1/admin/users?page=${pagina}&per_page=${porPagina}`,
+      {
+        headers: {
+          apikey: SERVICE_ROLE_KEY,
+          Authorization: `Bearer ${SERVICE_ROLE_KEY}`
+        }
+      }
+    );
+    var json = await resp.json();
+    var usuarios = json.users || [];
+    var achado = usuarios.find(function (u) {
+      return (u.email || '').trim().toLowerCase() === emailAlvo;
+    });
+    if (achado) return achado;
+    if (usuarios.length < porPagina) break; // acabaram as páginas
+  }
+  return null;
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Método não permitido' });
@@ -53,17 +80,9 @@ module.exports = async function handler(req, res) {
     }
 
     // 2) Procura o aluno no Supabase pelo e-mail dele
-    const buscaResp = await fetch(
-      `${SUPABASE_URL}/auth/v1/admin/users?email=${encodeURIComponent(email)}`,
-      {
-        headers: {
-          apikey: SERVICE_ROLE_KEY,
-          Authorization: `Bearer ${SERVICE_ROLE_KEY}`
-        }
-      }
-    );
-    const buscaData = await buscaResp.json();
-    const usuario = (buscaData.users && buscaData.users[0]) || null;
+    //    (o filtro "?email=" da API do Supabase não é confiável, então
+    //    percorremos as páginas de usuários e comparamos o e-mail manualmente)
+    const usuario = await encontrarUsuarioPorEmail(email);
 
     if (!usuario) {
       // A pessoa comprou mas ainda não tem conta no AprendAI (ou usou e-mail diferente)
@@ -101,7 +120,7 @@ module.exports = async function handler(req, res) {
     });
 
     console.log(`Plano atualizado: ${email} → ${novaMeta.plano} (evento: ${evento})`);
-    return res.status(200).json({ ok: true, email: email, evento: evento, plano: novaMeta.plano });
+    return res.status(200).json({ ok: true, email_da_compra: email, conta_encontrada: usuario.email, evento: evento, plano: novaMeta.plano });
 
   } catch (erro) {
     console.error('Erro no webhook Hotmart:', erro);
