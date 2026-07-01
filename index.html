@@ -538,7 +538,7 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
     <!-- muro de limite -->
     <div class="limit-wall" id="limit-wall" style="display:none;">
       <h3>🚫 Limite do plano atingido</h3>
-      <p>Você usou todas as 30 apostilas do plano Essencial este mês. Faça upgrade para o plano Pro e gere apostilas ilimitadas.</p>
+      <p>Você usou todas as apostilas disponíveis no seu plano este mês. Faça upgrade para continuar gerando apostilas.</p>
       <button class="btn-gold" onclick="go('landing');setTimeout(()=>document.getElementById('planos').scrollIntoView({behavior:'smooth'}),250)">Ver plano Pro →</button>
     </div>
 
@@ -763,7 +763,7 @@ function renderDash(user){
   cnt.textContent=APO_COUNT;
   if(CUR_PLANO==='trial'){chip.innerHTML='<span class="chip cht">✨ Teste Grátis</span>';pdf.textContent='✓ Liberado';pdfs.textContent='Aproveite os 7 dias';lim.textContent='de 5 disponíveis';tb.style.display='flex';}
   else if(CUR_PLANO==='essencial'){chip.innerHTML='<span class="chip che">📘 Essencial</span>';pdf.textContent='✕ Não incluído';pdfs.textContent='Faça upgrade para Pro';lim.textContent='de 30 disponíveis';tb.style.display='none';}
-  else{chip.innerHTML='<span class="chip chp">⭐ Pro</span>';pdf.textContent='✓ Ilimitado';pdfs.textContent='Imprima à vontade';lim.textContent='ilimitadas';cnt.textContent=APO_COUNT+'+ ∞';tb.style.display='none';}
+  else{chip.innerHTML='<span class="chip chp">⭐ Pro</span>';pdf.textContent='✓ Ilimitado';pdfs.textContent='Imprima à vontade';lim.textContent='de 150 disponíveis';cnt.textContent=APO_COUNT;tb.style.display='none';}
 }
 
 // ══════════════════════════════════════
