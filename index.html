@@ -422,27 +422,23 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
   <div class="si"><div class="ctr"><div class="sl">Planos e preços</div><h2 class="st">Escolha seu <em>plano</em></h2><p class="ss">Comece grátis por 7 dias. Sem cartão de crédito.</p></div>
   <div class="tw"><span class="tl on" id="lm">Mensal</span><div class="tog" id="tog" onclick="toggleB()"><div class="tth"></div></div><span class="tl" id="la">Anual</span><span class="db">−30% OFF</span></div>
   <div style="max-width:800px;margin:0 auto 1.3rem;background:linear-gradient(135deg,#0a1628,#1a3a6a);border:1.5px solid rgba(240,180,41,0.4);border-radius:13px;padding:.9rem 1.3rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
-    <div style="font-size:1.4rem;">🔥</div><div style="flex:1;min-width:180px;"><div style="font-size:.85rem;font-weight:800;color:var(--gold);">Oferta de lançamento — primeiros 100 membros</div><div style="font-size:.77rem;color:rgba(255,255,255,0.6);margin-top:.15rem;">50% de desconto por tempo limitado</div></div>
+    <div style="font-size:1.4rem;">🔥</div><div style="flex:1;min-width:180px;"><div style="font-size:.85rem;font-weight:800;color:var(--gold);">Oferta de lançamento — primeiros 100 membros</div><div style="font-size:.77rem;color:rgba(255,255,255,0.6);margin-top:.15rem;">50% de desconto · Pagamento via Pix tem mais 10% OFF</div></div>
     <div style="background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);font-size:.72rem;font-weight:900;padding:.35rem .9rem;border-radius:50px;white-space:nowrap;">Vagas: 87/100</div>
   </div>
   <div class="plgrid">
-    <div class="plcard"><div class="pln">Essencial</div>
-      <div class="pld pm show" id="epld-m">Para o concurseiro que está começando a se preparar seriamente.</div>
-      <div class="pld pm" id="epld-a">Tenha o material em mãos a qualquer hora, no celular, tablet ou computador, por um ano.</div>
-      <div class="plp">          <div class="pm show" id="em"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 49,90</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−50%</span></div><span class="cu">R$</span><span class="am">24</span><span class="pe">,95/mês</span></div>
-          <div class="pm" id="ea"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 459,90/ano</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−50%</span></div><span class="cu">R$</span><span class="am">19</span><span class="pe">,16/mês</span><div class="ec">💰 Economia de R$ 229,95/ano</div></div></div>
-      <ul class="plf"><li>Até <strong>30 apostilas por mês</strong></li><li>Todas as bancas (FCC, CEBRASPE, FGV e outras)</li><li>Teoria, Ancoragem e Alerta</li><li>Raio-X da Banca incluso</li><li>Mapa Mental gerado por IA</li><li>Teste com gabarito comentado</li><li class="off">Download / impressão em PDF</li></ul>
-      <button class="plbtn o" onclick="assinarPlano('essencial')">Garantir desconto de lançamento</button><p style="font-size:.7rem;color:var(--muted);text-align:center;margin-top:.6rem;">🔒 Cancele a qualquer momento</p></div>
-    <div class="plcard hl"><div class="plbadge">⭐ Mais completo</div><div class="pln">Pro</div>
-      <div class="pld pm show" id="ppld-m">Gere e imprima todos os assuntos que precisar — <strong>150 apostilas por mês</strong>.</div>
-      <div class="pld pm" id="ppld-a">Por um ano de acesso, com os maiores descontos possíveis — acesso a quase 2 mil apostilas geradas.</div>
-      <div class="plp">          <div class="pm show" id="pm"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 79,90</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−50%</span></div><span class="cu">R$</span><span class="am">39</span><span class="pe">,95/mês</span></div>
-          <div class="pm" id="pa"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 49,92/mês</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−50%</span></div><span class="cu">R$</span><span class="am">24</span><span class="pe">,96/mês</span><div class="ec">💰 Economia de R$ 299,50/ano</div></div></div>
-      <ul class="plf"><li>Até <strong>150 apostilas por mês</strong></li><li>Todas as bancas (FCC, CEBRASPE, FGV e outras)</li><li>Teoria, Ancoragem e Alerta</li><li>Raio-X da Banca incluso</li><li>Mapa Mental gerado por IA</li><li>Teste com gabarito comentado</li><li><strong>🖨️ Imprima qualquer apostila em PDF</strong></li></ul>
-      <button class="plbtn g" onclick="assinarPlano('pro')">Garantir desconto de lançamento</button>
+    <div class="plcard"><div class="pln">Essencial</div><div class="pld">Para o concurseiro que está começando</div>
+      <div class="plp">          <div class="pm show" id="em"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 49,90</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−50%</span></div><span class="cu">R$</span><span class="am">24</span><span class="pe">,95/mês</span><div class="ec">💚 No Pix: R$ 22,46/mês</div></div>
+          <div class="pm" id="ea"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 459,00/ano</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−50%</span></div><span class="cu">R$</span><span class="am">19</span><span class="pe">,13/mês</span><div class="ec">💰 Economia de R$ 229,50/ano · R$ 17,21/mês no Pix</div></div></div>
+      <ul class="plf"><li>Até <strong>30 apostilas por mês</strong></li><li>Bancas FCC, CEBRASPE e FGV</li><li>Teoria, Ancoragem e Alerta</li><li>Raio-X da Banca incluso</li><li>Mapa Mental gerado por IA</li><li>Teste com gabarito comentado</li><li class="off">Download / impressão em PDF</li></ul>
+      <button class="plbtn o" onclick="go('auth')">Garantir desconto de lançamento</button><p style="font-size:.7rem;color:var(--muted);text-align:center;margin-top:.6rem;">🔒 Cancele a qualquer momento</p></div>
+    <div class="plcard hl"><div class="plbadge">⭐ Mais completo</div><div class="pln">Pro</div><div class="pld">Gere e imprima <strong>até 150 apostilas por mês</strong> — para qualquer assunto que precisar</div>
+      <div class="plp">          <div class="pm show" id="pm"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 79,90</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−50%</span></div><span class="cu">R$</span><span class="am">39</span><span class="pe">,95/mês</span><div class="ec">💚 No Pix: R$ 35,96/mês</div></div>
+          <div class="pm" id="pa"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 55,90/mês</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−50%</span></div><span class="cu">R$</span><span class="am">27</span><span class="pe">,95/mês</span><div class="ec">💰 Economia de R$ 335,40/ano · R$ 25,16/mês no Pix</div></div></div>
+      <ul class="plf"><li><strong>Até 150 apostilas por mês</strong> — raramente atingido</li><li>Bancas FCC, CEBRASPE, FGV e outras</li><li>Teoria, Ancoragem e Alerta</li><li>Raio-X da Banca incluso</li><li>Mapa Mental gerado por IA</li><li>Teste com gabarito comentado</li><li><strong>🖨️ Imprima qualquer apostila em PDF</strong></li></ul>
+      <button class="plbtn g" onclick="go('auth')">Garantir desconto de lançamento</button>
       <div style="margin-top:.85rem;background:linear-gradient(135deg,rgba(240,180,41,0.12),rgba(240,180,41,0.05));border:1px solid rgba(240,180,41,0.3);border-radius:8px;padding:.6rem .85rem;font-size:.76rem;color:var(--navy);line-height:1.5;">📚 <strong>Estude do zero ao edital:</strong> gere assunto por assunto e imprima tudo sem custo adicional.</div></div>
   </div>
-  <p style="text-align:center;margin-top:1.1rem;font-size:.8rem;color:var(--muted);">💳 Cartão · 🏦 Pix · Cancele quando quiser</p></div>
+  <p style="text-align:center;margin-top:1.1rem;font-size:.8rem;color:var(--muted);">💳 Cartão · 🏦 Pix (−10%) · Cancele quando quiser</p></div>
 </section>
 
 <section class="lp-sec cta-sec" style="position:relative;">
@@ -541,9 +537,9 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 
     <!-- muro de limite -->
     <div class="limit-wall" id="limit-wall" style="display:none;">
-      <h3>🚫 Limite mensal atingido</h3>
-      <p>Você atingiu o limite de apostilas deste mês. Faça upgrade ou aguarde a renovação do ciclo.</p>
-      <button class="btn-gold" onclick="go('landing');setTimeout(()=>document.getElementById('planos').scrollIntoView({behavior:'smooth'}),250)">Ver planos →</button>
+      <h3>🚫 Limite do plano atingido</h3>
+      <p>Você usou todas as 30 apostilas do plano Essencial este mês. Faça upgrade para o plano Pro e gere apostilas ilimitadas.</p>
+      <button class="btn-gold" onclick="go('landing');setTimeout(()=>document.getElementById('planos').scrollIntoView({behavior:'smooth'}),250)">Ver plano Pro →</button>
     </div>
 
     <!-- formulário -->
@@ -602,19 +598,6 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 // ══════════════════════════════════════
 var SB_URL  = 'https://zmturipqsasbnjfaiehd.supabase.co';
 var SB_KEY  = 'sb_publishable_iGmTY-Ry_S90JyK9L5QZNg_k1hmJlos';
-
-// ══════════════════════════════════════
-// LINKS DE CHECKOUT DO HOTMART
-// ══════════════════════════════════════
-// Cole aqui os links de checkout assim que o produto estiver configurado no Hotmart.
-// Exemplo de link do Hotmart: https://pay.hotmart.com/A12345678B
-// Se um plano ainda não tiver link, deixe '' (vazio) — o botão mostra um aviso em vez de quebrar.
-var HOTMART_LINKS = {
-  essencial_mensal: 'https://pay.hotmart.com/K106557882U?off=aqho4mg0',
-  essencial_anual:  'https://pay.hotmart.com/K106557882U?off=3hmm9l46',
-  pro_mensal:       'https://pay.hotmart.com/K106557882U?off=z74o6jlh',
-  pro_anual:        'https://pay.hotmart.com/K106557882U?off=t8v8if3i'
-};
 // Chave Anthropic — adicione no Vercel como variável de ambiente
 // Para uso direto (desenvolvimento) cole aqui:
 // Chave protegida no servidor — não precisa mudar nada aqui
@@ -623,19 +606,28 @@ var HOTMART_LINKS = {
 // DISCIPLINAS E MÓDULOS
 // ══════════════════════════════════════
 var DISCS = {
-  "Direito Tributário":{"mod":["Obrigação Tributária","Crédito Tributário","Lançamento Tributário","Extinção do Crédito Tributário","Exclusão do Crédito Tributário","Responsabilidade Tributária","Administração Tributária","Dívida Ativa e Execução Fiscal","Simples Nacional","Impostos Federais","Impostos Estaduais","Impostos Municipais"],"ext":["CTN","IPTU","ISS","ICMS","IR","IPI","decadência","prescrição","compensação","parcelamento","crédito tributário","lançamento"]},
-  "Direito Administrativo":{"mod":["Princípios da Administração Pública","Poderes Administrativos","Atos Administrativos","Contratos Administrativos","Licitações (Lei 14.133/21)","Serviços Públicos","Bens Públicos","Responsabilidade Civil do Estado","Controle da Administração","Agentes Públicos","Improbidade Administrativa"],"ext":["Lei 8.112","Lei 14.133","pregão","concurso público","demissão","sindicância","discricionariedade"]},
-  "Direito Constitucional":{"mod":["Princípios Fundamentais","Direitos e Garantias Fundamentais","Organização do Estado","Organização dos Poderes","Controle de Constitucionalidade","Tributação e Orçamento","Ordem Social","Defesa do Estado"],"ext":["ADI","ADPF","mandado de segurança","habeas corpus","cláusulas pétreas","remédios constitucionais"]},
-  "Contabilidade Geral":{"mod":["Patrimônio e Equação Patrimonial","Escrituração Contábil","Plano de Contas","Balanço Patrimonial","DRE","DLPA e DMPL","DFC","Estoques","Ativo Imobilizado","Depreciação","Provisões e Contingências","NBC TG e CPC"],"ext":["SPED","lucro real","lucro presumido","CPC","regime de competência","juros sobre capital próprio"]},
-  "Contabilidade de Custos":{"mod":["Conceitos e Terminologia","Custeio por Absorção","Custeio Variável","Custeio ABC","Ponto de Equilíbrio","Margem de Contribuição","Custos para Decisão","Orçamento e Controle"],"ext":["custo fixo","custo variável","overhead","rateio","margem de segurança"]},
-  "Auditoria":{"mod":["Conceitos e Tipos de Auditoria","Planejamento da Auditoria","Controle Interno","Risco de Auditoria","Evidências e Procedimentos","Papéis de Trabalho","Relatório do Auditor","Auditoria Governamental","TCU — Normas e Jurisprudência","CGU e Controle Interno"],"ext":["NBC TA","materialidade","ceticismo","ISSAI","auditoria operacional"]},
-  "Administração Pública":{"mod":["Teorias da Administração","Reforma do Estado","Nova Gestão Pública","Governança Pública","Planejamento Estratégico","Gestão por Resultados","Processo Administrativo (Lei 9.784)","Ética no Serviço Público"],"ext":["PDRAE","BSC","OKR","gestão de pessoas","decreto 1.171"]},
-  "Legislação Tributária":{"mod":["Legislação Federal","Legislação Estadual","Legislação Municipal","ICMS","ISS","IPVA","IPTU","Simples Nacional","Substituição Tributária"],"ext":["RICMS","lei Kandir","convênio ICMS","regulamento"]},
-  "Economia":{"mod":["Oferta e Demanda","Elasticidade","Teoria do Consumidor","Estruturas de Mercado","Contas Nacionais","Política Fiscal","Política Monetária","Inflação e Índices de Preços","Setor Externo e Câmbio"],"ext":["PIB","IPCA","SELIC","política cambial","multiplicador fiscal"]},
-  "Direito Civil":{"mod":["LINDB","Pessoas Físicas e Jurídicas","Bens","Negócio Jurídico","Prescrição e Decadência","Obrigações","Contratos","Responsabilidade Civil","Família","Sucessões"],"ext":["LINDB","CC 2002","nulidade","anulabilidade","mora","solidariedade"]},
-  "Direito Processual Civil":{"mod":["Princípios do CPC","Competência","Atos Processuais","Tutelas de Urgência","Provas","Sentença e Coisa Julgada","Recursos","Processo de Execução"],"ext":["CPC 2015","tutela antecipada","embargos","agravo de instrumento"]},
-  "Raciocínio Lógico":{"mod":["Proposições Lógicas","Conectivos e Tabela Verdade","Equivalências Lógicas","Silogismo","Conjuntos","Sequências e Progressões","Probabilidade","Porcentagem","Razão e Proporção"],"ext":["negação","contrapositiva","diagrama"]},
-  "Língua Portuguesa":{"mod":["Interpretação de Texto","Coesão e Coerência","Ortografia","Acentuação Gráfica","Classes de Palavras","Concordância Nominal e Verbal","Regência","Crase","Pontuação","Redação Oficial"],"ext":["certo errado","frase","oração","período","manual de redação"]}
+  "Direito Tributário":{"mod":["Obrigação Tributária", "Crédito Tributário", "Lançamento Tributário", "Extinção do Crédito Tributário", "Exclusão do Crédito Tributário", "Responsabilidade Tributária", "Administração Tributária", "Dívida Ativa e Execução Fiscal", "Simples Nacional", "Impostos Federais", "Impostos Estaduais", "Impostos Municipais"],"ext":["CTN", "IPTU", "ISS", "ICMS", "IR", "IPI", "decadência", "prescrição", "compensação", "parcelamento", "crédito tributário", "lançamento"]},
+  "Direito Administrativo":{"mod":["Princípios da Administração Pública", "Organização Administrativa (Direta e Indireta)", "Poderes Administrativos", "Atos Administrativos", "Contratos Administrativos", "Licitações (Lei 14.133/21)", "Serviços Públicos", "Bens Públicos", "Responsabilidade Civil do Estado", "Controle da Administração", "Agentes Públicos e Regime Jurídico", "Improbidade Administrativa (Lei 8.429/92)", "Processo Administrativo (Lei 9.784/99)", "Lei de Acesso à Informação (Lei 12.527/11)", "Lei Geral de Proteção de Dados (LGPD)"],"ext":["Lei 8.112", "Lei 14.133", "pregão", "concurso público", "demissão", "sindicância", "discricionariedade", "autarquias", "fundações públicas", "empresas públicas", "sociedades de economia mista", "LAI", "LGPD"]},
+  "Direito Constitucional":{"mod":["Princípios Fundamentais", "Direitos e Garantias Fundamentais", "Poder Constituinte", "Organização do Estado", "Organização dos Poderes", "Poder Legislativo e Processo Legislativo", "Poder Executivo", "Poder Judiciário e CNJ", "Funções Essenciais à Justiça", "Controle de Constitucionalidade", "Tributação e Orçamento", "Ordem Social", "Defesa do Estado e Instituições Democráticas", "Crimes de Responsabilidade e Abuso de Autoridade"],"ext":["ADI", "ADPF", "mandado de segurança", "habeas corpus", "cláusulas pétreas", "remédios constitucionais", "CNJ", "PEC", "medida provisória", "abuso de autoridade"]},
+  "Contabilidade Geral":{"mod":["Patrimônio e Equação Patrimonial", "Atos e Fatos Administrativos", "Escrituração Contábil", "Plano de Contas", "Balancete de Verificação", "Balanço Patrimonial", "DRE", "DLPA e DMPL", "DFC", "Estoques", "Ativo Imobilizado", "Depreciação", "Provisões e Contingências", "Lei das Sociedades por Ações (6.404/76)", "NBC TG, NBC TSP e CPC"],"ext":["SPED", "lucro real", "lucro presumido", "CPC", "regime de competência", "juros sobre capital próprio", "balancete", "NBC TSP"]},
+  "Contabilidade de Custos":{"mod":["Conceitos e Terminologia", "Custeio por Absorção", "Custeio Variável", "Custeio ABC", "Ponto de Equilíbrio", "Margem de Contribuição", "Custos para Decisão", "Orçamento e Controle"],"ext":["custo fixo", "custo variável", "overhead", "rateio", "margem de segurança"]},
+  "Auditoria":{"mod":["Conceitos e Tipos de Auditoria", "Planejamento da Auditoria", "Controle Interno", "Risco de Auditoria", "Evidências e Procedimentos", "Papéis de Trabalho", "Relatório do Auditor", "Auditoria Governamental", "TCU — Normas e Jurisprudência", "CGU e Controle Interno"],"ext":["NBC TA", "materialidade", "ceticismo", "ISSAI", "auditoria operacional"]},
+  "Administração Pública":{"mod":["Teorias da Administração", "Reforma do Estado", "Nova Gestão Pública", "Governança Pública e Corporativa", "Accountability e Controle Social", "Planejamento Estratégico", "Balanced Scorecard (BSC)", "Gestão por Resultados e por Competências", "Gestão de Pessoas e Liderança", "Gestão de Projetos (PMBOK)", "Gestão de Processos (BPM)", "Processo Administrativo (Lei 9.784)", "Políticas Públicas", "Ética no Serviço Público"],"ext":["PDRAE", "BSC", "OKR", "gestão de pessoas", "decreto 1.171", "PMBOK", "BPM CBOK", "accountability", "governança", "SWOT"]},
+  "Legislação Tributária":{"mod":["Legislação Federal", "Legislação Estadual", "Legislação Municipal", "ICMS", "ISS", "IPVA", "IPTU", "Simples Nacional", "Substituição Tributária"],"ext":["RICMS", "lei Kandir", "convênio ICMS", "regulamento"]},
+  "Economia":{"mod":["Oferta e Demanda", "Elasticidade", "Teoria do Consumidor", "Teoria da Firma", "Estruturas de Mercado", "Contas Nacionais", "Política Fiscal", "Política Monetária", "Inflação e Índices de Preços", "Setor Externo e Câmbio", "Matemática Financeira"],"ext":["PIB", "IPCA", "SELIC", "política cambial", "multiplicador fiscal", "juros compostos", "fluxo de caixa"]},
+  "Direito Civil":{"mod":["LINDB", "Pessoas Físicas e Jurídicas", "Bens", "Negócio Jurídico", "Prescrição e Decadência", "Obrigações", "Contratos", "Responsabilidade Civil", "Casamento e Regime de Bens", "União Estável", "Tutela, Curatela e Ausência", "Família", "Sucessões"],"ext":["LINDB", "CC 2002", "nulidade", "anulabilidade", "mora", "solidariedade", "regime de bens"]},
+  "Direito Processual Civil":{"mod":["Princípios do CPC", "Competência", "Partes e Procuradores", "Litisconsórcio e Intervenção de Terceiros", "Atos Processuais", "Tutelas de Urgência", "Provas", "Sentença e Coisa Julgada", "Ação Rescisória", "Recursos", "Processo de Execução", "Processo Cautelar"],"ext":["CPC 2015", "tutela antecipada", "embargos", "agravo de instrumento", "litisconsórcio"]},
+  "Raciocínio Lógico":{"mod":["Proposições Lógicas", "Conectivos e Tabela Verdade", "Equivalências Lógicas", "Leis de Morgan", "Lógica de Primeira Ordem", "Silogismo", "Conjuntos", "Sequências e Progressões", "Probabilidade", "Porcentagem", "Razão e Proporção"],"ext":["negação", "contrapositiva", "diagrama", "Morgan"]},
+  "Língua Portuguesa":{"mod":["Interpretação de Texto", "Tipos e Gêneros Textuais", "Coesão e Coerência", "Ortografia", "Acentuação Gráfica", "Classes de Palavras", "Concordância Nominal e Verbal", "Regência", "Crase", "Pontuação", "Reescrita de Frases e Parágrafos", "Redação Oficial e Correspondência"],"ext":["certo errado", "frase", "oração", "período", "manual de redação da presidência"]},
+  "Direito Penal e Processo Penal":{"mod":["Aplicação da Lei Penal", "Teoria do Crime (Fato Típico, Ilicitude e Culpabilidade)", "Concurso de Pessoas e de Crimes", "Crimes contra a Pessoa", "Crimes contra o Patrimônio", "Crimes contra a Fé Pública", "Crimes contra a Administração Pública", "Das Penas e Extinção da Punibilidade", "Inquérito Policial", "Princípios do Processo Penal", "Competência e Jurisdição Penal", "Prisão e Medidas Cautelares", "Provas no Processo Penal", "Sentença e Coisa Julgada Penal", "Recursos e Nulidades", "Juizados Especiais Criminais", "Habeas Corpus"],"ext":["CPP", "flagrante", "habeas corpus", "tentativa", "dolo", "culpa", "excludentes de ilicitude", "prisão temporária"]},
+  "Direitos Humanos":{"mod":["Direitos Humanos na Constituição Federal", "Sistema Internacional de Proteção", "Convenção contra a Tortura", "Convenção sobre Discriminação Racial", "Convenção sobre Discriminação contra a Mulher", "Proteção de Refugiados", "Uso da Força e Armas de Fogo", "Regras da ONU para Pessoas Presas"],"ext":["ONU", "genocídio", "refugiados", "discriminação racial", "tortura", "Havana"]},
+  "Legislação Penal Especial":{"mod":["Lei de Drogas (Lei 11.343/06)", "Estatuto do Desarmamento (Lei 10.826/03)", "Crimes de Tortura (Lei 9.455/97)", "ECA — Aspectos Penais e Processuais (Lei 8.069/90)", "Lei de Migração (Lei 13.445/17)", "Crimes Ambientais (Lei 9.605/98)", "Lei Maria da Penha (Lei 11.340/06)", "Crimes Hediondos (Lei 8.072/90)"],"ext":["tráfico de drogas", "arma de fogo", "tortura", "ECA", "migração", "feminicídio"]},
+  "Informática":{"mod":["Hardware e Software", "Sistemas Operacionais (Windows e Linux)", "Pacote Office (Word, Excel, PowerPoint)", "Redes de Computadores e Internet", "Segurança da Informação", "Banco de Dados e SQL", "Computação em Nuvem", "Inteligência Artificial e Machine Learning", "Big Data e Business Intelligence", "Backup e Armazenamento de Dados"],"ext":["TCP/IP", "firewall", "antivírus", "phishing", "malware", "SQL", "backup", "VPN"]},
+  "Estatística":{"mod":["Estatística Descritiva", "Probabilidade e Probabilidade Condicional", "Variáveis Aleatórias e Distribuições", "Medidas de Tendência Central", "Medidas de Dispersão", "Inferência Estatística", "Técnicas de Amostragem", "Correlação e Regressão Linear"],"ext":["desvio padrão", "teorema central do limite", "distribuição normal", "Bayes", "amostragem"]},
+  "Língua Inglesa":{"mod":["Compreensão de Textos Variados", "Vocabulário e Estrutura da Língua", "Itens Gramaticais Relevantes", "Formas Contemporâneas da Linguagem"],"ext":["reading comprehension", "grammar", "vocabulary"]},
+  "Ciência Política":{"mod":["Teoria Política", "Regimes Políticos", "Sistemas e Formas de Governo", "Representação e Sistemas Eleitorais", "Teoria dos Partidos Políticos", "Teoria do Estado", "Formação do Estado Brasileiro"],"ext":["parlamentarismo", "presidencialismo", "voto", "partidos políticos"]},
+  "Arquivologia":{"mod":["Princípios e Conceitos Arquivísticos", "Gestão de Documentos", "Protocolo e Tramitação", "Classificação de Documentos", "Avaliação e Tabela de Temporalidade", "Arquivos Correntes, Intermediários e Permanentes", "Preservação e Conservação de Documentos", "Documentos Digitais e GED"],"ext":["tabela de temporalidade", "protocolo", "GED", "microfilmagem"]},
+  "Administração Orçamentária e Financeira":{"mod":["Plano Plurianual (PPA)", "Lei de Diretrizes Orçamentárias (LDO)", "Lei Orçamentária Anual (LOA)", "Lei de Responsabilidade Fiscal (LC 101/2000)", "Execução Orçamentária e Financeira", "Empenho, Liquidação e Pagamento", "Restos a Pagar", "Créditos Adicionais"],"ext":["PPA", "LDO", "LOA", "LRF", "empenho", "Lei 4.320"]}
 };
 
 // ══════════════════════════════════════
@@ -752,37 +744,6 @@ function doForgot(){
 }
 function doLogout(){localStorage.removeItem('sb_tok');localStorage.removeItem('sb_usr');CUR_USER=null;go('landing');}
 
-// botão de assinatura: evita o loop de login e manda pro checkout do Hotmart certo
-function assinarPlano(plano){
-  if(!CUR_USER){ go('auth'); return; }
-  var ciclo = isAnl ? 'anual' : 'mensal';
-  var chave = plano+'_'+ciclo;
-  var link = HOTMART_LINKS[chave];
-  if(!link){
-    alert('O pagamento ainda está em configuração. Em breve você poderá assinar direto por aqui!\n\nPor enquanto, fale com a gente: contato@aprendai.net.br');
-    return;
-  }
-  var sep = link.indexOf('?')>-1 ? '&' : '?';
-  var url = link + sep + 'email=' + encodeURIComponent(CUR_USER.email||'');
-  window.open(url,'_blank');
-}
-
-// salva o novo total de apostilas no Supabase (user_metadata), para persistir entre logins
-function salvarApostilasMes(novoCount){
-  var tok=localStorage.getItem('sb_tok');
-  if(!tok)return;
-  fetch(SB_URL+'/auth/v1/user',{
-    method:'PUT',
-    headers:{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+tok},
-    body:JSON.stringify({data:{apostilas_mes:novoCount}})
-  }).then(function(r){return r.json();}).then(function(u){
-    if(u&&u.id){
-      CUR_USER=u;
-      localStorage.setItem('sb_usr',JSON.stringify(u));
-    }
-  }).catch(function(){/* falha silenciosa: contador local já está correto na tela */});
-}
-
 // ══════════════════════════════════════
 // DASHBOARD
 // ══════════════════════════════════════
@@ -801,8 +762,8 @@ function renderDash(user){
   var tb=document.getElementById('tbanner');
   cnt.textContent=APO_COUNT;
   if(CUR_PLANO==='trial'){chip.innerHTML='<span class="chip cht">✨ Teste Grátis</span>';pdf.textContent='✓ Liberado';pdfs.textContent='Aproveite os 7 dias';lim.textContent='de 5 disponíveis';tb.style.display='flex';}
-  else if(CUR_PLANO==='pro'){chip.innerHTML='<span class="chip chp">⭐ Pro</span>';pdf.textContent='✓ Ilimitado';pdfs.textContent='Imprima à vontade';lim.textContent='de 150 disponíveis';tb.style.display='none';}
-  else{chip.innerHTML='<span class="chip che">📘 Essencial</span>';pdf.textContent='✕ Não incluído';pdfs.textContent='Faça upgrade para Pro';lim.textContent='de 30 disponíveis';tb.style.display='none';}
+  else if(CUR_PLANO==='essencial'){chip.innerHTML='<span class="chip che">📘 Essencial</span>';pdf.textContent='✕ Não incluído';pdfs.textContent='Faça upgrade para Pro';lim.textContent='de 30 disponíveis';tb.style.display='none';}
+  else{chip.innerHTML='<span class="chip chp">⭐ Pro</span>';pdf.textContent='✓ Ilimitado';pdfs.textContent='Imprima à vontade';lim.textContent='ilimitadas';cnt.textContent=APO_COUNT+'+ ∞';tb.style.display='none';}
 }
 
 // ══════════════════════════════════════
@@ -828,8 +789,8 @@ function initGerador(){
   var form=document.getElementById('gform');
   if(APO_COUNT>=maxApostilas){
     wall.style.display='block';form.style.display='none';
-    wall.querySelector('h3').textContent = CUR_PLANO==='trial' ? '🚫 Limite do teste grátis atingido' : (CUR_PLANO==='pro' ? '🚫 Limite mensal do plano Pro atingido' : '🚫 Limite mensal do plano Essencial atingido');
-    wall.querySelector('p').textContent = CUR_PLANO==='trial' ? 'Você usou as 5 apostilas gratuitas do teste grátis. Assine um plano para continuar gerando apostilas.' : (CUR_PLANO==='pro' ? 'Você atingiu as 150 apostilas incluídas este mês no plano Pro. O limite renova no próximo ciclo.' : 'Você usou as 30 apostilas incluídas este mês no plano Essencial. Faça upgrade para o plano Pro e gere até 150/mês, ou aguarde a renovação do ciclo.');
+    wall.querySelector('h3').textContent = CUR_PLANO==='trial' ? '🚫 Limite do teste grátis atingido' : (CUR_PLANO==='pro' ? '🚫 Limite mensal do plano Pro atingido' : '🚫 Limite do plano atingido');
+    wall.querySelector('p').textContent = CUR_PLANO==='trial' ? 'Você usou as 5 apostilas gratuitas do teste grátis. Assine um plano para continuar gerando apostilas.' : (CUR_PLANO==='pro' ? 'Você atingiu as 150 apostilas incluídas este mês no plano Pro — um volume raramente alcançado. O limite renova no próximo ciclo.' : 'Você usou todas as 30 apostilas do plano Essencial este mês. Faça upgrade para o plano Pro e gere até 150 apostilas/mês.');
   }
   else{wall.style.display='none';form.style.display='block';}
   // reset view
@@ -923,7 +884,7 @@ function gerar(){
   var prompt='Você é especialista em concursos públicos, com foco na banca '+SEL_BANCA+'.\n'+
     'Gere uma apostila OBJETIVA sobre "'+mod+'" da disciplina "'+disc+'" para concurseiros que estudam para provas da banca '+SEL_BANCA+'. Seja direto e conciso — evite textos longos.\n\n'+
     'RETORNE APENAS JSON VÁLIDO, sem markdown, sem texto extra, RESPEITANDO O LIMITE DE TAMANHO — priorize objetividade:\n'+
-    '{"titulo":"título curto da apostila","introducao":"introdução breve (1 parágrafo, máximo 40 palavras)","teoria":[{"topico":"nome do tópico","conteudo":"explicação objetiva (60 a 90 palavras)","ancoragem":"exemplo curto ou mnemônico (máximo 30 palavras)","alerta":"pegadinha específica da banca '+SEL_BANCA+' (máximo 30 palavras)"}],"raio_x_banca":{"pegadinhas":["pegadinha curta 1","pegadinha curta 2","pegadinha curta 3"],"temas_quentes":["tema 1","tema 2","tema 3"],"dica_banca":"dica curta sobre o estilo da banca '+SEL_BANCA+' (máximo 30 palavras)"},"mapa_mental":{"centro":"'+mod+'","ramos":[{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto"]}, ...]},"teste_imediato":[{"enunciado":"questão 1 curta no estilo '+SEL_BANCA+'","alternativas":{"A":"...","B":"...","C":"...","D":"...","E":"..."},"gabarito":"letra","comentario":"explicação objetiva (máximo 40 palavras)"},{"enunciado":"questão 2 curta","alternativas":{"A":"...","B":"...","C":"...","D":"...","E":"..."},"gabarito":"letra","comentario":"explicação objetiva (máximo 40 palavras)"},{"enunciado":"questão 3 curta","alternativas":{"A":"...","B":"...","C":"...","D":"...","E":"..."},"gabarito":"letra","comentario":"explicação objetiva (máximo 40 palavras)"}]}\n\nLimite a no máximo 4 tópicos em "teoria". No "mapa_mental", o array "ramos" deve ter entre 3 e 8 itens — escolha a quantidade que realmente reflita as subdivisões naturais do assunto "'+mod+'" (não force sempre o mesmo número). Seja sucinto em todos os campos de texto.';
+    '{"titulo":"título curto da apostila","introducao":"introdução breve (1 parágrafo, máximo 40 palavras)","teoria":[{"topico":"nome do tópico","conteudo":"explicação objetiva (60 a 90 palavras)","ancoragem":"exemplo curto ou mnemônico (máximo 30 palavras)","alerta":"pegadinha específica da banca '+SEL_BANCA+' (máximo 30 palavras)"}],"raio_x_banca":{"pegadinhas":["pegadinha curta 1","pegadinha curta 2","pegadinha curta 3"],"temas_quentes":["tema 1","tema 2","tema 3"],"dica_banca":"dica curta sobre o estilo da banca '+SEL_BANCA+' (máximo 30 palavras)"},"mapa_mental":{"centro":"'+mod+'","ramos":[{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto"]}]},"teste_imediato":[{"enunciado":"questão 1 curta no estilo '+SEL_BANCA+'","alternativas":{"A":"...","B":"...","C":"...","D":"...","E":"..."},"gabarito":"letra","comentario":"explicação objetiva (máximo 40 palavras)"},{"enunciado":"questão 2 curta","alternativas":{"A":"...","B":"...","C":"...","D":"...","E":"..."},"gabarito":"letra","comentario":"explicação objetiva (máximo 40 palavras)"},{"enunciado":"questão 3 curta","alternativas":{"A":"...","B":"...","C":"...","D":"...","E":"..."},"gabarito":"letra","comentario":"explicação objetiva (máximo 40 palavras)"}]}\n\nLimite a no máximo 4 tópicos em "teoria". Seja sucinto em todos os campos de texto.';
 
   fetch('/api/generate',{
     method:'POST',
@@ -942,8 +903,7 @@ function gerar(){
     APO_COUNT++;
     document.getElementById('gcnt').textContent=APO_COUNT;
     document.getElementById('dcnt').textContent=APO_COUNT;
-    document.getElementById('gfill').style.width=Math.min(100,APO_COUNT/maxAp*100)+'%';
-    salvarApostilasMes(APO_COUNT);
+    document.getElementById('gfill').style.width=Math.min(100,APO_COUNT/30*100)+'%';
     renderApostila(data,disc,mod);
   })
   .catch(function(e){
@@ -1055,105 +1015,50 @@ function responder(qi,letra,gab,comentario){
   gabEl.classList.add('show');
 }
 
-function wrapSVGText(text,maxChars){
-  var words=(text||'').toString().split(' ');
-  var lines=[],cur='';
-  words.forEach(function(wd){
-    var test=(cur?cur+' ':'')+wd;
-    if(test.length>maxChars&&cur){lines.push(cur);cur=wd;}
-    else cur=test;
-  });
-  if(cur)lines.push(cur);
-  if(!lines.length)lines.push('');
-  return lines;
-}
-
 function buildSVG(mm){
-  var ramos=(mm.ramos||[]).slice(0,8);
-  var colors=['#2563eb','#f97316','#ca8a04','#9333ea','#16a34a','#dc2626','#0891b2','#db2777'];
-  var iconsArr=['📘','🔥','⭐','🔑','🌿','⚡','🎯','📌'];
-  var leftItems=[],rightItems=[];
-  var half=Math.ceil(ramos.length/2);
-  ramos.forEach(function(r,i){(i<half?leftItems:rightItems).push({r:r,i:i});});
-
-  var boxW=280,sideMargin=30,titleFS=13,subFS=10.5;
-
-  function buildColumn(items){
-    var blocks=[],y=0;
-    items.forEach(function(it){
-      var r=it.r,i=it.i;
-      var color=colors[i%colors.length];
-      var icon=iconsArr[i%iconsArr.length];
-      var titleLines=wrapSVGText((r.titulo||'').toUpperCase(),26);
-      var titleH=14+titleLines.length*16;
-      var subBlocks=[];
-      (r.subitens||[]).slice(0,3).forEach(function(s){
-        var lines=wrapSVGText(s,34);
-        subBlocks.push({lines:lines,h:10+lines.length*13});
+  var cx=350,cy=210,cr=52;
+  var ramos=mm.ramos||[];
+  var w=760,h=460;
+  var svg='<svg viewBox="0 0 '+w+' '+h+'" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;">';
+  var colors=['#f0b429','#3b82f6','#10b981','#a855f7','#ef4444','#f97316'];
+  var total=ramos.length;
+  var angles=[];
+  for(var i=0;i<total;i++)angles.push((i/total)*2*Math.PI - Math.PI/2);
+  var rx=260,ry=160;
+  ramos.forEach(function(r,i){
+    var a=angles[i];
+    var bx=Math.round(cx+rx*Math.cos(a)),by=Math.round(cy+ry*Math.sin(a));
+    var c=colors[i%colors.length];
+    var labelW=Math.max(90,Math.min(150,(r.titulo||'').length*7+24));
+    svg+='<line x1="'+cx+'" y1="'+cy+'" x2="'+bx+'" y2="'+by+'" stroke="'+c+'" stroke-width="2" stroke-dasharray="4,3" opacity="0.5"/>';
+    svg+='<rect x="'+(bx-labelW/2)+'" y="'+(by-14)+'" width="'+labelW+'" height="28" rx="8" fill="'+c+'" opacity="0.18"/>';
+    svg+='<text x="'+bx+'" y="'+(by+4)+'" text-anchor="middle" font-size="11" font-weight="700" fill="'+c+'">'+escapeXML(r.titulo)+'</text>';
+    if(r.subitens&&r.subitens.length){
+      var subs=r.subitens.slice(0,4);
+      var spread=Math.min(0.7,0.18*subs.length);
+      subs.forEach(function(s,si){
+        var sa=a+(si-(subs.length-1)/2)*(spread/Math.max(1,subs.length-1)||0.3);
+        var sr=rx*0.46,sry=ry*0.46;
+        var sx=Math.round(bx+sr*Math.cos(sa)*0.55+ (bx-cx)*0.25),sy=Math.round(by+sry*Math.sin(sa)*0.55+(by-cy)*0.25);
+        var sLabel = s.length>22 ? s.substring(0,21)+'…' : s;
+        var subW = Math.max(70,sLabel.length*6+16);
+        var anchorX = bx>cx? sx : sx;
+        svg+='<line x1="'+bx+'" y1="'+by+'" x2="'+sx+'" y2="'+sy+'" stroke="'+c+'" stroke-width="1" opacity="0.35"/>';
+        svg+='<rect x="'+(sx-subW/2)+'" y="'+(sy-9)+'" width="'+subW+'" height="18" rx="5" fill="'+c+'" opacity="0.1"/>';
+        svg+='<text x="'+sx+'" y="'+(sy+3)+'" text-anchor="middle" font-size="8.5" fill="'+c+'" opacity="0.9">'+escapeXML(sLabel)+'</text>';
       });
-      blocks.push({i:i,color:color,icon:icon,titleLines:titleLines,titleH:titleH,subBlocks:subBlocks,y:y});
-      var blockTotal=titleH+6+subBlocks.reduce(function(a,b){return a+b.h+6;},0);
-      y+=blockTotal+26;
-    });
-    return {blocks:blocks,totalH:y>0?y-26:0};
-  }
-
-  var leftCol=buildColumn(leftItems);
-  var rightCol=buildColumn(rightItems);
-  var contentH=Math.max(leftCol.totalH,rightCol.totalH,180);
-  var topMargin=110,bottomMargin=30;
-  var h=topMargin+contentH+bottomMargin;
-  var w=920,cx=w/2;
-  var cyContent=topMargin+contentH/2;
-
-  var svg='<svg viewBox="0 0 '+w+' '+h+'" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:920px;display:block;margin:0 auto;font-family:Inter,sans-serif;background:#fff;">';
-
-  var centro=mm.centro||'';
-  svg+='<text x="'+cx+'" y="40" text-anchor="middle" font-size="21" font-weight="900" fill="#0a1628">'+escapeXML((centro||'Mapa Mental').toUpperCase())+'</text>';
-  svg+='<text x="'+(cx-230)+'" y="40" text-anchor="middle" font-size="18" fill="#f0b429" font-weight="900">»</text>';
-  svg+='<text x="'+(cx+230)+'" y="40" text-anchor="middle" font-size="18" fill="#f0b429" font-weight="900">«</text>';
-  svg+='<line x1="'+(cx-260)+'" y1="55" x2="'+(cx+260)+'" y2="55" stroke="#e2e8f0" stroke-width="1.5"/>';
-
-  var boxCW=170,boxCH=74;
-  svg+='<rect x="'+(cx-boxCW/2)+'" y="'+(cyContent-boxCH/2)+'" width="'+boxCW+'" height="'+boxCH+'" rx="16" fill="#0a1628" stroke="#f0b429" stroke-width="3"/>';
-  svg+='<text x="'+cx+'" y="'+(cyContent-6)+'" text-anchor="middle" font-size="19">📖</text>';
-  var centroLines=wrapSVGText(centro,18);
-  centroLines.slice(0,2).forEach(function(line,li){
-    svg+='<text x="'+cx+'" y="'+(cyContent+16+li*15)+'" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">'+escapeXML(line)+'</text>';
+    }
   });
-
-  function renderColumn(col,side){
-    var startY=cyContent-col.totalH/2;
-    col.blocks.forEach(function(b){
-      var blockY=startY+b.y;
-      var boxX=side==='left'?sideMargin:(w-sideMargin-boxW);
-      var arrowFromX=side==='left'?cx-boxCW/2-8:cx+boxCW/2+8;
-      var arrowToX=side==='left'?boxX+boxW+6:boxX-6;
-      var arrowY=blockY+b.titleH/2;
-      var dir=side==='left'?1:-1;
-      svg+='<line x1="'+arrowFromX+'" y1="'+cyContent+'" x2="'+arrowToX+'" y2="'+arrowY+'" stroke="'+b.color+'" stroke-width="5" stroke-linecap="round" opacity="0.55"/>';
-      svg+='<polygon points="'+arrowToX+','+(arrowY-7)+' '+arrowToX+','+(arrowY+7)+' '+(arrowToX+dir*11)+','+arrowY+'" fill="'+b.color+'" opacity="0.85"/>';
-
-      svg+='<rect x="'+boxX+'" y="'+blockY+'" width="'+boxW+'" height="'+b.titleH+'" rx="10" fill="'+b.color+'" opacity="0.13" stroke="'+b.color+'" stroke-width="1.5"/>';
-      svg+='<text x="'+(boxX+12)+'" y="'+(blockY+18)+'" font-size="13">'+b.icon+'</text>';
-      b.titleLines.forEach(function(line,li){
-        svg+='<text x="'+(boxX+32)+'" y="'+(blockY+18+li*16)+'" font-size="'+titleFS+'" font-weight="800" fill="'+b.color+'">'+escapeXML(line)+'</text>';
-      });
-
-      var subY=blockY+b.titleH+6;
-      b.subBlocks.forEach(function(sb){
-        svg+='<rect x="'+(boxX+8)+'" y="'+subY+'" width="'+(boxW-16)+'" height="'+sb.h+'" rx="6" fill="#fff" stroke="'+b.color+'" stroke-width="1" opacity="0.9"/>';
-        svg+='<rect x="'+(boxX+8)+'" y="'+subY+'" width="3" height="'+sb.h+'" fill="'+b.color+'"/>';
-        sb.lines.forEach(function(line,li){
-          svg+='<text x="'+(boxX+18)+'" y="'+(subY+13+li*13)+'" font-size="'+subFS+'" fill="#1e293b">'+escapeXML(line)+'</text>';
-        });
-        subY+=sb.h+6;
-      });
-    });
+  svg+='<circle cx="'+cx+'" cy="'+cy+'" r="'+cr+'" fill="#0a1628" stroke="'+colors[0]+'" stroke-width="2.5"/>';
+  var centro=mm.centro||'';
+  var words=centro.split(' ');
+  if(centro.length<=14){svg+='<text x="'+cx+'" y="'+(cy+5)+'" text-anchor="middle" font-size="12" font-weight="800" fill="'+colors[0]+'">'+escapeXML(centro)+'</text>';}
+  else{
+    var mid=Math.ceil(words.length/2);
+    var l1=words.slice(0,mid).join(' '),l2=words.slice(mid).join(' ');
+    svg+='<text x="'+cx+'" y="'+(cy-4)+'" text-anchor="middle" font-size="10.5" font-weight="800" fill="'+colors[0]+'">'+escapeXML(l1)+'</text>';
+    svg+='<text x="'+cx+'" y="'+(cy+10)+'" text-anchor="middle" font-size="10.5" font-weight="800" fill="'+colors[0]+'">'+escapeXML(l2)+'</text>';
   }
-  renderColumn(leftCol,'left');
-  renderColumn(rightCol,'right');
-
   svg+='</svg>';
   return svg;
 }
@@ -1186,8 +1091,8 @@ function toggleB(){
   document.getElementById('tog').classList.toggle('anl',isAnl);
   document.getElementById('lm').classList.toggle('on',!isAnl);
   document.getElementById('la').classList.toggle('on',isAnl);
-  ['em','pm','epld-m','ppld-m'].forEach(function(id){document.getElementById(id).classList.toggle('show',!isAnl);});
-  ['ea','pa','epld-a','ppld-a'].forEach(function(id){document.getElementById(id).classList.toggle('show',isAnl);});
+  ['em','pm'].forEach(function(id){document.getElementById(id).classList.toggle('show',!isAnl);});
+  ['ea','pa'].forEach(function(id){document.getElementById(id).classList.toggle('show',isAnl);});
 }
 
 // ══════════════════════════════════════
