@@ -947,7 +947,8 @@ function renderApostila(d,disc,mod){
   // body
   var body=document.getElementById('a-body');
   var html='';
-
+  var canPDF = (CUR_PLANO==='pro'||CUR_PLANO==='trial');
+  
   // teoria
   if(d.teoria&&d.teoria.length){
     html+='<div class="ablock"><div class="ablock-title">📖 Teoria</div>';
@@ -974,9 +975,12 @@ function renderApostila(d,disc,mod){
     html+='</div></div>';
   }
 
-  // mapa mental
+// mapa mental
   if(d.mapa_mental){
-    html+='<div class="ablock"><div class="ablock-title">🗺️ Mapa Mental</div><div class="mapa-svg-wrap">'+buildSVG(d.mapa_mental)+'</div></div>';
+    html+='<div class="ablock"><div class="ablock-title" style="display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap;"><span>🗺️ Mapa Mental</span>'+
+      (canPDF?'<button class="aact-btn aact-o" style="padding:.4rem .9rem;font-size:.78rem;" onclick="imprimirMapaMental()">🖨️ Imprimir em A4</button>':
+      '<span class="lock-msg">🔒 Impressão do mapa no plano Pro</span>')+
+      '</div><div class="mapa-svg-wrap">'+buildSVG(d.mapa_mental)+'</div></div>';
   }
 
   // teste
@@ -995,7 +999,6 @@ function renderApostila(d,disc,mod){
   body.innerHTML=html;
 
   // ações
-  var canPDF = (CUR_PLANO==='pro'||CUR_PLANO==='trial');
   var actEl=document.getElementById('a-actions');
   actEl.innerHTML='<button class="aact-btn aact-o" onclick="novaApostila()">📋 Nova apostila</button>'+
     (canPDF?'<button class="aact-btn aact-d" onclick="imprimirPDF()">🖨️ Imprimir / Salvar PDF</button>':
@@ -1086,7 +1089,29 @@ function imprimirPDF(){
   document.body.appendChild(a);a.click();
   setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},1000);
 }
-
+function imprimirMapaMental(){
+  if(!CUR_DATA||!CUR_DATA.mapa_mental){alert('Gere uma apostila primeiro.');return;}
+  var svg=buildSVG(CUR_DATA.mapa_mental);
+  var titulo=escHTML(CUR_DATA.titulo||'Mapa Mental');
+  var w=window.open('','_blank');
+  if(!w){alert('Seu navegador bloqueou a janela de impressão. Permita pop-ups para este site e tente novamente.');return;}
+  var htmlDoc='<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Mapa Mental — '+titulo+'</title>'+
+    '<style>'+
+      '@page{size:A4 landscape;margin:1cm;}'+
+      'html,body{margin:0;padding:0;height:100%;background:#fff;font-family:Inter,sans-serif;}'+
+      '.mm-print-head{text-align:center;padding:6px 0 2px;font-size:13px;font-weight:700;color:#0a1628;}'+
+      '.mm-print-wrap{width:100%;height:calc(100vh - 26px);display:flex;align-items:center;justify-content:center;box-sizing:border-box;padding:6px;}'+
+      '.mm-print-wrap svg{width:100%;height:100%;}'+
+      '@media print{.mm-print-head{padding-top:0;}}'+
+    '</style></head><body>'+
+      '<div class="mm-print-head">'+titulo+' — Mapa Mental · AprendAI</div>'+
+      '<div class="mm-print-wrap">'+svg+'</div>'+
+      '<script>window.onload=function(){setTimeout(function(){window.print();},300);};<\/script>'+
+    '</body></html>';
+  w.document.open();
+  w.document.write(htmlDoc);
+  w.document.close();
+}
 // ══════════════════════════════════════
 // LINKS DE CHECKOUT HOTMART
 // ══════════════════════════════════════
