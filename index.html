@@ -634,30 +634,15 @@ var SB_KEY  = 'sb_publishable_iGmTY-Ry_S90JyK9L5QZNg_k1hmJlos';
 // ══════════════════════════════════════
 // DISCIPLINAS E MÓDULOS
 // ══════════════════════════════════════
-var DISCS = {
-  "Direito Tributário":{"mod":["Obrigação Tributária", "Crédito Tributário", "Lançamento Tributário", "Extinção do Crédito Tributário", "Exclusão do Crédito Tributário", "Responsabilidade Tributária", "Administração Tributária", "Dívida Ativa e Execução Fiscal", "Simples Nacional", "Impostos Federais", "Impostos Estaduais", "Impostos Municipais"],"ext":["CTN", "IPTU", "ISS", "ICMS", "IR", "IPI", "decadência", "prescrição", "compensação", "parcelamento", "crédito tributário", "lançamento"]},
-  "Direito Administrativo":{"mod":["Princípios da Administração Pública", "Organização Administrativa (Direta e Indireta)", "Poderes Administrativos", "Atos Administrativos", "Contratos Administrativos", "Licitações (Lei 14.133/21)", "Serviços Públicos", "Bens Públicos", "Responsabilidade Civil do Estado", "Controle da Administração", "Agentes Públicos e Regime Jurídico", "Improbidade Administrativa (Lei 8.429/92)", "Processo Administrativo (Lei 9.784/99)", "Lei de Acesso à Informação (Lei 12.527/11)", "Lei Geral de Proteção de Dados (LGPD)"],"ext":["Lei 8.112", "Lei 14.133", "pregão", "concurso público", "demissão", "sindicância", "discricionariedade", "autarquias", "fundações públicas", "empresas públicas", "sociedades de economia mista", "LAI", "LGPD"]},
-  "Direito Constitucional":{"mod":["Princípios Fundamentais", "Direitos e Garantias Fundamentais", "Poder Constituinte", "Organização do Estado", "Organização dos Poderes", "Poder Legislativo e Processo Legislativo", "Poder Executivo", "Poder Judiciário e CNJ", "Funções Essenciais à Justiça", "Controle de Constitucionalidade", "Tributação e Orçamento", "Ordem Social", "Defesa do Estado e Instituições Democráticas", "Crimes de Responsabilidade e Abuso de Autoridade"],"ext":["ADI", "ADPF", "mandado de segurança", "habeas corpus", "cláusulas pétreas", "remédios constitucionais", "CNJ", "PEC", "medida provisória", "abuso de autoridade"]},
-  "Contabilidade Geral":{"mod":["Patrimônio e Equação Patrimonial", "Atos e Fatos Administrativos", "Escrituração Contábil", "Plano de Contas", "Balancete de Verificação", "Balanço Patrimonial", "DRE", "DLPA e DMPL", "DFC", "Estoques", "Ativo Imobilizado", "Depreciação", "Provisões e Contingências", "Lei das Sociedades por Ações (6.404/76)", "NBC TG, NBC TSP e CPC"],"ext":["SPED", "lucro real", "lucro presumido", "CPC", "regime de competência", "juros sobre capital próprio", "balancete", "NBC TSP"]},
-  "Contabilidade de Custos":{"mod":["Conceitos e Terminologia", "Custeio por Absorção", "Custeio Variável", "Custeio ABC", "Ponto de Equilíbrio", "Margem de Contribuição", "Custos para Decisão", "Orçamento e Controle"],"ext":["custo fixo", "custo variável", "overhead", "rateio", "margem de segurança"]},
-  "Auditoria":{"mod":["Conceitos e Tipos de Auditoria", "Planejamento da Auditoria", "Controle Interno", "Risco de Auditoria", "Evidências e Procedimentos", "Papéis de Trabalho", "Relatório do Auditor", "Auditoria Governamental", "TCU — Normas e Jurisprudência", "CGU e Controle Interno"],"ext":["NBC TA", "materialidade", "ceticismo", "ISSAI", "auditoria operacional"]},
-  "Administração Pública":{"mod":["Teorias da Administração", "Reforma do Estado", "Nova Gestão Pública", "Governança Pública e Corporativa", "Accountability e Controle Social", "Planejamento Estratégico", "Balanced Scorecard (BSC)", "Gestão por Resultados e por Competências", "Gestão de Pessoas e Liderança", "Gestão de Projetos (PMBOK)", "Gestão de Processos (BPM)", "Processo Administrativo (Lei 9.784)", "Políticas Públicas", "Ética no Serviço Público"],"ext":["PDRAE", "BSC", "OKR", "gestão de pessoas", "decreto 1.171", "PMBOK", "BPM CBOK", "accountability", "governança", "SWOT"]},
-  "Legislação Tributária":{"mod":["Legislação Federal", "Legislação Estadual", "Legislação Municipal", "ICMS", "ISS", "IPVA", "IPTU", "Simples Nacional", "Substituição Tributária"],"ext":["RICMS", "lei Kandir", "convênio ICMS", "regulamento"]},
-  "Economia":{"mod":["Oferta e Demanda", "Elasticidade", "Teoria do Consumidor", "Teoria da Firma", "Estruturas de Mercado", "Contas Nacionais", "Política Fiscal", "Política Monetária", "Inflação e Índices de Preços", "Setor Externo e Câmbio", "Matemática Financeira"],"ext":["PIB", "IPCA", "SELIC", "política cambial", "multiplicador fiscal", "juros compostos", "fluxo de caixa"]},
-  "Direito Civil":{"mod":["LINDB", "Pessoas Físicas e Jurídicas", "Bens", "Negócio Jurídico", "Prescrição e Decadência", "Obrigações", "Contratos", "Responsabilidade Civil", "Casamento e Regime de Bens", "União Estável", "Tutela, Curatela e Ausência", "Família", "Sucessões"],"ext":["LINDB", "CC 2002", "nulidade", "anulabilidade", "mora", "solidariedade", "regime de bens"]},
-  "Direito Processual Civil":{"mod":["Princípios do CPC", "Competência", "Partes e Procuradores", "Litisconsórcio e Intervenção de Terceiros", "Atos Processuais", "Tutelas de Urgência", "Provas", "Sentença e Coisa Julgada", "Ação Rescisória", "Recursos", "Processo de Execução", "Processo Cautelar"],"ext":["CPC 2015", "tutela antecipada", "embargos", "agravo de instrumento", "litisconsórcio"]},
-  "Raciocínio Lógico":{"mod":["Proposições Lógicas", "Conectivos e Tabela Verdade", "Equivalências Lógicas", "Leis de Morgan", "Lógica de Primeira Ordem", "Silogismo", "Conjuntos", "Sequências e Progressões", "Probabilidade", "Porcentagem", "Razão e Proporção"],"ext":["negação", "contrapositiva", "diagrama", "Morgan"]},
-  "Língua Portuguesa":{"mod":["Interpretação de Texto", "Tipos e Gêneros Textuais", "Coesão e Coerência", "Ortografia", "Acentuação Gráfica", "Classes de Palavras", "Concordância Nominal e Verbal", "Regência", "Crase", "Pontuação", "Reescrita de Frases e Parágrafos", "Redação Oficial e Correspondência"],"ext":["certo errado", "frase", "oração", "período", "manual de redação da presidência"]},
-  "Direito Penal e Processo Penal":{"mod":["Aplicação da Lei Penal", "Teoria do Crime (Fato Típico, Ilicitude e Culpabilidade)", "Concurso de Pessoas e de Crimes", "Crimes contra a Pessoa", "Crimes contra o Patrimônio", "Crimes contra a Fé Pública", "Crimes contra a Administração Pública", "Das Penas e Extinção da Punibilidade", "Inquérito Policial", "Princípios do Processo Penal", "Competência e Jurisdição Penal", "Prisão e Medidas Cautelares", "Provas no Processo Penal", "Sentença e Coisa Julgada Penal", "Recursos e Nulidades", "Juizados Especiais Criminais", "Habeas Corpus"],"ext":["CPP", "flagrante", "habeas corpus", "tentativa", "dolo", "culpa", "excludentes de ilicitude", "prisão temporária"]},
-  "Direitos Humanos":{"mod":["Direitos Humanos na Constituição Federal", "Sistema Internacional de Proteção", "Convenção contra a Tortura", "Convenção sobre Discriminação Racial", "Convenção sobre Discriminação contra a Mulher", "Proteção de Refugiados", "Uso da Força e Armas de Fogo", "Regras da ONU para Pessoas Presas"],"ext":["ONU", "genocídio", "refugiados", "discriminação racial", "tortura", "Havana"]},
-  "Legislação Penal Especial":{"mod":["Lei de Drogas (Lei 11.343/06)", "Estatuto do Desarmamento (Lei 10.826/03)", "Crimes de Tortura (Lei 9.455/97)", "ECA — Aspectos Penais e Processuais (Lei 8.069/90)", "Lei de Migração (Lei 13.445/17)", "Crimes Ambientais (Lei 9.605/98)", "Lei Maria da Penha (Lei 11.340/06)", "Crimes Hediondos (Lei 8.072/90)"],"ext":["tráfico de drogas", "arma de fogo", "tortura", "ECA", "migração", "feminicídio"]},
-  "Informática":{"mod":["Hardware e Software", "Sistemas Operacionais (Windows e Linux)", "Pacote Office (Word, Excel, PowerPoint)", "Redes de Computadores e Internet", "Segurança da Informação", "Banco de Dados e SQL", "Computação em Nuvem", "Inteligência Artificial e Machine Learning", "Big Data e Business Intelligence", "Backup e Armazenamento de Dados"],"ext":["TCP/IP", "firewall", "antivírus", "phishing", "malware", "SQL", "backup", "VPN"]},
-  "Estatística":{"mod":["Estatística Descritiva", "Probabilidade e Probabilidade Condicional", "Variáveis Aleatórias e Distribuições", "Medidas de Tendência Central", "Medidas de Dispersão", "Inferência Estatística", "Técnicas de Amostragem", "Correlação e Regressão Linear"],"ext":["desvio padrão", "teorema central do limite", "distribuição normal", "Bayes", "amostragem"]},
-  "Língua Inglesa":{"mod":["Compreensão de Textos Variados", "Vocabulário e Estrutura da Língua", "Itens Gramaticais Relevantes", "Formas Contemporâneas da Linguagem"],"ext":["reading comprehension", "grammar", "vocabulary"]},
-  "Ciência Política":{"mod":["Teoria Política", "Regimes Políticos", "Sistemas e Formas de Governo", "Representação e Sistemas Eleitorais", "Teoria dos Partidos Políticos", "Teoria do Estado", "Formação do Estado Brasileiro"],"ext":["parlamentarismo", "presidencialismo", "voto", "partidos políticos"]},
-  "Arquivologia":{"mod":["Princípios e Conceitos Arquivísticos", "Gestão de Documentos", "Protocolo e Tramitação", "Classificação de Documentos", "Avaliação e Tabela de Temporalidade", "Arquivos Correntes, Intermediários e Permanentes", "Preservação e Conservação de Documentos", "Documentos Digitais e GED"],"ext":["tabela de temporalidade", "protocolo", "GED", "microfilmagem"]},
-  "Administração Orçamentária e Financeira":{"mod":["Plano Plurianual (PPA)", "Lei de Diretrizes Orçamentárias (LDO)", "Lei Orçamentária Anual (LOA)", "Ciclo orçamentário", "Lei de Responsabilidade Fiscal (LC 101/2000)", "Execução Orçamentária e Financeira", "Empenho, Liquidação e Pagamento", "Restos a Pagar", "Créditos Adicionais"],"ext":["PPA", "LDO", "LOA", "LRF", "empenho", "Lei 4.320"]}
-};
+var DISCS = {};
+var DISCS_LOADED = false;
+
+function carregarDiscs(){
+  return fetch('/api/disciplinas')
+    .then(function(r){ return r.json(); })
+    .then(function(d){ DISCS = d; DISCS_LOADED = true; })
+    .catch(function(){ DISCS_LOADED = true; });
+}
 
 // ══════════════════════════════════════
 // ESTADO GLOBAL
@@ -687,7 +672,15 @@ function go(page) {
   document.getElementById('nav-gen').style.display   = isLogged ? '' : 'none';
   document.getElementById('nav-mid').style.display   = (page==='landing') ? 'flex' : 'none';
   window.scrollTo(0,0);
-  if(page==='gen') initGerador();
+  if(page==='gen'){
+    if(DISCS_LOADED){
+      initGerador();
+    } else {
+      var selD=document.getElementById('gdisc');
+      selD.innerHTML='<option value="">Carregando disciplinas...</option>';
+      carregarDiscs().then(initGerador);
+    }
+  }
 }
 
 // ══════════════════════════════════════
