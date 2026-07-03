@@ -674,6 +674,26 @@ function sbPost(path,body,tok){
 function sbGet(path,tok){
   return fetch(SB_URL+path,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+(tok||SB_KEY)}}).then(function(r){return r.json();});
 }
+function sbPut(path,body,tok){
+  return fetch(SB_URL+path,{method:'PUT',headers:{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+(tok||SB_KEY)},body:JSON.stringify(body)}).then(function(r){return r.json();});
+}
+// Salva o contador de apostilas geradas no Supabase (user_metadata), para
+// persistir entre sessões e sincronizar entre aparelhos diferentes.
+// PUT /auth/v1/user faz merge com o restante do user_metadata (não apaga plano, nome etc).
+function persistApoCount(){
+  var tok=localStorage.getItem('sb_tok');
+  if(!tok)return;
+  sbPut('/auth/v1/user',{data:{apostilas_mes:APO_COUNT}},tok)
+    .then(function(u){
+      if(u&&u.id){
+        CUR_USER=u;
+        localStorage.setItem('sb_usr',JSON.stringify(u));
+      }else{
+        console.error('Falha ao salvar contador de apostilas:',u);
+      }
+    })
+    .catch(function(e){console.error('Falha ao salvar contador de apostilas:',e);});
+}
 function stab(t){
   hideA(); clearE();
   var isL=t==='login';
