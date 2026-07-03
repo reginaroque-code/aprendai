@@ -1,1 +1,527 @@
-admin.html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>AprendAI — Administração de Disciplinas</title>
+<style>
+  :root{
+    --navy:#0D2550;
+    --navy-light:#16386f;
+    --gold:#F0A500;
+    --bg:#f4f6fb;
+    --card:#ffffff;
+    --line:#e2e6ef;
+    --text:#1c2740;
+    --muted:#68728a;
+    --danger:#c0392b;
+    --danger-bg:#fdecea;
+    --ok:#1e8e5a;
+    --ok-bg:#e8f7f0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--text);
+  }
+
+  /* ---------- Tela de login ---------- */
+  #login-screen{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+  }
+  .login-box{
+    background:var(--card);
+    border-radius:16px;
+    padding:40px 32px;
+    width:100%;
+    max-width:360px;
+    box-shadow:0 10px 40px rgba(13,37,80,0.12);
+    text-align:center;
+  }
+  .login-box .logo{
+    font-weight:800;
+    font-size:1.4rem;
+    color:var(--navy);
+    margin-bottom:4px;
+  }
+  .login-box .sub{
+    color:var(--muted);
+    font-size:.85rem;
+    margin-bottom:24px;
+  }
+  .login-box input{
+    width:100%;
+    padding:12px 14px;
+    border-radius:10px;
+    border:1.5px solid var(--line);
+    font-size:.95rem;
+    margin-bottom:12px;
+  }
+  .login-box input:focus{outline:none;border-color:var(--gold);}
+  .btn{
+    display:inline-block;
+    border:none;
+    border-radius:10px;
+    padding:12px 20px;
+    font-size:.92rem;
+    font-weight:700;
+    cursor:pointer;
+    transition:transform .1s ease, opacity .15s ease;
+  }
+  .btn:active{transform:scale(.98);}
+  .btn-primary{background:var(--navy);color:#fff;width:100%;}
+  .btn-primary:hover{background:var(--navy-light);}
+  .btn-gold{background:var(--gold);color:var(--navy);}
+  .btn-gold:hover{opacity:.9;}
+  .btn-ghost{background:transparent;color:var(--muted);border:1.5px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--muted);}
+  .btn-danger{background:var(--danger-bg);color:var(--danger);}
+  .btn-danger:hover{background:#fbdbd7;}
+  .login-err{
+    color:var(--danger);
+    font-size:.82rem;
+    margin-bottom:10px;
+    min-height:1em;
+  }
+
+  /* ---------- App principal ---------- */
+  #app{display:none;}
+  header.top{
+    background:var(--navy);
+    color:#fff;
+    padding:18px 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  header.top h1{
+    font-size:1.15rem;
+    margin:0;
+    font-weight:800;
+  }
+  header.top h1 span{color:var(--gold);}
+  header.top .actions{display:flex;gap:10px;align-items:center;}
+
+  main{
+    max-width:920px;
+    margin:0 auto;
+    padding:28px 20px 80px;
+  }
+
+  .toolbar{
+    display:flex;
+    gap:10px;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+  }
+  .toolbar input[type="text"]{
+    flex:1;
+    min-width:200px;
+    padding:10px 14px;
+    border-radius:10px;
+    border:1.5px solid var(--line);
+    font-size:.9rem;
+  }
+
+  .msg{
+    padding:10px 14px;
+    border-radius:10px;
+    font-size:.85rem;
+    margin-bottom:16px;
+    display:none;
+  }
+  .msg.show{display:block;}
+  .msg.ok{background:var(--ok-bg);color:var(--ok);}
+  .msg.err{background:var(--danger-bg);color:var(--danger);}
+
+  .disc-card{
+    background:var(--card);
+    border:1.5px solid var(--line);
+    border-radius:14px;
+    margin-bottom:12px;
+    overflow:hidden;
+  }
+  .disc-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 18px;
+    cursor:pointer;
+    gap:10px;
+  }
+  .disc-head:hover{background:#fafbfd;}
+  .disc-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:700;
+    font-size:.98rem;
+  }
+  .badge{
+    font-size:.68rem;
+    font-weight:700;
+    padding:3px 9px;
+    border-radius:50px;
+  }
+  .badge.on{background:var(--ok-bg);color:var(--ok);}
+  .badge.off{background:#f0f1f5;color:var(--muted);}
+  .count{color:var(--muted);font-size:.8rem;font-weight:500;}
+  .chev{color:var(--muted);transition:transform .15s ease;}
+  .disc-card.open .chev{transform:rotate(180deg);}
+
+  .disc-body{
+    display:none;
+    padding:0 18px 18px;
+    border-top:1px solid var(--line);
+  }
+  .disc-card.open .disc-body{display:block;}
+  .pills{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0;}
+  .pill{
+    background:#f0f2f8;
+    color:var(--navy);
+    font-size:.78rem;
+    padding:5px 11px;
+    border-radius:50px;
+  }
+  .pill.kw{background:#fff6e6;color:#8a6100;}
+  .disc-actions{display:flex;gap:8px;margin-top:10px;}
+  .disc-actions .btn{padding:8px 14px;font-size:.82rem;}
+
+  /* ---------- Formulário ---------- */
+  #form-card{
+    background:var(--card);
+    border:1.5px solid var(--line);
+    border-radius:14px;
+    padding:22px;
+    margin-bottom:24px;
+    display:none;
+  }
+  #form-card.show{display:block;}
+  #form-card h2{font-size:1.02rem;margin:0 0 16px;}
+  .field{margin-bottom:14px;}
+  .field label{
+    display:block;
+    font-size:.82rem;
+    font-weight:700;
+    color:var(--navy);
+    margin-bottom:5px;
+  }
+  .field .hint{
+    font-weight:400;
+    color:var(--muted);
+    font-size:.78rem;
+  }
+  .field input[type="text"], .field input[type="number"], .field textarea{
+    width:100%;
+    padding:10px 12px;
+    border-radius:9px;
+    border:1.5px solid var(--line);
+    font-size:.88rem;
+    font-family:inherit;
+    resize:vertical;
+  }
+  .field textarea{min-height:110px;line-height:1.5;}
+  .field input:focus, .field textarea:focus{outline:none;border-color:var(--gold);}
+  .row2{display:flex;gap:14px;flex-wrap:wrap;}
+  .row2 > div{flex:1;min-width:140px;}
+  .check{display:flex;align-items:center;gap:8px;font-size:.85rem;}
+  .form-actions{display:flex;gap:10px;margin-top:18px;}
+
+  .empty{
+    text-align:center;
+    color:var(--muted);
+    padding:40px 20px;
+    font-size:.9rem;
+  }
+  .loading{
+    text-align:center;
+    color:var(--muted);
+    padding:40px 20px;
+    font-size:.9rem;
+  }
+
+  @media(max-width:600px){
+    header.top{padding:14px 16px;}
+    main{padding:20px 14px 60px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ TELA DE LOGIN ═══════════ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="logo">Aprend<span style="color:#F0A500">AI</span></div>
+    <div class="sub">Administração de disciplinas</div>
+    <div class="login-err" id="login-err"></div>
+    <input type="password" id="senha-input" placeholder="Senha de administradora" autocomplete="off">
+    <button class="btn btn-primary" onclick="login()">Entrar</button>
+  </div>
+</div>
+
+<!-- ═══════════ APP PRINCIPAL ═══════════ -->
+<div id="app">
+  <header class="top">
+    <h1>Aprend<span>AI</span> · Disciplinas</h1>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="abrirFormNovo()">+ Nova disciplina</button>
+      <button class="btn btn-ghost" onclick="sair()">Sair</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="msg" id="msg"></div>
+
+    <!-- Formulário de criar/editar -->
+    <div id="form-card">
+      <h2 id="form-title">Nova disciplina</h2>
+      <input type="hidden" id="f-id">
+      <input type="hidden" id="f-nome-original">
+
+      <div class="field">
+        <label>Nome da disciplina</label>
+        <input type="text" id="f-nome" placeholder="Ex: Direito Tributário">
+      </div>
+
+      <div class="field">
+        <label>Assuntos <span class="hint">— um por linha, na ordem que devem aparecer</span></label>
+        <textarea id="f-modulos" placeholder="Obrigação Tributária&#10;Crédito Tributário&#10;Lançamento Tributário"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Palavras-chave <span class="hint">— um por linha, ajuda a IA a localizar o assunto certo</span></label>
+        <textarea id="f-keywords" placeholder="CTN&#10;IPTU&#10;ICMS" style="min-height:80px;"></textarea>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label>Ordem <span class="hint">— menor número aparece primeiro</span></label>
+          <input type="number" id="f-ordem" value="0">
+        </div>
+        <div class="field" style="display:flex;align-items:flex-end;">
+          <label class="check" style="margin-bottom:10px;">
+            <input type="checkbox" id="f-ativo" checked>
+            Visível no site
+          </label>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="salvar()">Salvar disciplina</button>
+        <button class="btn btn-ghost" onclick="fecharForm()">Cancelar</button>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input type="text" id="busca" placeholder="Buscar disciplina..." oninput="renderLista()">
+    </div>
+
+    <div id="lista"></div>
+  </main>
+</div>
+
+<script>
+let SENHA = '';
+let DISCIPLINAS = [];
+
+function login(){
+  const input = document.getElementById('senha-input');
+  const err = document.getElementById('login-err');
+  const senha = input.value.trim();
+  if(!senha){ err.textContent = 'Digite a senha.'; return; }
+  err.textContent = '';
+  SENHA = senha;
+  carregarLista(true);
+}
+
+document.getElementById('senha-input').addEventListener('keydown', function(e){
+  if(e.key === 'Enter') login();
+});
+
+function sair(){
+  SENHA = '';
+  DISCIPLINAS = [];
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('senha-input').value = '';
+}
+
+function mostrarMsg(texto, tipo){
+  const el = document.getElementById('msg');
+  el.textContent = texto;
+  el.className = 'msg show ' + tipo;
+  setTimeout(()=>{ el.className = 'msg'; }, 4000);
+}
+
+async function chamarAPI(method, body){
+  const opts = {
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+      'x-admin-password': SENHA
+    }
+  };
+  if(body) opts.body = JSON.stringify(body);
+  const r = await fetch('/api/admin-disciplinas', opts);
+  const data = await r.json().catch(()=>({}));
+  if(r.status === 401){
+    throw new Error('SENHA_INVALIDA');
+  }
+  if(!r.ok){
+    throw new Error(data.error || 'Erro na operação');
+  }
+  return data;
+}
+
+async function carregarLista(primeiraVez){
+  const lista = document.getElementById('lista');
+  if(primeiraVez) lista.innerHTML = '<div class="loading">Carregando disciplinas...</div>';
+  try{
+    const data = await chamarAPI('GET');
+    DISCIPLINAS = data;
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    renderLista();
+  }catch(e){
+    if(e.message === 'SENHA_INVALIDA'){
+      document.getElementById('login-err').textContent = 'Senha incorreta.';
+    }else{
+      lista.innerHTML = '<div class="empty">Não foi possível carregar as disciplinas. Tente novamente.</div>';
+      mostrarMsg('Erro ao carregar: ' + e.message, 'err');
+    }
+  }
+}
+
+function renderLista(){
+  const termo = document.getElementById('busca').value.trim().toLowerCase();
+  const lista = document.getElementById('lista');
+  const filtradas = DISCIPLINAS.filter(d => d.nome.toLowerCase().includes(termo));
+
+  if(filtradas.length === 0){
+    lista.innerHTML = '<div class="empty">Nenhuma disciplina encontrada.</div>';
+    return;
+  }
+
+  lista.innerHTML = filtradas.map(d => {
+    const mod = d.modulos || [];
+    const kw = d.palavras_chave || [];
+    return `
+      <div class="disc-card" id="card-${d.id}">
+        <div class="disc-head" onclick="toggleCard('${d.id}')">
+          <div class="disc-title">
+            ${d.nome}
+            <span class="badge ${d.ativo ? 'on':'off'}">${d.ativo ? 'Visível' : 'Oculta'}</span>
+            <span class="count">${mod.length} assuntos</span>
+          </div>
+          <span class="chev">▾</span>
+        </div>
+        <div class="disc-body">
+          <div class="pills">
+            ${mod.map(m => `<span class="pill">${escapeHtml(m)}</span>`).join('')}
+          </div>
+          ${kw.length ? `<div class="pills">${kw.map(k => `<span class="pill kw">${escapeHtml(k)}</span>`).join('')}</div>` : ''}
+          <div class="disc-actions">
+            <button class="btn btn-ghost" onclick="abrirFormEdicao('${d.id}')">Editar</button>
+            <button class="btn btn-danger" onclick="confirmarExclusao('${d.id}','${escapeHtml(d.nome)}')">Apagar</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+function toggleCard(id){
+  document.getElementById('card-'+id).classList.toggle('open');
+}
+
+function abrirFormNovo(){
+  document.getElementById('form-title').textContent = 'Nova disciplina';
+  document.getElementById('f-id').value = '';
+  document.getElementById('f-nome-original').value = '';
+  document.getElementById('f-nome').value = '';
+  document.getElementById('f-modulos').value = '';
+  document.getElementById('f-keywords').value = '';
+  document.getElementById('f-ordem').value = (DISCIPLINAS.length + 1) * 10;
+  document.getElementById('f-ativo').checked = true;
+  document.getElementById('form-card').classList.add('show');
+  document.getElementById('f-nome').focus();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function abrirFormEdicao(id){
+  const d = DISCIPLINAS.find(x => x.id === id);
+  if(!d) return;
+  document.getElementById('form-title').textContent = 'Editar disciplina';
+  document.getElementById('f-id').value = d.id;
+  document.getElementById('f-nome-original').value = d.nome;
+  document.getElementById('f-nome').value = d.nome;
+  document.getElementById('f-modulos').value = (d.modulos||[]).join('\n');
+  document.getElementById('f-keywords').value = (d.palavras_chave||[]).join('\n');
+  document.getElementById('f-ordem').value = d.ordem || 0;
+  document.getElementById('f-ativo').checked = d.ativo !== false;
+  document.getElementById('form-card').classList.add('show');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function fecharForm(){
+  document.getElementById('form-card').classList.remove('show');
+}
+
+async function salvar(){
+  const nome = document.getElementById('f-nome').value.trim();
+  const modulosRaw = document.getElementById('f-modulos').value;
+  const kwRaw = document.getElementById('f-keywords').value;
+  const ordem = parseInt(document.getElementById('f-ordem').value) || 0;
+  const ativo = document.getElementById('f-ativo').checked;
+
+  const modulos = modulosRaw.split('\n').map(s=>s.trim()).filter(Boolean);
+  const palavras_chave = kwRaw.split('\n').map(s=>s.trim()).filter(Boolean);
+
+  if(!nome){ mostrarMsg('Digite o nome da disciplina.', 'err'); return; }
+  if(modulos.length === 0){ mostrarMsg('Inclua pelo menos um assunto.', 'err'); return; }
+
+  try{
+    await chamarAPI('POST', { nome, modulos, palavras_chave, ordem, ativo });
+    mostrarMsg('Disciplina salva com sucesso!', 'ok');
+    fecharForm();
+    await carregarLista(false);
+  }catch(e){
+    mostrarMsg('Erro ao salvar: ' + e.message, 'err');
+  }
+}
+
+function confirmarExclusao(id, nome){
+  if(confirm(`Apagar a disciplina "${nome}"? Essa ação não pode ser desfeita.`)){
+    apagar(id);
+  }
+}
+
+async function apagar(id){
+  try{
+    await chamarAPI('DELETE', { id });
+    mostrarMsg('Disciplina apagada.', 'ok');
+    await carregarLista(false);
+  }catch(e){
+    mostrarMsg('Erro ao apagar: ' + e.message, 'err');
+  }
+}
+</script>
+</body>
+</html>
