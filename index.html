@@ -924,11 +924,12 @@ function gerar(){
     var data=repairJSON(txt);
     if(!data){document.getElementById('gform').style.display='block';alert('Erro ao interpretar resposta. Tente novamente.');return;}
     CUR_DATA=data;
-    // incrementa contador
+    // incrementa contador e salva no Supabase (persistente entre sessões/aparelhos)
     APO_COUNT++;
     document.getElementById('gcnt').textContent=APO_COUNT;
     document.getElementById('dcnt').textContent=APO_COUNT;
     document.getElementById('gfill').style.width=Math.min(100,APO_COUNT/30*100)+'%';
+    persistApoCount();
     renderApostila(data,disc,mod);
   })
   .catch(function(e){
