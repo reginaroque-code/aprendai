@@ -701,22 +701,28 @@ function sbGet(path,tok){
 function sbPut(path,body,tok){
   return fetch(SB_URL+path,{method:'PUT',headers:{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+(tok||SB_KEY)},body:JSON.stringify(body)}).then(function(r){return r.json();});
 }
-// Salva o contador de apostilas geradas no Supabase (user_metadata), para
-// persistir entre sessões e sincronizar entre aparelhos diferentes.
-// PUT /auth/v1/user faz merge com o restante do user_metadata (não apaga plano, nome etc).
-function persistApoCount(){
+function mesRef(){
+  var d=new Date();
+  return d.getFullYear()+'-'+(d.getMonth()<9?'0':'')+(d.getMonth()+1);
+}
+function salvarContador(count){
   var tok=localStorage.getItem('sb_tok');
-  if(!tok)return;
-  sbPut('/auth/v1/user',{data:{apostilas_mes:APO_COUNT}},tok)
-    .then(function(u){
-      if(u&&u.id){
-        CUR_USER=u;
-        localStorage.setItem('sb_usr',JSON.stringify(u));
-      }else{
-        console.error('Falha ao salvar contador de apostilas:',u);
-      }
-    })
-    .catch(function(e){console.error('Falha ao salvar contador de apostilas:',e);});
+  if(!tok||!CUR_USER)return;
+  var mr=mesRef();
+  sbPut('/auth/v1/user',{data:{apostilas_mes:count,mes_ref:mr}},tok)
+    .then(function(u){if(u&&u.id){CUR_USER=u;localStorage.setItem('sb_usr',JSON.stringify(u));}})
+    .catch(function(e){console.error('Falha ao salvar contador:',e);});
+  if(CUR_USER.user_metadata){CUR_USER.user_metadata.apostilas_mes=count;CUR_USER.user_metadata.mes_ref=mr;}
+  localStorage.setItem('sb_usr',JSON.stringify(CUR_USER));
+}
+function limiteAtingido(){
+  var max=CUR_PLANO==='essencial'?30:(CUR_PLANO==='pro'?150:5);
+  if(CUR_PLANO==='trial'){
+    var meta=(CUR_USER&&CUR_USER.user_metadata)||{};
+    var ts=meta.trial_start;
+    if(ts&&(Date.now()-new Date(ts).getTime())/(1000*60*60*24)>=7)return true;
+  }
+  return APO_COUNT>=max;
 }
 function stab(t){
   hideA(); clearE();
@@ -801,6 +807,11 @@ function renderDash(user){
   CUR_PLANO=meta.plano||'trial';
   APO_COUNT=parseInt(meta.apostilas_mes)||0;
   CUR_RENOVACAO=meta.proxima_renovacao||null;
+  // reinicia contador se entrou em novo mês (planos pagos)
+  if(CUR_PLANO!=='trial'&&(!meta.mes_ref||meta.mes_ref!==mesRef())){
+    APO_COUNT=0;
+    salvarContador(0);
+  }
   document.getElementById('dnom').textContent='Olá, '+nome.split(' ')[0]+'! 👋';
   document.getElementById('demail').textContent=user.email||'';
   var chip=document.getElementById('dchip');
@@ -836,10 +847,28 @@ function initGerador(){
   // verifica limite
   var wall=document.getElementById('limit-wall');
   var form=document.getElementById('gform');
-  if(APO_COUNT>=maxApostilas){
+  var _trialDias=(function(){
+    if(CUR_PLANO!=='trial')return 0;
+    var ts=((CUR_USER&&CUR_USER.user_metadata)||{}).trial_start;
+    return ts?(Date.now()-new Date(ts).getTime())/(1000*60*60*24):0;
+  })();
+  if(limiteAtingido()){
     wall.style.display='block';form.style.display='none';
-    wall.querySelector('h3').textContent = CUR_PLANO==='trial' ? '🚫 Limite do teste grátis atingido' : (CUR_PLANO==='pro' ? '🚫 Limite mensal do plano Pro atingido' : '🚫 Limite do plano Essencial atingido');
-    wall.querySelector('p').textContent = CUR_PLANO==='trial' ? 'Você usou as 5 apostilas gratuitas do teste grátis. Assine um plano para continuar gerando apostilas.' : (CUR_PLANO==='pro' ? 'Você atingiu as 150 apostilas incluídas este mês no plano Pro.' : 'Você usou todas as 30 apostilas do plano Essencial este mês.');
+    if(CUR_PLANO==='trial'){
+      if(_trialDias>=7&&APO_COUNT<5){
+        wall.querySelector('h3').textContent='🚫 Período de teste encerrado';
+        wall.querySelector('p').textContent='Seus 7 dias de teste grátis expiraram. Assine um plano para continuar gerando apostilas.';
+      } else {
+        wall.querySelector('h3').textContent='🚫 Limite do teste grátis atingido';
+        wall.querySelector('p').textContent='Você usou as 5 apostilas do teste grátis. Assine um plano para continuar gerando apostilas.';
+      }
+    } else if(CUR_PLANO==='essencial'){
+      wall.querySelector('h3').textContent='🚫 Limite do plano Essencial atingido';
+      wall.querySelector('p').textContent='Você usou todas as 30 apostilas do plano Essencial este mês. Aguarde o próximo mês ou faça upgrade para o Pro.';
+    } else {
+      wall.querySelector('h3').textContent='🚫 Limite mensal do plano Pro atingido';
+      wall.querySelector('p').textContent='Você atingiu as 150 apostilas incluídas este mês no plano Pro. O contador reinicia no próximo mês.';
+    }
     atualizarOpcoesLimite();
   }
   else{wall.style.display='none';form.style.display='block';}
@@ -919,9 +948,16 @@ function gerar(){
   var mod=document.getElementById('gmod').value;
   if(!disc){alert('Selecione a disciplina.');return;}
   if(!mod){alert('Selecione o assunto.');return;}
-  // verifica limite
-  var maxAp = CUR_PLANO==='essencial' ? 30 : (CUR_PLANO==='pro' ? 150 : 5);
-  if(APO_COUNT>=maxAp){document.getElementById('limit-wall').style.display='block';document.getElementById('gform').style.display='none';atualizarOpcoesLimite();return;}
+  // verifica limite (contagem + prazo do trial)
+  if(limiteAtingido()){document.getElementById('limit-wall').style.display='block';document.getElementById('gform').style.display='none';atualizarOpcoesLimite();return;}
+
+  // conta +1 no clique e salva imediatamente no Supabase
+  APO_COUNT++;
+  var _maxAp=CUR_PLANO==='essencial'?30:(CUR_PLANO==='pro'?150:5);
+  document.getElementById('gcnt').textContent=APO_COUNT;
+  document.getElementById('dcnt').textContent=APO_COUNT;
+  document.getElementById('gfill').style.width=Math.min(100,APO_COUNT/_maxAp*100)+'%';
+  salvarContador(APO_COUNT);
 
   document.getElementById('gform').style.display='none';
   document.getElementById('apostila-view').style.display='none';
@@ -949,12 +985,6 @@ var prompt='Você é um professor especialista em concursos públicos, com foco 
     var data=repairJSON(txt);
     if(!data){document.getElementById('gform').style.display='block';alert('Erro ao interpretar resposta. Tente novamente.');return;}
     CUR_DATA=data;
-    // incrementa contador e salva no Supabase (persistente entre sessões/aparelhos)
-    APO_COUNT++;
-    document.getElementById('gcnt').textContent=APO_COUNT;
-    document.getElementById('dcnt').textContent=APO_COUNT;
-    document.getElementById('gfill').style.width=Math.min(100,APO_COUNT/30*100)+'%';
-    persistApoCount();
     renderApostila(data,disc,mod);
   })
   .catch(function(e){
