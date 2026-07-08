@@ -598,6 +598,16 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
       <!-- edital picker (visível só no modo Por Edital) -->
       <div class="edital-picker" id="edital-picker">
         <span class="gfl">ÓRGÃO / EDITAL</span>
+       <div class="area-pills" id="area-pills">
+          <button class="ap on" data-a="" onclick="selArea(this)">Todas</button>
+          <button class="ap" data-a="fiscal" onclick="selArea(this)">Fiscal</button>
+          <button class="ap" data-a="judiciario" onclick="selArea(this)">Judiciário</button>
+          <button class="ap" data-a="tribunal_contas" onclick="selArea(this)">Tribunal de Contas</button>
+          <button class="ap" data-a="policial" onclick="selArea(this)">Policial</button>
+          <button class="ap" data-a="bancario" onclick="selArea(this)">Bancário</button>
+          <button class="ap" data-a="administrativo" onclick="selArea(this)">Administrativo</button>
+          <button class="ap" data-a="educacao" onclick="selArea(this)">Educação</button>
+        </div>
         <input class="edital-search" id="edital-search" type="text" placeholder="Buscar órgão, cargo ou banca..." oninput="filtrarEditais()"/>
         <div class="edital-list" id="edital-list"></div>
         <div id="edital-banca-selecionada" style="display:none;margin-top:.7rem;"></div>
