@@ -688,6 +688,84 @@ var SB_KEY  = 'sb_publishable_iGmTY-Ry_S90JyK9L5QZNg_k1hmJlos';
 // Chave protegida no servidor — não precisa mudar nada aqui
 
 // ══════════════════════════════════════
+// DISCIPLINAS COMUNS (banco reutilizável entre editais)
+// ══════════════════════════════════════
+var DISCIPLINAS_COMUNS = {
+  'portugues': {nome:'Língua Portuguesa', modulos:[
+    'Compreensão e interpretação de textos',
+    'Tipologia e gêneros textuais',
+    'Coesão e coerência textual',
+    'Ortografia oficial',
+    'Acentuação gráfica',
+    'Classes de palavras: emprego e flexão',
+    'Concordância nominal e verbal',
+    'Regência nominal e verbal',
+    'Crase',
+    'Pontuação',
+    'Sintaxe do período simples e composto',
+    'Colocação pronominal',
+    'Semântica: sinonímia, antonímia e polissemia',
+    'Reescrita de frases e substituição de termos',
+    'Figuras de linguagem',
+  ]},
+  'rlm': {nome:'Raciocínio Lógico-Matemático', modulos:[
+    'Estruturas lógicas: proposições, conectivos e tabelas-verdade',
+    'Lógica de argumentação: analogias, inferências e conclusões',
+    'Diagramas lógicos e raciocínio sequencial',
+    'Princípios de contagem e análise combinatória',
+    'Probabilidade básica',
+    'Conjuntos: operações e problemas envolvendo conjuntos',
+    'Porcentagem, razão e proporção',
+    'Regra de três simples e composta',
+    'Sequências lógicas numéricas e figurais',
+    'Problemas de raciocínio matemático aplicados ao cotidiano',
+  ]},
+  'dir-constitucional': {nome:'Direito Constitucional', modulos:[
+    'Constituição: conceito, classificação e princípios fundamentais',
+    'Direitos e garantias fundamentais',
+    'Organização do Estado: União, Estados, Municípios e DF',
+    'Organização dos Poderes: Legislativo, Executivo e Judiciário',
+    'Administração Pública na Constituição (art. 37)',
+    'Controle de constitucionalidade',
+    'Processo legislativo',
+    'Ordem social e ordem econômica na Constituição',
+    'Emendas constitucionais e cláusulas pétreas',
+    'Remédios constitucionais: habeas corpus, mandado de segurança e outros',
+  ]},
+  'dir-administrativo': {nome:'Direito Administrativo', modulos:[
+    'Princípios da Administração Pública',
+    'Organização administrativa: administração direta e indireta',
+    'Atos administrativos: atributos, espécies e extinção',
+    'Poderes administrativos: vinculado, discricionário, hierárquico, disciplinar e de polícia',
+    'Licitações e contratos administrativos (Lei nº 14.133/2021)',
+    'Servidores públicos: regime jurídico e responsabilidades',
+    'Responsabilidade civil do Estado',
+    'Controle da Administração Pública',
+    'Improbidade administrativa (Lei nº 8.429/92)',
+    'Processo administrativo (Lei nº 9.784/99)',
+  ]},
+  'etica-servico-publico': {nome:'Ética no Serviço Público', modulos:[
+    'Ética e moral: conceitos e distinções',
+    'Ética no setor público e código de conduta',
+    'Lei nº 8.027/90 — normas de conduta de servidores',
+    'Decreto nº 1.171/94 — Código de Ética do Servidor Público Federal',
+    'Lei de Acesso à Informação (Lei nº 12.527/2011)',
+    'Lei Geral de Proteção de Dados (LGPD) aplicada ao setor público',
+    'Improbidade administrativa e transparência',
+    'Conflito de interesses no serviço público',
+  ]},
+  'informatica': {nome:'Noções de Informática', modulos:[
+    'Conceitos básicos de hardware e software',
+    'Sistemas operacionais: Windows e Linux (noções)',
+    'Edição de texto e planilhas (Word, Excel / LibreOffice)',
+    'Navegação na internet e correio eletrônico',
+    'Conceitos de redes de computadores',
+    'Segurança da informação: vírus, malware e boas práticas',
+    'Computação em nuvem: conceitos básicos',
+    'Backup e armazenamento de dados',
+  ]},
+};
+  // ══════════════════════════════════════
 // EDITAIS (conteúdo programático por edital)
 // ══════════════════════════════════════
 var EDITAIS_DATA = [
