@@ -1903,7 +1903,7 @@ function renderEditaisCards(filtro){
     card.className='edital-card'+(SEL_EDITAL&&SEL_EDITAL.id===ed.id?' sel':'');
     card.innerHTML='<div class="edital-card-orgao">'+ed.orgao+' · '+ed.ano+'</div>'
       +'<div class="edital-card-cargo">'+ed.cargo+'</div>'
-      +'<div class="edital-card-meta">Banca: <strong style="color:rgba(255,255,255,0.7)">'+ed.banca+'</strong> &nbsp;·&nbsp; '+ed.disciplinas.length+' disciplinas</div>';
+     +'<div class="edital-card-meta">Banca: <strong style="color:rgba(255,255,255,0.7)">'+ed.banca+'</strong> &nbsp;·&nbsp; '+disciplinasDoEdital(ed).length+' disciplinas</div>';
     card.onclick=function(){selecionarEdital(ed,card);};
     lista.appendChild(card);
   });
