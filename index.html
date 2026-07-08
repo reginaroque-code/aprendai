@@ -1775,6 +1775,14 @@ var EDITAIS_DATA = [
 
 var MODO_GERADOR = 'livre';
 var SEL_EDITAL = null;
+var SEL_AREA = '';
+
+function selArea(btn){
+  SEL_AREA = btn.getAttribute('data-a');
+  document.querySelectorAll('.ap').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  filtrarEditais();
+}
 
 function setModoGerador(modo){
   MODO_GERADOR = modo;
