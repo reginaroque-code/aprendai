@@ -2189,7 +2189,7 @@ function atualizarModulos(){
   sel.innerHTML='<option value="">Selecione o assunto...</option>';
   if(!d)return;
   if(MODO_GERADOR==='edital'&&SEL_EDITAL){
-    var disc=SEL_EDITAL.disciplinas.find(function(x){return x.nome===d;});
+    var disc=disciplinasDoEdital(SEL_EDITAL).find(function(x){return x.nome===d;});
     if(disc)disc.modulos.forEach(function(m){var o=document.createElement('option');o.value=m;o.textContent=m;sel.appendChild(o);});
   } else {
     if(!DISCS[d])return;
@@ -2300,7 +2300,7 @@ function renderApostila(d,disc,mod){
   pillsEl.innerHTML='';
   var pillMods=[];
   if(MODO_GERADOR==='edital'&&SEL_EDITAL){
-    var edDisc=SEL_EDITAL.disciplinas.find(function(x){return x.nome===disc;});
+    var edDisc=disciplinasDoEdital(SEL_EDITAL).find(function(x){return x.nome===disc;});
     if(edDisc)pillMods=edDisc.modulos;
   } else if(DISCS[disc]){
     pillMods=DISCS[disc].mod;
