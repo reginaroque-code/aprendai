@@ -1884,7 +1884,10 @@ function setModoGerador(modo){
     renderEditaisCards();
   }
 }
-
+function disciplinasDoEdital(ed){
+  var comuns = (ed.comuns||[]).map(function(cid){return DISCIPLINAS_COMUNS[cid];}).filter(Boolean);
+  return comuns.concat(ed.disciplinas||[]);
+}
 function renderEditaisCards(filtro){
   var lista=document.getElementById('edital-list');
   lista.innerHTML='';
