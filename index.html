@@ -1809,10 +1809,12 @@ function setModoGerador(modo){
 function renderEditaisCards(filtro){
   var lista=document.getElementById('edital-list');
   lista.innerHTML='';
-  var dados=filtro?EDITAIS_DATA.filter(function(e){
-    var q=filtro.toLowerCase();
-    return e.orgao.toLowerCase().includes(q)||e.cargo.toLowerCase().includes(q)||e.banca.toLowerCase().includes(q)||String(e.ano).includes(q);
-  }):EDITAIS_DATA;
+  var dados=EDITAIS_DATA.filter(function(e){
+    var okArea = !SEL_AREA || e.area===SEL_AREA;
+    var q=filtro?filtro.toLowerCase():'';
+    var okTexto = !filtro || e.orgao.toLowerCase().includes(q)||e.cargo.toLowerCase().includes(q)||e.banca.toLowerCase().includes(q)||String(e.ano).includes(q);
+    return okArea && okTexto;
+  });
   if(!dados.length){lista.innerHTML='<div style="color:rgba(255,255,255,0.4);font-size:.85rem;padding:.5rem 0;">Nenhum edital encontrado.</div>';return;}
   dados.forEach(function(ed){
     var card=document.createElement('div');
