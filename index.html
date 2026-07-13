@@ -1997,15 +1997,37 @@ function mesRef(){
   var d=new Date();
   return d.getFullYear()+'-'+(d.getMonth()<9?'0':'')+(d.getMonth()+1);
 }
+function sbRefreshToken(){
+  var rtok=localStorage.getItem('sb_rtok');
+  if(!rtok)return Promise.resolve(null);
+  return fetch(SB_URL+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({refresh_token:rtok})})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d&&d.access_token){
+        localStorage.setItem('sb_tok',d.access_token);
+        if(d.refresh_token)localStorage.setItem('sb_rtok',d.refresh_token);
+        return d.access_token;
+      }
+      return null;
+    }).catch(function(){return null;});
+}
 function salvarContador(count){
   var tok=localStorage.getItem('sb_tok');
   if(!tok||!CUR_USER)return;
   var mr=mesRef();
-  sbPut('/auth/v1/user',{data:{apostilas_mes:count,mes_ref:mr}},tok)
-    .then(function(u){if(u&&u.id){CUR_USER=u;localStorage.setItem('sb_usr',JSON.stringify(u));}})
-    .catch(function(e){console.error('Falha ao salvar contador:',e);});
+  // atualiza a tela e o cache local na hora, pra não travar a experiência
   if(CUR_USER.user_metadata){CUR_USER.user_metadata.apostilas_mes=count;CUR_USER.user_metadata.mes_ref=mr;}
   localStorage.setItem('sb_usr',JSON.stringify(CUR_USER));
+  // salva de verdade no perfil do Supabase; se o token expirou, renova e tenta de novo
+  sbPut('/auth/v1/user',{data:{apostilas_mes:count,mes_ref:mr}},tok).then(function(u){
+    if(u&&u.id){CUR_USER=u;localStorage.setItem('sb_usr',JSON.stringify(u));return;}
+    return sbRefreshToken().then(function(novoTok){
+      if(!novoTok)return;
+      return sbPut('/auth/v1/user',{data:{apostilas_mes:count,mes_ref:mr}},novoTok).then(function(u2){
+        if(u2&&u2.id){CUR_USER=u2;localStorage.setItem('sb_usr',JSON.stringify(u2));}
+      });
+    });
+  }).catch(function(e){console.error('Falha ao salvar contador:',e);});
 }
 function limiteAtingido(){
   var max=CUR_PLANO==='essencial'?30:(CUR_PLANO==='pro'?150:5);
@@ -2051,6 +2073,7 @@ function doLogin(){
       setLd('btnlogin',false,'Entrar');
       if(d.error){showA('err','E-mail ou senha incorretos.');return;}
       localStorage.setItem('sb_tok',d.access_token);
+      if(d.refresh_token)localStorage.setItem('sb_rtok',d.refresh_token);
       localStorage.setItem('sb_usr',JSON.stringify(d.user));
       CUR_USER=d.user; renderDash(d.user); go('dash');
     }).catch(function(){setLd('btnlogin',false,'Entrar');showA('err','Erro de conexão.');});
@@ -2074,6 +2097,7 @@ function doCad(){
       if(d.error){showA('err',d.error.message||'Erro ao criar conta.');return;}
       if(d.user&&d.user.id){
         if(d.access_token){localStorage.setItem('sb_tok',d.access_token);localStorage.setItem('sb_usr',JSON.stringify(d.user));}
+        if(d.refresh_token)localStorage.setItem('sb_rtok',d.refresh_token);
         CUR_USER=d.user;
         showA('ok','Conta criada! Verifique seu e-mail para confirmar.');
         setTimeout(function(){renderDash(d.user);go('dash');},1800);
@@ -2088,7 +2112,7 @@ function doForgot(){
     .then(function(){setLd('btnforgot',false,'Enviar link de recuperação');showA('ok','Link enviado para '+email);})
     .catch(function(){setLd('btnforgot',false,'Enviar link de recuperação');});
 }
-function doLogout(){localStorage.removeItem('sb_tok');localStorage.removeItem('sb_usr');CUR_USER=null;go('landing');}
+function doLogout(){localStorage.removeItem('sb_tok');localStorage.removeItem('sb_rtok');localStorage.removeItem('sb_usr');CUR_USER=null;go('landing');}
 
 // ══════════════════════════════════════
 // DASHBOARD
@@ -2664,7 +2688,18 @@ window.addEventListener('load',function(){
   var cached=localStorage.getItem('sb_usr');
   if(tok&&cached){
     try{CUR_USER=JSON.parse(cached);renderDash(CUR_USER);go('dash');}catch(e){}
-    fetch(SB_URL+'/auth/v1/user',{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+tok}}).then(function(r){return r.json();}).then(function(u){if(u&&u.id){CUR_USER=u;localStorage.setItem('sb_usr',JSON.stringify(u));renderDash(u);}}).catch(function(){});
+    fetch(SB_URL+'/auth/v1/user',{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+tok}}).then(function(r){return r.json();}).then(function(u){
+      if(u&&u.id){CUR_USER=u;localStorage.setItem('sb_usr',JSON.stringify(u));renderDash(u);return;}
+      // sessão vencida: renova o token e busca o perfil real de novo
+      sbRefreshToken().then(function(novoTok){
+        if(!novoTok)return;
+        fetch(SB_URL+'/auth/v1/user',{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+novoTok}}).then(function(r){return r.json();}).then(function(u2){
+          if(u2&&u2.id){CUR_USER=u2;localStorage.setItem('sb_usr',JSON.stringify(u2));renderDash(u2);}
+        }).catch(function(){});
+      });
+    }).catch(function(){});
+    // renova o token de tempos em tempos, pra sessões longas de estudo não vencerem no meio do caminho
+    setInterval(function(){if(localStorage.getItem('sb_tok'))sbRefreshToken();},50*60*1000);
   }
 });
 </script>
