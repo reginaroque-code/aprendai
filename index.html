@@ -786,7 +786,30 @@ var DISCIPLINAS_COMUNS = {
   ]},
 };
   // ══════════════════════════════════════
-// ══════════════════════════════════════ // EDITAIS (conteúdo programático por edital) // Agora vem do Supabase (tabela "editais"), gerenciado pelo painel /admin-editais.html // Não edite editais aqui — use o painel admin. Este bloco só carrega os dados. // ══════════════════════════════════════ var EDITAIS_DATA = []; var EDITAIS_CARREGADOS = false; var EDITAIS_CARREGANDO = false;  function carregarEditaisData(cb){   if(EDITAIS_CARREGADOS){ if(cb) cb(); return; }   if(EDITAIS_CARREGANDO){ return; }   EDITAIS_CARREGANDO = true;   fetch('/api/editais')     .then(function(r){ return r.json(); })     .then(function(data){       EDITAIS_DATA = Array.isArray(data) ? data : [];       EDITAIS_CARREGADOS = true;       EDITAIS_CARREGANDO = false;       if(cb) cb();     })     .catch(function(){       EDITAIS_CARREGANDO = false;       var lista = document.getElementById('edital-list');       if(lista) lista.innerHTML = '<div style="color:rgba(255,255,255,0.4);font-size:.85rem;padding:.5rem 0;">Não foi possível carregar os editais. Tente novamente.</div>';     }); }
+// ══════════════════════════════════════ 
+  // EDITAIS (conteúdo programático por edital) 
+  // Agora vem do Supabase (tabela "editais"), gerenciado pelo painel /admin-editais.html 
+  // Não edite editais aqui — use o painel admin. Este bloco só carrega os dados. 
+  // ══════════════════════════════════════ 
+  var EDITAIS_DATA = []; 
+  var EDITAIS_CARREGADOS = false; 
+  var EDITAIS_CARREGANDO = false;  
+  function carregarEditaisData(cb){   
+    if(EDITAIS_CARREGADOS){ if(cb) cb(); return; }   
+    if(EDITAIS_CARREGANDO){ return; }   
+    EDITAIS_CARREGANDO = true;   
+    fetch('/api/editais')     
+      .then(function(r){ return r.json(); })     
+      .then(function(data){       
+        EDITAIS_DATA = Array.isArray(data) ? data : [];       
+        EDITAIS_CARREGADOS = true;       
+        EDITAIS_CARREGANDO = false;       
+        if(cb) cb();     })     
+      .catch(function(){       
+        EDITAIS_CARREGANDO = false;       
+        var lista = document.getElementById('edital-list');       
+        if(lista) lista.innerHTML = '<div style="color:rgba(255,255,255,0.4);font-size:.85rem;padding:.5rem 0;">Não foi possível carregar os editais. Tente novamente.</div>';     }); }
+
 var MODO_GERADOR = 'livre';
 var SEL_EDITAL = null;
 var SEL_AREA = '';
