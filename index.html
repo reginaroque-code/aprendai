@@ -815,9 +815,11 @@ function setModoGerador(modo){
     document.querySelectorAll('.bp').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-b')==='FCC');});
     document.getElementById('banca-custom').style.display='none';
     document.getElementById('edital-banca-selecionada').style.display='none';
-  } else {
-    renderEditaisCards();
-  }
+  } 
+  else {
+      var lista = document.getElementById('edital-list');
+    if(!EDITAIS_CARREGADOS && lista) lista.innerHTML = '<div style="color:rgba(255,255,255,0.4);font-size:.85rem;padding:.5rem 0;">Carregando editais...</div>';
+    carregarEditaisData(function(){ filtrarEditais(); });  }
 }
 function disciplinasDoEdital(ed){
   var comuns = (ed.comuns||[]).map(function(cid){return DISCIPLINAS_COMUNS[cid];}).filter(Boolean);
