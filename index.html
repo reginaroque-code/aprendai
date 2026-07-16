@@ -842,7 +842,8 @@ function setModoGerador(modo){
   else {
       var lista = document.getElementById('edital-list');
     if(!EDITAIS_CARREGADOS && lista) lista.innerHTML = '<div style="color:rgba(255,255,255,0.4);font-size:.85rem;padding:.5rem 0;">Carregando editais...</div>';
-    carregarEditaisData(function(){ filtrarEditais(); });  }
+    carregarEditaisData(function(){ filtrarEditais(); });  
+  }
 }
 function disciplinasDoEdital(ed){
   var comuns = (ed.comuns||[]).map(function(cid){return DISCIPLINAS_COMUNS[cid];}).filter(Boolean);
