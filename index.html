@@ -936,7 +936,7 @@ function carregarDiscs(){
 // ESTADO GLOBAL
 // ══════════════════════════════════════
 var CUR_USER = null, CUR_PLANO = 'trial', APO_COUNT = 0, CUR_RENOVACAO = null;
-var SEL_BANCA = 'FCC', CUR_DATA = null;
+var SEL_BANCA = 'FCC', CUR_DATA = null, CUR_DISC = null, CUR_MOD = null;
 var loaderMsgs = ['Consultando o estilo da banca...','Estruturando os tópicos...','Gerando teoria e ancoragem...','Criando o Raio-X da Banca...','Montando o mapa mental...','Finalizando teste imediato...'];
 var loaderIdx = 0, loaderTimer = null;
 
@@ -1357,6 +1357,7 @@ var prompt='Você é um professor especialista em concursos públicos, com foco 
 }
 
 function renderApostila(d,disc,mod){
+  CUR_DISC=disc;CUR_MOD=mod;
   // pills de assuntos da disciplina
   var pillsEl=document.getElementById('apost-pills');
   pillsEl.innerHTML='';
@@ -1632,8 +1633,31 @@ function novaApostila(){
 function imprimirPDF(){
   var doc=document.getElementById('apostila-doc');
   if(!doc)return;
+  var clone=doc.cloneNode(true);
+  // cabeçalho impresso: mostra somente disciplina, banca e título do assunto escolhido
+  var brand=clone.querySelector('.apo-brand-header');if(brand)brand.remove();
+  var pills=clone.querySelector('.apost-nav');if(pills)pills.remove();
+  var actions=clone.querySelector('.aactions');if(actions)actions.remove();
+  var capa=clone.querySelector('.acapa');
+  if(capa){
+    capa.innerHTML='<div class="acapa-badge">'+escHTML(CUR_DISC||'')+' · '+escHTML(SEL_BANCA||'')+'</div>'+
+      '<h2>'+escHTML((CUR_DATA&&CUR_DATA.titulo)||CUR_MOD||'')+'</h2>';
+  }
   var css=Array.from(document.styleSheets).map(function(ss){try{return Array.from(ss.cssRules).map(function(r){return r.cssText;}).join('\n');}catch(e){return '';}}).join('\n');
-  var html='<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>AprendAI — Apostila</title><style>'+css+'body{background:#fff;padding:0;margin:0}.apostila{border-radius:0;box-shadow:none;}@media print{@page{margin:1cm}}</style><script>window.onload=function(){window.print();}<\/script></head><body>'+doc.outerHTML+'</body></html>';
+  // cores adaptadas para impressão em folha branca
+  var printCSS='body{background:#fff;padding:0;margin:0}'+
+    '.apostila{border-radius:0;box-shadow:none;}'+
+    '.acapa{background:#fff;border-bottom:2px solid var(--navy);padding:1.1rem 1.6rem;}'+
+    '.acapa-badge{background:none;border:1px solid var(--navy);color:var(--navy);}'+
+    '.acapa h2{color:var(--navy);}'+
+    '.rx{background:#fff;border:1.5px solid #4c1d95;box-shadow:none;}'+
+    '.rx h3{color:#4c1d95;}'+
+    '.rx li{color:var(--text);}'+
+    '.rx li::before{color:#4c1d95;}'+
+    '.rxhot h3{color:#b91c1c;}'+
+    '.rxtag{background:#fff;color:var(--navy);border:1px solid var(--gold2);}'+
+    '@media print{@page{margin:1cm}}';
+  var html='<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>AprendAI — Apostila</title><style>'+css+printCSS+'</style><script>window.onload=function(){window.print();}<\/script></head><body>'+clone.outerHTML+'</body></html>';
   var blob=new Blob([html],{type:'text/html;charset=utf-8'});
   var url=URL.createObjectURL(blob);
   var a=document.createElement('a');a.href=url;a.download='apostila-aprendai.html';a.style.display='none';
