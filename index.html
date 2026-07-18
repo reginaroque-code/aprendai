@@ -205,7 +205,8 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 
 /* ── DASHBOARD ── */
 #page-dash{background:linear-gradient(160deg,var(--navy) 0%,#0d1f3c 60%,#1a2a4a 100%);min-height:100vh;display:none;padding-top:68px;}
-.dw{max-width:860px;width:100%;margin:0 auto;padding:2rem 1.5rem;}
+.dash-shell{max-width:1150px;margin:0 auto;padding:2rem 1.5rem;display:flex;align-items:flex-start;gap:1.6rem;}
+.dw{flex:1;min-width:0;max-width:860px;width:100%;margin:0;padding:0;}
 .dh{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.8rem;flex-wrap:wrap;gap:1rem;}
 .dh h2{color:#fff;font-size:1.35rem;font-weight:800;}
 .dh p{color:rgba(255,255,255,0.5);font-size:.83rem;}
@@ -382,7 +383,7 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 
 /* responsive */
 @media(max-width:900px){
-  .gen-shell{flex-direction:column;}
+  .gen-shell,.dash-shell{flex-direction:column;}
   .apo-sidebar{width:100%;position:static;max-height:none;order:2;}
   .hero-inner{grid-template-columns:1fr;}.hero-mockup{display:none;}
   .pgrid,.sgrid{grid-template-columns:1fr 1fr;}
@@ -582,6 +583,7 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 
 <!-- ══ DASHBOARD ══ -->
 <div id="page-dash" class="page">
+  <div class="dash-shell">
   <div class="dw">
     <div class="dh"><div><h2 id="dnom">Olá! 👋</h2><p id="demail"></p></div><button class="sbtn sbtn-o" onclick="doLogout()">Sair da conta</button></div>
     <div class="tbanner" id="tbanner"><p>🎉 Você está no <strong>período gratuito de 7 dias</strong>. Aproveite todos os recursos!</p><button class="sbtn" style="background:var(--gold);color:var(--navy);font-weight:700;" onclick="go('landing');setTimeout(()=>document.getElementById('planos').scrollIntoView({behavior:'smooth'}),250)">Assinar com 50% OFF →</button></div>
@@ -599,6 +601,15 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
       <a onclick="go('landing');setTimeout(()=>document.getElementById('planos').scrollIntoView({behavior:'smooth'}),250)">Gerenciar assinatura →</a>
       <a href="mailto:contato@aprendai.net.br">Suporte →</a>
     </div>
+  </div>
+
+  <!-- barra lateral: apostilas já geradas pelo usuário -->
+  <aside class="apo-sidebar" id="apo-sidebar-dash">
+    <div class="apo-sidebar-title">📂 Minhas Apostilas</div>
+    <div class="apo-sidebar-list" id="apo-sidebar-list-dash">
+      <div class="apo-sidebar-empty">Nenhuma apostila gerada ainda.</div>
+    </div>
+  </aside>
   </div>
 </div>
 
@@ -965,6 +976,12 @@ function carregarDiscs(){
     .then(function(d){ DISCS = d; DISCS_LOADED = true; })
     .catch(function(){ DISCS_LOADED = true; });
 }
+function garantirDiscsCarregadas(cb){
+  if(DISCS_LOADED){cb();return;}
+  var selD=document.getElementById('gdisc');
+  selD.innerHTML='<option value="">Carregando disciplinas...</option>';
+  carregarDiscs().then(cb);
+}
 
 // ══════════════════════════════════════
 // ESTADO GLOBAL
@@ -1042,13 +1059,7 @@ function go(page) {
   document.getElementById('nav-mid').style.display   = (page==='landing') ? 'flex' : 'none';
   window.scrollTo(0,0);
   if(page==='gen'){
-    if(DISCS_LOADED){
-      initGerador();
-    } else {
-      var selD=document.getElementById('gdisc');
-      selD.innerHTML='<option value="">Carregando disciplinas...</option>';
-      carregarDiscs().then(initGerador);
-    }
+    garantirDiscsCarregadas(initGerador);
   }
 }
 
@@ -1191,6 +1202,7 @@ function doLogout(){STORAGE.removeItem('sb_tok');STORAGE.removeItem('sb_rtok');S
 // DASHBOARD
 // ══════════════════════════════════════
 function renderDash(user){
+  carregarMinhasApostilas();
   var meta=(user&&user.user_metadata)||{};
   var nome=meta.full_name||(user.email?user.email.split('@')[0]:'Aluno');
   CUR_PLANO=meta.plano||'trial';
@@ -1459,25 +1471,32 @@ function formatarDataCurta(iso){
   return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
 }
 function renderSidebarApostilas(idAtiva){
-  var listEl=document.getElementById('apo-sidebar-list');
-  if(!listEl)return;
-  if(!MINHAS_APOSTILAS.length){
-    listEl.innerHTML='<div class="apo-sidebar-empty">Nenhuma apostila gerada ainda.</div>';
-    return;
-  }
-  listEl.innerHTML='';
-  MINHAS_APOSTILAS.forEach(function(item){
-    var b=document.createElement('button');
-    b.type='button';
-    b.className='apo-sidebar-item'+(item.id===idAtiva?' on':'');
-    b.innerHTML='<span class="apo-si-txt">'+escHTML(item.disciplina)+' - '+escHTML(item.assunto)+'</span><span class="apo-si-data">'+formatarDataCurta(item.criado_em)+'</span>';
-    b.onclick=function(){abrirApostilaSalva(item.id);};
-    listEl.appendChild(b);
+  // atualiza TODAS as barras laterais existentes (painel + gerador) de uma vez
+  document.querySelectorAll('.apo-sidebar-list').forEach(function(listEl){
+    if(!MINHAS_APOSTILAS.length){
+      listEl.innerHTML='<div class="apo-sidebar-empty">Nenhuma apostila gerada ainda.</div>';
+      return;
+    }
+    listEl.innerHTML='';
+    MINHAS_APOSTILAS.forEach(function(item){
+      var b=document.createElement('button');
+      b.type='button';
+      b.className='apo-sidebar-item'+(item.id===idAtiva?' on':'');
+      b.innerHTML='<span class="apo-si-txt">'+escHTML(item.disciplina)+' - '+escHTML(item.assunto)+'</span><span class="apo-si-data">'+formatarDataCurta(item.criado_em)+'</span>';
+      b.onclick=function(){abrirApostilaSalva(item.id);};
+      listEl.appendChild(b);
+    });
   });
 }
 function abrirApostilaSalva(id){
   var tok=STORAGE.getItem('sb_tok');
   if(!tok)return;
+  // se o link foi clicado fora do Gerador (ex: painel principal), navega até lá primeiro
+  if(document.getElementById('page-gen').style.display!=='flex'){
+    go('gen');
+    garantirDiscsCarregadas(function(){abrirApostilaSalva(id);});
+    return;
+  }
   document.getElementById('gform').style.display='none';
   document.getElementById('limit-wall').style.display='none';
   document.getElementById('gerro').classList.remove('show');
