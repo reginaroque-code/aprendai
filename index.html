@@ -205,7 +205,8 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 
 /* ── DASHBOARD ── */
 #page-dash{background:linear-gradient(160deg,var(--navy) 0%,#0d1f3c 60%,#1a2a4a 100%);min-height:100vh;display:none;padding-top:68px;}
-.dw{max-width:860px;width:100%;margin:0 auto;padding:2rem 1.5rem;}
+.dash-shell{max-width:1150px;margin:0 auto;padding:2rem 1.5rem;display:flex;align-items:flex-start;gap:1.6rem;}
+.dw{flex:1;min-width:0;max-width:860px;width:100%;margin:0;padding:0;}
 .dh{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.8rem;flex-wrap:wrap;gap:1rem;}
 .dh h2{color:#fff;font-size:1.35rem;font-weight:800;}
 .dh p{color:rgba(255,255,255,0.5);font-size:.83rem;}
@@ -231,7 +232,8 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 
 /* ── GERADOR ── */
 #page-gen{background:linear-gradient(160deg,var(--navy) 0%,#0d1f3c 60%,#1a2a4a 100%);min-height:100vh;display:none;padding-top:68px;}
-.gw{max-width:900px;margin:0 auto;padding:2rem 1.5rem;}
+.gen-shell{max-width:1180px;margin:0 auto;padding:2rem 1.5rem;display:flex;align-items:flex-start;gap:1.6rem;}
+.gw{flex:1;min-width:0;max-width:900px;}
 .gbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.8rem;}
 .gbar h2{color:#fff;font-size:1.2rem;font-weight:800;}
 .plan-bar{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:.6rem 1.1rem;display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;margin-bottom:1.3rem;}
@@ -368,8 +370,21 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 .limit-wall h3{color:#fff;font-size:1.1rem;font-weight:800;margin-bottom:.5rem;}
 .limit-wall p{color:rgba(255,255,255,0.65);font-size:.88rem;margin-bottom:1.2rem;}
 
+/* barra lateral — apostilas já geradas */
+.apo-sidebar{width:250px;flex-shrink:0;position:sticky;top:84px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:1.1rem;max-height:calc(100vh - 104px);display:flex;flex-direction:column;}
+.apo-sidebar-title{font-size:.85rem;font-weight:700;color:#fff;margin-bottom:.8rem;flex-shrink:0;}
+.apo-sidebar-list{display:flex;flex-direction:column;gap:.5rem;overflow-y:auto;}
+.apo-sidebar-empty{font-size:.78rem;color:rgba(255,255,255,0.4);line-height:1.5;}
+.apo-sidebar-item{display:flex;flex-direction:column;gap:.15rem;text-align:left;padding:.55rem .7rem;border-radius:9px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);cursor:pointer;font-family:inherit;transition:all .2s;}
+.apo-sidebar-item:hover{border-color:rgba(240,180,41,0.4);background:rgba(240,180,41,0.08);}
+.apo-sidebar-item.on{border-color:var(--gold);background:rgba(240,180,41,0.12);}
+.apo-si-txt{font-size:.78rem;font-weight:600;color:rgba(255,255,255,0.85);line-height:1.35;}
+.apo-si-data{font-size:.68rem;color:rgba(255,255,255,0.4);}
+
 /* responsive */
 @media(max-width:900px){
+  .gen-shell,.dash-shell{flex-direction:column;}
+  .apo-sidebar{width:100%;position:static;max-height:none;order:2;}
   .hero-inner{grid-template-columns:1fr;}.hero-mockup{display:none;}
   .pgrid,.sgrid{grid-template-columns:1fr 1fr;}
   .plgrid{grid-template-columns:1fr;max-width:400px;}
@@ -568,6 +583,7 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 
 <!-- ══ DASHBOARD ══ -->
 <div id="page-dash" class="page">
+  <div class="dash-shell">
   <div class="dw">
     <div class="dh"><div><h2 id="dnom">Olá! 👋</h2><p id="demail"></p></div><button class="sbtn sbtn-o" onclick="doLogout()">Sair da conta</button></div>
     <div class="tbanner" id="tbanner"><p>🎉 Você está no <strong>período gratuito de 7 dias</strong>. Aproveite todos os recursos!</p><button class="sbtn" style="background:var(--gold);color:var(--navy);font-weight:700;" onclick="go('landing');setTimeout(()=>document.getElementById('planos').scrollIntoView({behavior:'smooth'}),250)">Assinar com 50% OFF →</button></div>
@@ -586,10 +602,20 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
       <a href="mailto:contato@aprendai.net.br">Suporte →</a>
     </div>
   </div>
+
+  <!-- barra lateral: apostilas já geradas pelo usuário -->
+  <aside class="apo-sidebar" id="apo-sidebar-dash">
+    <div class="apo-sidebar-title">📂 Minhas Apostilas</div>
+    <div class="apo-sidebar-list" id="apo-sidebar-list-dash">
+      <div class="apo-sidebar-empty">Nenhuma apostila gerada ainda.</div>
+    </div>
+  </aside>
+  </div>
 </div>
 
 <!-- ══ GERADOR ══ -->
 <div id="page-gen" class="page">
+  <div class="gen-shell">
   <div class="gw">
     <div class="gbar">
       <h2>📚 Gerador de Apostilas</h2>
@@ -678,6 +704,16 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
       <small>A IA está preparando o conteúdo focado na sua banca</small>
     </div>
 
+    <!-- erro na geração -->
+    <div class="loader" id="gerro">
+      <div style="font-size:2.2rem;margin-bottom:.9rem;">⚠️</div>
+      <p id="gerro-msg">Não foi possível carregar sua apostila.</p>
+      <small>Nenhuma apostila foi descontada do seu limite.</small>
+      <div style="margin-top:1.4rem;">
+        <button class="gbtn" style="width:auto;padding:.75rem 1.7rem;" onclick="retomarGeracao()">🔄 Solicitar apostila novamente</button>
+      </div>
+    </div>
+
     <!-- resultado -->
     <div id="apostila-view">
       <!-- pills de assuntos -->
@@ -702,6 +738,15 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 </div>
       </div>
     </div>
+
+    <!-- barra lateral: apostilas já geradas pelo usuário -->
+    <aside class="apo-sidebar" id="apo-sidebar">
+      <div class="apo-sidebar-title">📂 Minhas Apostilas</div>
+      <div class="apo-sidebar-list" id="apo-sidebar-list">
+        <div class="apo-sidebar-empty">Nenhuma apostila gerada ainda.</div>
+      </div>
+    </aside>
+  </div>
 
   </div>
 </div>
@@ -931,12 +976,19 @@ function carregarDiscs(){
     .then(function(d){ DISCS = d; DISCS_LOADED = true; })
     .catch(function(){ DISCS_LOADED = true; });
 }
+function garantirDiscsCarregadas(cb){
+  if(DISCS_LOADED){cb();return;}
+  var selD=document.getElementById('gdisc');
+  selD.innerHTML='<option value="">Carregando disciplinas...</option>';
+  carregarDiscs().then(cb);
+}
 
 // ══════════════════════════════════════
 // ESTADO GLOBAL
 // ══════════════════════════════════════
 var CUR_USER = null, CUR_PLANO = 'trial', APO_COUNT = 0, CUR_RENOVACAO = null;
 var SEL_BANCA = 'FCC', CUR_DATA = null;
+var MINHAS_APOSTILAS = [], _ERRO_RETRY_FN = null;
 var loaderMsgs = ['Consultando o estilo da banca...','Estruturando os tópicos...','Gerando teoria e ancoragem...','Criando o Raio-X da Banca...','Montando o mapa mental...','Finalizando teste imediato...'];
 var loaderIdx = 0, loaderTimer = null;
 
@@ -1007,13 +1059,7 @@ function go(page) {
   document.getElementById('nav-mid').style.display   = (page==='landing') ? 'flex' : 'none';
   window.scrollTo(0,0);
   if(page==='gen'){
-    if(DISCS_LOADED){
-      initGerador();
-    } else {
-      var selD=document.getElementById('gdisc');
-      selD.innerHTML='<option value="">Carregando disciplinas...</option>';
-      carregarDiscs().then(initGerador);
-    }
+    garantirDiscsCarregadas(initGerador);
   }
 }
 
@@ -1156,6 +1202,7 @@ function doLogout(){STORAGE.removeItem('sb_tok');STORAGE.removeItem('sb_rtok');S
 // DASHBOARD
 // ══════════════════════════════════════
 function renderDash(user){
+  carregarMinhasApostilas();
   var meta=(user&&user.user_metadata)||{};
   var nome=meta.full_name||(user.email?user.email.split('@')[0]:'Aluno');
   CUR_PLANO=meta.plano||'trial';
@@ -1184,6 +1231,7 @@ function renderDash(user){
 // GERADOR
 // ══════════════════════════════════════
 function initGerador(){
+  carregarMinhasApostilas();
   // popula disciplinas
   var sel=document.getElementById('gdisc');
   if(sel.options.length<=1){
@@ -1228,6 +1276,7 @@ function initGerador(){
   else{wall.style.display='none';form.style.display='block';}
   // reset view
   document.getElementById('gloader').classList.remove('show');
+  document.getElementById('gerro').classList.remove('show');
   document.getElementById('apostila-view').style.display='none';
   CUR_DATA=null;
 }
@@ -1312,16 +1361,9 @@ function gerar(){
   // verifica limite (contagem + prazo do trial)
   if(limiteAtingido()){document.getElementById('limit-wall').style.display='block';document.getElementById('gform').style.display='none';atualizarOpcoesLimite();return;}
 
-  // conta +1 no clique e salva imediatamente no Supabase
-  APO_COUNT++;
-  var _maxAp=CUR_PLANO==='essencial'?30:(CUR_PLANO==='pro'?150:5);
-  document.getElementById('gcnt').textContent=APO_COUNT;
-  document.getElementById('dcnt').textContent=APO_COUNT;
-  document.getElementById('gfill').style.width=Math.min(100,APO_COUNT/_maxAp*100)+'%';
-  salvarContador(APO_COUNT);
-
   document.getElementById('gform').style.display='none';
   document.getElementById('apostila-view').style.display='none';
+  document.getElementById('gerro').classList.remove('show');
   var loader=document.getElementById('gloader');
   loader.classList.add('show');
   loaderIdx=0;
@@ -1345,27 +1387,153 @@ var prompt='Você é um professor especialista em concursos públicos, com foco 
     var txt='';
     if(d.content&&d.content.length){d.content.forEach(function(b){if(b.type==='text')txt+=b.text;});}
     var data=repairJSON(txt);
-    if(!data){document.getElementById('gform').style.display='block';alert('Erro ao interpretar resposta. Tente novamente.');return;}
+    if(!data){mostrarErroGeracao('Não conseguimos interpretar a apostila gerada. Tente novamente.');return;}
     CUR_DATA=data;
-    renderApostila(data,disc,mod);
+    try{
+      renderApostila(data,disc,mod);
+    }catch(e){
+      mostrarErroGeracao('A apostila foi gerada, mas não pôde ser exibida na tela. Tente novamente.');
+      return;
+    }
+    // só conta no limite do plano depois que a apostila foi de fato renderizada e exibida
+    registrarApostilaGerada();
+    salvarApostilaGerada(disc,mod);
   })
   .catch(function(e){
     clearInterval(loaderTimer);loader.classList.remove('show');
-    document.getElementById('gform').style.display='block';
-    alert('Erro de conexão com a IA. Verifique a chave da API e tente novamente.\n\n'+e.message);
+    mostrarErroGeracao('Erro de conexão com a IA. Verifique sua internet e tente novamente.',gerar);
   });
 }
 
-function renderApostila(d,disc,mod){
+function registrarApostilaGerada(){
+  APO_COUNT++;
+  var _maxAp=CUR_PLANO==='essencial'?30:(CUR_PLANO==='pro'?150:5);
+  document.getElementById('gcnt').textContent=APO_COUNT;
+  document.getElementById('dcnt').textContent=APO_COUNT;
+  document.getElementById('gfill').style.width=Math.min(100,APO_COUNT/_maxAp*100)+'%';
+  salvarContador(APO_COUNT);
+}
+
+// Salva a apostila recém-gerada no histórico do usuário (área de membros).
+// Isso NUNCA afeta o contador do plano — é só o registro para consulta futura.
+function salvarApostilaGerada(disc,mod){
+  var tok=STORAGE.getItem('sb_tok');
+  if(!tok||!CUR_DATA)return;
+  var payload={
+    disciplina:disc,
+    assunto:mod,
+    banca:SEL_BANCA,
+    modo:MODO_GERADOR,
+    edital_orgao:(MODO_GERADOR==='edital'&&SEL_EDITAL)?SEL_EDITAL.orgao:null,
+    dados:CUR_DATA
+  };
+  fetch('/api/apostilas',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+tok},body:JSON.stringify(payload)})
+    .then(function(r){return r.json();})
+    .then(function(row){
+      if(row&&row.id){
+        MINHAS_APOSTILAS.unshift({id:row.id,disciplina:disc,assunto:mod,banca:SEL_BANCA,criado_em:row.criado_em||new Date().toISOString()});
+        renderSidebarApostilas();
+      }
+    })
+    .catch(function(e){console.error('Falha ao salvar apostila no histórico:',e);});
+}
+
+function mostrarErroGeracao(msg,retryFn){
+  document.getElementById('apostila-view').style.display='none';
+  document.getElementById('gerro-msg').textContent=msg;
+  _ERRO_RETRY_FN=retryFn||gerar;
+  document.getElementById('gerro').classList.add('show');
+}
+
+function retomarGeracao(){
+  document.getElementById('gerro').classList.remove('show');
+  (_ERRO_RETRY_FN||gerar)();
+}
+
+// ══════════════════════════════════════
+// MINHAS APOSTILAS (histórico salvo — não conta no limite ao reabrir)
+// ══════════════════════════════════════
+function carregarMinhasApostilas(){
+  var tok=STORAGE.getItem('sb_tok');
+  if(!tok){MINHAS_APOSTILAS=[];renderSidebarApostilas();return;}
+  fetch('/api/apostilas',{headers:{'Authorization':'Bearer '+tok}})
+    .then(function(r){return r.json();})
+    .then(function(list){
+      MINHAS_APOSTILAS=Array.isArray(list)?list:[];
+      renderSidebarApostilas();
+    })
+    .catch(function(){/* sidebar fica vazia em caso de falha silenciosa */});
+}
+function formatarDataCurta(iso){
+  if(!iso)return'';
+  var d=new Date(iso);
+  if(isNaN(d.getTime()))return'';
+  return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+}
+function renderSidebarApostilas(idAtiva){
+  // atualiza TODAS as barras laterais existentes (painel + gerador) de uma vez
+  document.querySelectorAll('.apo-sidebar-list').forEach(function(listEl){
+    if(!MINHAS_APOSTILAS.length){
+      listEl.innerHTML='<div class="apo-sidebar-empty">Nenhuma apostila gerada ainda.</div>';
+      return;
+    }
+    listEl.innerHTML='';
+    MINHAS_APOSTILAS.forEach(function(item){
+      var b=document.createElement('button');
+      b.type='button';
+      b.className='apo-sidebar-item'+(item.id===idAtiva?' on':'');
+      b.innerHTML='<span class="apo-si-txt">'+escHTML(item.disciplina)+' - '+escHTML(item.assunto)+'</span><span class="apo-si-data">'+formatarDataCurta(item.criado_em)+'</span>';
+      b.onclick=function(){abrirApostilaSalva(item.id);};
+      listEl.appendChild(b);
+    });
+  });
+}
+function abrirApostilaSalva(id){
+  var tok=STORAGE.getItem('sb_tok');
+  if(!tok)return;
+  // se o link foi clicado fora do Gerador (ex: painel principal), navega até lá primeiro
+  if(document.getElementById('page-gen').style.display!=='flex'){
+    go('gen');
+    garantirDiscsCarregadas(function(){abrirApostilaSalva(id);});
+    return;
+  }
+  document.getElementById('gform').style.display='none';
+  document.getElementById('limit-wall').style.display='none';
+  document.getElementById('gerro').classList.remove('show');
+  document.getElementById('apostila-view').style.display='none';
+  var loader=document.getElementById('gloader');
+  loader.classList.add('show');
+  document.getElementById('loader-msg').textContent='Carregando apostila salva...';
+  fetch('/api/apostilas?id='+encodeURIComponent(id),{headers:{'Authorization':'Bearer '+tok}})
+    .then(function(r){return r.json();})
+    .then(function(row){
+      loader.classList.remove('show');
+      if(!row||row.error||!row.dados){mostrarErroGeracao('Não foi possível carregar esta apostila salva.',function(){abrirApostilaSalva(id);});return;}
+      SEL_BANCA=row.banca||SEL_BANCA;
+      CUR_DATA=row.dados;
+      var pillsOverride=DISCS[row.disciplina]?DISCS[row.disciplina].mod:[];
+      renderApostila(row.dados,row.disciplina,row.assunto,row.edital_orgao,pillsOverride);
+      renderSidebarApostilas(row.id);
+      // apenas exibe uma apostila já gerada — não conta como nova apostila no limite do plano
+    })
+    .catch(function(){
+      loader.classList.remove('show');
+      mostrarErroGeracao('Erro de conexão ao abrir a apostila salva.',function(){abrirApostilaSalva(id);});
+    });
+}
+
+function renderApostila(d,disc,mod,orgaoNome,pillsOverride){
   // pills de assuntos da disciplina
   var pillsEl=document.getElementById('apost-pills');
   pillsEl.innerHTML='';
-  var pillMods=[];
-  if(MODO_GERADOR==='edital'&&SEL_EDITAL){
-    var edDisc=disciplinasDoEdital(SEL_EDITAL).find(function(x){return x.nome===disc;});
-    if(edDisc)pillMods=edDisc.modulos;
-  } else if(DISCS[disc]){
-    pillMods=DISCS[disc].mod;
+  var pillMods=pillsOverride||[];
+  if(!pillsOverride){
+    if(MODO_GERADOR==='edital'&&SEL_EDITAL){
+      var edDisc=disciplinasDoEdital(SEL_EDITAL).find(function(x){return x.nome===disc;});
+      if(edDisc)pillMods=edDisc.modulos;
+    } else if(DISCS[disc]){
+      pillMods=DISCS[disc].mod;
+    }
   }
   pillMods.forEach(function(m){
     var b=document.createElement('button');
@@ -1381,7 +1549,7 @@ function renderApostila(d,disc,mod){
 
   // capa
   var capa=document.getElementById('a-capa');
-  var _orgaoTag=MODO_GERADOR==='edital'&&SEL_EDITAL?'<span class="atag">🏛️ '+SEL_EDITAL.orgao+'</span>':'';
+  var _orgaoTag=orgaoNome?'<span class="atag">🏛️ '+escHTML(orgaoNome)+'</span>':(MODO_GERADOR==='edital'&&SEL_EDITAL?'<span class="atag">🏛️ '+SEL_EDITAL.orgao+'</span>':'');
   capa.innerHTML='<div class="acapa-badge">'+disc+' · '+SEL_BANCA+'</div>'+
     '<h2>'+d.titulo+'</h2>'+
     '<p>'+d.introducao+'</p>'+
@@ -1625,6 +1793,7 @@ function escapeXML(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').
 
 function novaApostila(){
   document.getElementById('apostila-view').style.display='none';
+  document.getElementById('gerro').classList.remove('show');
   document.getElementById('gform').style.display='block';
   window.scrollTo(0,0);
 }
