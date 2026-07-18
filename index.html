@@ -678,6 +678,16 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
       <small>A IA está preparando o conteúdo focado na sua banca</small>
     </div>
 
+    <!-- erro na geração -->
+    <div class="loader" id="gerro">
+      <div style="font-size:2.2rem;margin-bottom:.9rem;">⚠️</div>
+      <p id="gerro-msg">Não foi possível carregar sua apostila.</p>
+      <small>Nenhuma apostila foi descontada do seu limite.</small>
+      <div style="margin-top:1.4rem;">
+        <button class="gbtn" style="width:auto;padding:.75rem 1.7rem;" onclick="retomarGeracao()">🔄 Solicitar apostila novamente</button>
+      </div>
+    </div>
+
     <!-- resultado -->
     <div id="apostila-view">
       <!-- pills de assuntos -->
@@ -1228,6 +1238,7 @@ function initGerador(){
   else{wall.style.display='none';form.style.display='block';}
   // reset view
   document.getElementById('gloader').classList.remove('show');
+  document.getElementById('gerro').classList.remove('show');
   document.getElementById('apostila-view').style.display='none';
   CUR_DATA=null;
 }
@@ -1312,16 +1323,9 @@ function gerar(){
   // verifica limite (contagem + prazo do trial)
   if(limiteAtingido()){document.getElementById('limit-wall').style.display='block';document.getElementById('gform').style.display='none';atualizarOpcoesLimite();return;}
 
-  // conta +1 no clique e salva imediatamente no Supabase
-  APO_COUNT++;
-  var _maxAp=CUR_PLANO==='essencial'?30:(CUR_PLANO==='pro'?150:5);
-  document.getElementById('gcnt').textContent=APO_COUNT;
-  document.getElementById('dcnt').textContent=APO_COUNT;
-  document.getElementById('gfill').style.width=Math.min(100,APO_COUNT/_maxAp*100)+'%';
-  salvarContador(APO_COUNT);
-
   document.getElementById('gform').style.display='none';
   document.getElementById('apostila-view').style.display='none';
+  document.getElementById('gerro').classList.remove('show');
   var loader=document.getElementById('gloader');
   loader.classList.add('show');
   loaderIdx=0;
@@ -1345,15 +1349,41 @@ var prompt='Você é um professor especialista em concursos públicos, com foco 
     var txt='';
     if(d.content&&d.content.length){d.content.forEach(function(b){if(b.type==='text')txt+=b.text;});}
     var data=repairJSON(txt);
-    if(!data){document.getElementById('gform').style.display='block';alert('Erro ao interpretar resposta. Tente novamente.');return;}
+    if(!data){mostrarErroGeracao('Não conseguimos interpretar a apostila gerada. Tente novamente.');return;}
     CUR_DATA=data;
-    renderApostila(data,disc,mod);
+    try{
+      renderApostila(data,disc,mod);
+    }catch(e){
+      mostrarErroGeracao('A apostila foi gerada, mas não pôde ser exibida na tela. Tente novamente.');
+      return;
+    }
+    // só conta no limite do plano depois que a apostila foi de fato renderizada e exibida
+    registrarApostilaGerada();
   })
   .catch(function(e){
     clearInterval(loaderTimer);loader.classList.remove('show');
-    document.getElementById('gform').style.display='block';
-    alert('Erro de conexão com a IA. Verifique a chave da API e tente novamente.\n\n'+e.message);
+    mostrarErroGeracao('Erro de conexão com a IA. Verifique sua internet e tente novamente.');
   });
+}
+
+function registrarApostilaGerada(){
+  APO_COUNT++;
+  var _maxAp=CUR_PLANO==='essencial'?30:(CUR_PLANO==='pro'?150:5);
+  document.getElementById('gcnt').textContent=APO_COUNT;
+  document.getElementById('dcnt').textContent=APO_COUNT;
+  document.getElementById('gfill').style.width=Math.min(100,APO_COUNT/_maxAp*100)+'%';
+  salvarContador(APO_COUNT);
+}
+
+function mostrarErroGeracao(msg){
+  document.getElementById('apostila-view').style.display='none';
+  document.getElementById('gerro-msg').textContent=msg;
+  document.getElementById('gerro').classList.add('show');
+}
+
+function retomarGeracao(){
+  document.getElementById('gerro').classList.remove('show');
+  gerar();
 }
 
 function renderApostila(d,disc,mod){
@@ -1625,6 +1655,7 @@ function escapeXML(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').
 
 function novaApostila(){
   document.getElementById('apostila-view').style.display='none';
+  document.getElementById('gerro').classList.remove('show');
   document.getElementById('gform').style.display='block';
   window.scrollTo(0,0);
 }
