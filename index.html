@@ -154,6 +154,19 @@ footer{background:#060f1e;padding:2.5rem 5% 1.5rem;color:rgba(255,255,255,0.5);}
 .socials{display:flex;gap:.6rem;}
 .soc{width:34px;height:34px;border-radius:7px;background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:.95rem;transition:all .2s;}.soc:hover{background:var(--gold);}
 
+/* ── COOKIE CONSENT BANNER ── */
+#cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:2000;background:#0a1628;border-top:1px solid rgba(240,180,41,0.25);box-shadow:0 -8px 30px rgba(0,0,0,0.25);padding:1.1rem 5%;display:none;}
+#cookie-banner.show{display:block;}
+.cb-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;}
+.cb-txt{flex:1;min-width:260px;font-size:.85rem;color:rgba(255,255,255,0.75);line-height:1.6;}
+.cb-txt strong{color:#fff;}
+.cb-txt a{color:var(--gold);text-decoration:underline;font-weight:600;}
+.cb-btns{display:flex;gap:.6rem;flex-shrink:0;flex-wrap:wrap;}
+.cb-btn{padding:.6rem 1.3rem;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all .2s;white-space:nowrap;}
+.cb-accept{background:var(--gold);color:var(--navy);}.cb-accept:hover{background:var(--gold2);}
+.cb-decline{background:none;border:1.5px solid rgba(255,255,255,0.3);color:#fff;}.cb-decline:hover{border-color:#fff;}
+@media(max-width:640px){.cb-btns{width:100%;}.cb-btn{flex:1;}}
+
 /* ── AUTH ── */
 #page-auth{background:linear-gradient(160deg,var(--navy) 0%,#0d1f3c 60%,#1a2a4a 100%);min-height:100vh;display:none;align-items:center;justify-content:center;padding:90px 1rem 2rem;flex-direction:column;}
 .card{background:#fff;border-radius:20px;width:100%;max-width:430px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,0.4);}
@@ -169,6 +182,10 @@ label{display:block;font-size:.78rem;font-weight:600;color:var(--navy);margin-bo
 input[type=text],input[type=email],input[type=password]{width:100%;padding:.7rem .95rem;border:1.5px solid var(--gray2);border-radius:9px;font-size:.9rem;font-family:inherit;color:var(--text);background:#fff;outline:none;transition:border-color .2s,box-shadow .2s;}
 input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);}
 .ferr{font-size:.73rem;color:var(--red);margin-top:.28rem;}
+.cb-privacy{margin-bottom:.9rem;}
+.cb-privacy label{font-size:.82rem;color:var(--muted);cursor:pointer;}
+.cb-privacy a{color:var(--gold2);font-weight:600;text-decoration:none;}
+.cb-privacy a:hover{text-decoration:underline;}
 .pw{position:relative;}
 .pt{position:absolute;right:.85rem;top:50%;transform:translateY(-50%);cursor:pointer;font-size:.95rem;color:var(--muted);}
 .abtn{width:100%;padding:.82rem;border-radius:9px;font-size:.94rem;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all .25s;}
@@ -381,6 +398,17 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
   </div>
 </nav>
 
+<!-- ══ BANNER DE COOKIES (LGPD) ══ -->
+<div id="cookie-banner">
+  <div class="cb-inner">
+    <div class="cb-txt">🍪 <strong>Usamos cookies</strong> para manter você conectado e melhorar sua experiência. Você pode aceitar ou recusar os cookies não essenciais. Saiba mais na nossa <a href="politica-privacidade.html" target="_blank">Política de Privacidade</a>.</div>
+    <div class="cb-btns">
+      <button class="cb-btn cb-decline" onclick="recusarCookies()">Recusar</button>
+      <button class="cb-btn cb-accept" onclick="aceitarCookies()">Aceitar cookies</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══ LANDING ══ -->
 <div id="page-landing" class="page" style="display:block;">
 <section id="hero">
@@ -496,7 +524,7 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
       <div><div class="logo" onclick="go('landing')"><div class="logo-icon" style="width:32px;height:32px;font-size:15px;">A</div><span class="logo-text" style="font-size:1.1rem;">Aprend<span>AI</span></span></div><p style="margin-top:.75rem;font-size:.85rem;line-height:1.7;">Apostilas inteligentes geradas por IA para candidatos a concursos públicos.</p></div>
       <div class="fcol"><h4>Produto</h4><ul><li><a onclick="document.getElementById('como-funciona').scrollIntoView({behavior:'smooth'})">Como funciona</a></li><li><a onclick="document.getElementById('planos').scrollIntoView({behavior:'smooth'})">Planos</a></li></ul></div>
       <div class="fcol"><h4>Acesso</h4><ul><li><a onclick="go('auth')">Criar conta</a></li>          <li><a onclick="go('auth')">Área de Membro</a></li></ul></div>
-      <div class="fcol"><h4>Suporte</h4><ul><li><a href="mailto:contato@aprendai.net.br">Contato</a></li><li><a href="#">Termos de uso</a></li></ul></div>
+      <div class="fcol"><h4>Suporte</h4><ul><li><a href="mailto:contato@aprendai.net.br">Contato</a></li><li><a href="politica-privacidade.html" target="_blank">Política de Privacidade</a></li></ul></div>
     </div>
     <div class="fbot"><p>© 2026 AprendAI · aprendai.net.br</p><div class="socials"><a href="https://instagram.com/aprovaiconcursos" target="_blank" class="soc">📸</a><a href="#" class="soc">💬</a></div></div>
   </div>
@@ -524,6 +552,7 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
         <div class="fg"><label>E-mail</label><input type="email" id="cemail" placeholder="seu@email.com"/><div class="ferr" id="errce"></div></div>
         <div class="fg"><label>Senha</label><div class="pw"><input type="password" id="csenha" placeholder="Mínimo 6 caracteres"/><span class="pt" onclick="tp('csenha',this)">👁️</span></div><div class="ferr" id="errcs"></div></div>
         <div class="fg"><label>Confirmar senha</label><div class="pw"><input type="password" id="cconf" placeholder="Repita a senha"/><span class="pt" onclick="tp('cconf',this)">👁️</span></div><div class="ferr" id="errcc"></div></div>
+        <div class="fg cb-privacy"><label style="display:flex;align-items:flex-start;gap:.5rem;font-weight:400;"><input type="checkbox" id="caceite" style="margin-top:.2rem;width:auto;"/><span>Li e aceito a <a href="politica-privacidade.html" target="_blank">Política de Privacidade</a></span></label><div class="ferr" id="errca"></div></div>
         <button class="abtn abtn-g" id="btncad" onclick="doCad()">Criar conta grátis — 7 dias</button>
         <button class="abtn abtn-o" onclick="stab('login')">Já tenho conta — Entrar</button>
       </div>
@@ -533,7 +562,7 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
         <button class="abtn abtn-o" onclick="sforgot(true)">← Voltar ao login</button>
       </div>
     </div>
-    <div class="cft">Ao criar sua conta você concorda com os <a href="#">Termos de Uso</a></div>
+    <div class="cft">Ao criar sua conta você concorda com nossa <a href="politica-privacidade.html" target="_blank">Política de Privacidade</a></div>
   </div>
 </div>
 
@@ -912,6 +941,52 @@ var loaderMsgs = ['Consultando o estilo da banca...','Estruturando os tópicos..
 var loaderIdx = 0, loaderTimer = null;
 
 // ══════════════════════════════════════
+// CONSENTIMENTO DE COOKIES (LGPD)
+// ══════════════════════════════════════
+var COOKIE_CONSENT_NAME = 'aprendai_cookie_consent';
+function getCookie(name){
+  var m = document.cookie.match('(^|;)\\s*'+name+'\\s*=\\s*([^;]+)');
+  return m ? decodeURIComponent(m.pop()) : null;
+}
+function setCookie(name,value,days){
+  var d = new Date(); d.setTime(d.getTime()+days*24*60*60*1000);
+  document.cookie = name+'='+encodeURIComponent(value)+';expires='+d.toUTCString()+';path=/;SameSite=Lax';
+}
+function cookieConsent(){ return getCookie(COOKIE_CONSENT_NAME); }
+function cookiesAccepted(){ return cookieConsent()==='accepted'; }
+// enquanto o usuário não aceitar cookies, dados de sessão ficam só em sessionStorage (não persistem)
+var STORAGE = {
+  setItem: function(k,v){ (cookiesAccepted()?localStorage:sessionStorage).setItem(k,v); },
+  getItem: function(k){ return (cookiesAccepted()?localStorage:sessionStorage).getItem(k); },
+  removeItem: function(k){ localStorage.removeItem(k); sessionStorage.removeItem(k); }
+};
+function migrarArmazenamentoSessao(paraLocal){
+  var chaves=['sb_tok','sb_rtok','sb_usr'];
+  var origem = paraLocal ? sessionStorage : localStorage;
+  var destino = paraLocal ? localStorage : sessionStorage;
+  chaves.forEach(function(k){
+    var v=origem.getItem(k);
+    if(v!=null) destino.setItem(k,v);
+    origem.removeItem(k);
+  });
+}
+function initCookieBanner(){
+  if(!cookieConsent()){
+    document.getElementById('cookie-banner').classList.add('show');
+  }
+}
+function aceitarCookies(){
+  setCookie(COOKIE_CONSENT_NAME,'accepted',365);
+  migrarArmazenamentoSessao(true);
+  document.getElementById('cookie-banner').classList.remove('show');
+}
+function recusarCookies(){
+  setCookie(COOKIE_CONSENT_NAME,'declined',365);
+  migrarArmazenamentoSessao(false);
+  document.getElementById('cookie-banner').classList.remove('show');
+}
+
+// ══════════════════════════════════════
 // NAVEGAÇÃO
 // ══════════════════════════════════════
 function go(page) {
@@ -959,33 +1034,33 @@ function mesRef(){
   return d.getFullYear()+'-'+(d.getMonth()<9?'0':'')+(d.getMonth()+1);
 }
 function sbRefreshToken(){
-  var rtok=localStorage.getItem('sb_rtok');
+  var rtok=STORAGE.getItem('sb_rtok');
   if(!rtok)return Promise.resolve(null);
   return fetch(SB_URL+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{'Content-Type':'application/json','apikey':SB_KEY},body:JSON.stringify({refresh_token:rtok})})
     .then(function(r){return r.json();})
     .then(function(d){
       if(d&&d.access_token){
-        localStorage.setItem('sb_tok',d.access_token);
-        if(d.refresh_token)localStorage.setItem('sb_rtok',d.refresh_token);
+        STORAGE.setItem('sb_tok',d.access_token);
+        if(d.refresh_token)STORAGE.setItem('sb_rtok',d.refresh_token);
         return d.access_token;
       }
       return null;
     }).catch(function(){return null;});
 }
 function salvarContador(count){
-  var tok=localStorage.getItem('sb_tok');
+  var tok=STORAGE.getItem('sb_tok');
   if(!tok||!CUR_USER)return;
   var mr=mesRef();
   // atualiza a tela e o cache local na hora, pra não travar a experiência
   if(CUR_USER.user_metadata){CUR_USER.user_metadata.apostilas_mes=count;CUR_USER.user_metadata.mes_ref=mr;}
-  localStorage.setItem('sb_usr',JSON.stringify(CUR_USER));
+  STORAGE.setItem('sb_usr',JSON.stringify(CUR_USER));
   // salva de verdade no perfil do Supabase; se o token expirou, renova e tenta de novo
   sbPut('/auth/v1/user',{data:{apostilas_mes:count,mes_ref:mr}},tok).then(function(u){
-    if(u&&u.id){CUR_USER=u;localStorage.setItem('sb_usr',JSON.stringify(u));return;}
+    if(u&&u.id){CUR_USER=u;STORAGE.setItem('sb_usr',JSON.stringify(u));return;}
     return sbRefreshToken().then(function(novoTok){
       if(!novoTok)return;
       return sbPut('/auth/v1/user',{data:{apostilas_mes:count,mes_ref:mr}},novoTok).then(function(u2){
-        if(u2&&u2.id){CUR_USER=u2;localStorage.setItem('sb_usr',JSON.stringify(u2));}
+        if(u2&&u2.id){CUR_USER=u2;STORAGE.setItem('sb_usr',JSON.stringify(u2));}
       });
     });
   }).catch(function(e){console.error('Falha ao salvar contador:',e);});
@@ -1033,9 +1108,9 @@ function doLogin(){
     .then(function(d){
       setLd('btnlogin',false,'Entrar');
       if(d.error){showA('err','E-mail ou senha incorretos.');return;}
-      localStorage.setItem('sb_tok',d.access_token);
-      if(d.refresh_token)localStorage.setItem('sb_rtok',d.refresh_token);
-      localStorage.setItem('sb_usr',JSON.stringify(d.user));
+      STORAGE.setItem('sb_tok',d.access_token);
+      if(d.refresh_token)STORAGE.setItem('sb_rtok',d.refresh_token);
+      STORAGE.setItem('sb_usr',JSON.stringify(d.user));
       CUR_USER=d.user; renderDash(d.user); go('dash');
     }).catch(function(){setLd('btnlogin',false,'Entrar');showA('err','Erro de conexão.');});
 }
@@ -1045,11 +1120,13 @@ function doCad(){
   var email=document.getElementById('cemail').value.trim();
   var senha=document.getElementById('csenha').value;
   var conf=document.getElementById('cconf').value;
+  var aceite=document.getElementById('caceite').checked;
   var ok=true;
   if(!nome){document.getElementById('errcn').textContent='Informe seu nome';ok=false;}
   if(!email){document.getElementById('errce').textContent='Informe seu e-mail';ok=false;}
   if(senha.length<6){document.getElementById('errcs').textContent='Mínimo 6 caracteres';ok=false;}
   if(senha!==conf){document.getElementById('errcc').textContent='Senhas não coincidem';ok=false;}
+  if(!aceite){document.getElementById('errca').textContent='Você precisa aceitar a Política de Privacidade para continuar';ok=false;}
   if(!ok)return;
   setLd('btncad',true,'Criar conta grátis — 7 dias');
   sbPost('/auth/v1/signup',{email:email,password:senha,data:{full_name:nome,plano:'trial',trial_start:new Date().toISOString(),apostilas_mes:0}})
@@ -1057,8 +1134,8 @@ function doCad(){
       setLd('btncad',false,'Criar conta grátis — 7 dias');
       if(d.error){showA('err',d.error.message||'Erro ao criar conta.');return;}
       if(d.user&&d.user.id){
-        if(d.access_token){localStorage.setItem('sb_tok',d.access_token);localStorage.setItem('sb_usr',JSON.stringify(d.user));}
-        if(d.refresh_token)localStorage.setItem('sb_rtok',d.refresh_token);
+        if(d.access_token){STORAGE.setItem('sb_tok',d.access_token);STORAGE.setItem('sb_usr',JSON.stringify(d.user));}
+        if(d.refresh_token)STORAGE.setItem('sb_rtok',d.refresh_token);
         CUR_USER=d.user;
         showA('ok','Conta criada! Verifique seu e-mail para confirmar.');
         setTimeout(function(){renderDash(d.user);go('dash');},1800);
@@ -1073,7 +1150,7 @@ function doForgot(){
     .then(function(){setLd('btnforgot',false,'Enviar link de recuperação');showA('ok','Link enviado para '+email);})
     .catch(function(){setLd('btnforgot',false,'Enviar link de recuperação');});
 }
-function doLogout(){localStorage.removeItem('sb_tok');localStorage.removeItem('sb_rtok');localStorage.removeItem('sb_usr');CUR_USER=null;go('landing');}
+function doLogout(){STORAGE.removeItem('sb_tok');STORAGE.removeItem('sb_rtok');STORAGE.removeItem('sb_usr');CUR_USER=null;go('landing');}
 
 // ══════════════════════════════════════
 // DASHBOARD
@@ -1645,22 +1722,23 @@ function toggleB(){
 // SESSÃO SALVA
 // ══════════════════════════════════════
 window.addEventListener('load',function(){
-  var tok=localStorage.getItem('sb_tok');
-  var cached=localStorage.getItem('sb_usr');
+  initCookieBanner();
+  var tok=STORAGE.getItem('sb_tok');
+  var cached=STORAGE.getItem('sb_usr');
   if(tok&&cached){
     try{CUR_USER=JSON.parse(cached);renderDash(CUR_USER);go('dash');}catch(e){}
     fetch(SB_URL+'/auth/v1/user',{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+tok}}).then(function(r){return r.json();}).then(function(u){
-      if(u&&u.id){CUR_USER=u;localStorage.setItem('sb_usr',JSON.stringify(u));renderDash(u);return;}
+      if(u&&u.id){CUR_USER=u;STORAGE.setItem('sb_usr',JSON.stringify(u));renderDash(u);return;}
       // sessão vencida: renova o token e busca o perfil real de novo
       sbRefreshToken().then(function(novoTok){
         if(!novoTok)return;
         fetch(SB_URL+'/auth/v1/user',{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+novoTok}}).then(function(r){return r.json();}).then(function(u2){
-          if(u2&&u2.id){CUR_USER=u2;localStorage.setItem('sb_usr',JSON.stringify(u2));renderDash(u2);}
+          if(u2&&u2.id){CUR_USER=u2;STORAGE.setItem('sb_usr',JSON.stringify(u2));renderDash(u2);}
         }).catch(function(){});
       });
     }).catch(function(){});
     // renova o token de tempos em tempos, pra sessões longas de estudo não vencerem no meio do caminho
-    setInterval(function(){if(localStorage.getItem('sb_tok'))sbRefreshToken();},50*60*1000);
+    setInterval(function(){if(STORAGE.getItem('sb_tok'))sbRefreshToken();},50*60*1000);
   }
 });
 </script>
