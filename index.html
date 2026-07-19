@@ -264,6 +264,12 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 .gbtn{width:100%;padding:.9rem;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);box-shadow:0 4px 18px rgba(240,180,41,0.3);transition:all .25s;}
 .gbtn:hover{transform:translateY(-1px);}.gbtn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
 
+/* seções a gerar (checkbox) */
+.secoes-wrap{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.3rem;}
+.secao-chk{display:flex;align-items:center;gap:.5rem;padding:.55rem .95rem;border-radius:9px;border:2px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.6);font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;user-select:none;}
+.secao-chk input{width:15px;height:15px;accent-color:var(--gold);cursor:pointer;}
+.secao-chk.on{border-color:var(--gold);color:var(--gold);background:rgba(240,180,41,0.1);}
+
 /* ── MODO TOGGLE (Livre / Por Edital) ── */
 .modo-toggle{display:flex;gap:.4rem;margin-bottom:1.2rem;background:rgba(255,255,255,0.06);border-radius:10px;padding:.3rem;}
 .modo-btn{flex:1;padding:.52rem .7rem;border-radius:7px;border:none;font-size:.82rem;font-weight:600;cursor:pointer;font-family:inherit;color:rgba(255,255,255,0.5);background:none;transition:all .2s;}
@@ -693,6 +699,12 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
       <div class="kinput-wrap">
         <input class="kinput" id="gkey" type="text" placeholder="Ex: crédito tributário, lançamento..." oninput="onKey()" autocomplete="off"/>
         <div class="ksugg" id="ksugg"></div>
+      </div>
+      <span class="gfl">O QUE VOCÊ QUER GERAR?</span>
+      <div class="secoes-wrap" id="secoes-wrap">
+        <label class="secao-chk on"><input type="checkbox" id="chk-teoria" checked onchange="toggleSecaoChk(this)"/> 📖 Teoria</label>
+        <label class="secao-chk on"><input type="checkbox" id="chk-mapa" checked onchange="toggleSecaoChk(this)"/> 🗺️ Mapa Mental</label>
+        <label class="secao-chk on"><input type="checkbox" id="chk-questoes" checked onchange="toggleSecaoChk(this)"/> ✅ Questões</label>
       </div>
       <button class="gbtn" id="gbtn" onclick="gerar()">⚡ Gerar Apostila com IA</button>
     </div>
@@ -1352,12 +1364,20 @@ function repairJSON(str){
   try{return JSON.parse(s);}catch(e){return null;}
 }
 
+function toggleSecaoChk(input){
+  input.closest('.secao-chk').classList.toggle('on',input.checked);
+}
+
 function gerar(){
   var disc=document.getElementById('gdisc').value;
   var mod=document.getElementById('gmod').value;
   if(MODO_GERADOR==='edital'&&!SEL_EDITAL){alert('Selecione um edital.');return;}
   if(!disc){alert('Selecione a disciplina.');return;}
   if(!mod){alert('Selecione o assunto.');return;}
+  var qTeoria=document.getElementById('chk-teoria').checked;
+  var qMapa=document.getElementById('chk-mapa').checked;
+  var qQuestoes=document.getElementById('chk-questoes').checked;
+  if(!qTeoria&&!qMapa&&!qQuestoes){alert('Selecione ao menos uma opção: Teoria, Mapa Mental ou Questões.');return;}
   // verifica limite (contagem + prazo do trial)
   if(limiteAtingido()){document.getElementById('limit-wall').style.display='block';document.getElementById('gform').style.display='none';atualizarOpcoesLimite();return;}
 
@@ -1371,11 +1391,28 @@ function gerar(){
   loaderTimer=setInterval(function(){loaderIdx=(loaderIdx+1)%loaderMsgs.length;document.getElementById('loader-msg').textContent=loaderMsgs[loaderIdx];},2500);
 
 var _editCtx=MODO_GERADOR==='edital'&&SEL_EDITAL?' Concurso: '+SEL_EDITAL.orgao+' '+SEL_EDITAL.ano+', cargo '+SEL_EDITAL.cargo+'.':'';
+
+// monta o schema JSON só com os campos das seções marcadas — assim a IA
+// nem gera (nem cobra) tokens de saída das partes que o usuário não pediu
+var _campos=['"titulo":"título curto da apostila"','"introducao":"introdução contextualizando a importância do tema para a prova (2 a 3 frases)"'];
+if(qTeoria){
+  _campos.push('"teoria":[{"topico":"nome do subtópico","conteudo":"teoria aprofundada em HTML (250 a 400 palavras): conceito, base legal, classificações, requisitos e efeitos práticos — use <p>, <ul><li>, <strong> e <mark> como instruído","ancoragem":"exemplo prático, caso concreto ou mnemônico (até 40 palavras)","alerta":"pegadinha específica da banca '+SEL_BANCA+', com trecho de prova real se possível (até 40 palavras)"}]');
+  _campos.push('"raio_x_banca":{"pegadinhas":["pegadinha 1","pegadinha 2","pegadinha 3","pegadinha 4"],"temas_quentes":["tema 1","tema 2","tema 3","tema 4"],"dica_banca":"dica sobre o estilo da banca '+SEL_BANCA+' (até 40 palavras)"}');
+}
+if(qMapa){
+  _campos.push('"mapa_mental":{"centro":"'+mod+'","ramos":[{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]}]}');
+}
+if(qQuestoes){
+  _campos.push('"teste_imediato":[{"enunciado":"questão 1 no estilo '+SEL_BANCA+'","alternativas":{"A":"...","B":"...","C":"...","D":"...","E":"..."},"gabarito":"letra","comentario":"explicação completa do porquê certo/errado (até 70 palavras)"},{"enunciado":"questão 2","alternativas":{"A":"...","B":"...","C":"...","D":"...","E":"..."},"gabarito":"letra","comentario":"explicação (até 70 palavras)"},{"enunciado":"questão 3","alternativas":{"A":"...","B":"...","C":"...","D":"...","E":"..."},"gabarito":"letra","comentario":"explicação (até 70 palavras)"}]');
+}
+var _schema='{'+_campos.join(',')+'}';
+
 var prompt='Você é um professor especialista em concursos públicos, com foco absoluto no estilo da banca '+SEL_BANCA+'.\n'+
-    'Gere uma apostila COMPLETA e APROFUNDADA sobre "'+mod+'" da disciplina "'+disc+'", para concurseiros que estudam para provas da banca '+SEL_BANCA+'.'+_editCtx+' A teoria deve ser rica e didática — explique o conceito, o fundamento legal/teórico, classificações, requisitos e efeitos práticos, como em um curso completo, sem resumir demais.\n\n'+
-    'Para o texto ficar limpo e agradável de ler, formate o campo "conteudo" de cada tópico usando HTML simples, SEM atributos e SEM aspas dentro das tags: use <p> para parágrafos, <ul><li> para listas de características/requisitos/tipos, <strong> para negrito em termos técnicos e <mark> para destacar pontos que mais caem em prova. NÃO use markdown (nada de ** ou -), apenas essas tags HTML.\n\n'+
-    'RETORNE APENAS JSON VÁLIDO, sem markdown, sem texto fora do JSON:\n'+
-    '{"titulo":"título curto da apostila","introducao":"introdução contextualizando a importância do tema para a prova (2 a 3 frases)","teoria":[{"topico":"nome do subtópico","conteudo":"teoria aprofundada em HTML (250 a 400 palavras): conceito, base legal, classificações, requisitos e efeitos práticos — use <p>, <ul><li>, <strong> e <mark> como instruído","ancoragem":"exemplo prático, caso concreto ou mnemônico (até 40 palavras)","alerta":"pegadinha específica da banca '+SEL_BANCA+', com trecho de prova real se possível (até 40 palavras)"}],"raio_x_banca":{"pegadinhas":["pegadinha 1","pegadinha 2","pegadinha 3","pegadinha 4"],"temas_quentes":["tema 1","tema 2","tema 3","tema 4"],"dica_banca":"dica sobre o estilo da banca '+SEL_BANCA+' (até 40 palavras)"},"mapa_mental":{"centro":"'+mod+'","ramos":[{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]}]},"teste_imediato":[{"enunciado":"questão 1 no estilo '+SEL_BANCA+'","alternativas":{"A":"...","B":"...","C":"...","D":"...","E":"..."},"gabarito":"letra","comentario":"explicação completa do porquê certo/errado (até 70 palavras)"},{"enunciado":"questão 2","alternativas":{"A":"...","B":"...","C":"...","D":"...","E":"..."},"gabarito":"letra","comentario":"explicação (até 70 palavras)"},{"enunciado":"questão 3","alternativas":{"A":"...","B":"...","C":"...","D":"...","E":"..."},"gabarito":"letra","comentario":"explicação (até 70 palavras)"}]}\n\nUse de 5 a 6 tópicos em "teoria", cobrindo o assunto de forma completa. Priorize profundidade e clareza — a apostila deve ser suficiente para o aluno aprender o tema do zero.';
+    'Gere o material sobre "'+mod+'" da disciplina "'+disc+'", para concurseiros que estudam para provas da banca '+SEL_BANCA+'.'+_editCtx+
+    (qTeoria?' A teoria deve ser rica e didática — explique o conceito, o fundamento legal/teórico, classificações, requisitos e efeitos práticos, como em um curso completo, sem resumir demais.':' Gere APENAS as seções pedidas abaixo — não inclua teoria nem nenhum outro campo além dos listados no JSON.')+'\n\n'+
+    (qTeoria?'Para o texto ficar limpo e agradável de ler, formate o campo "conteudo" de cada tópico usando HTML simples, SEM atributos e SEM aspas dentro das tags: use <p> para parágrafos, <ul><li> para listas de características/requisitos/tipos, <strong> para negrito em termos técnicos e <mark> para destacar pontos que mais caem em prova. NÃO use markdown (nada de ** ou -), apenas essas tags HTML.\n\n':'')+
+    'RETORNE APENAS JSON VÁLIDO, sem markdown, sem texto fora do JSON:\n'+_schema+
+    (qTeoria?'\n\nUse de 5 a 6 tópicos em "teoria", cobrindo o assunto de forma completa. Priorize profundidade e clareza — a apostila deve ser suficiente para o aluno aprender o tema do zero.':'');
   fetch('/api/generate',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
