@@ -1001,7 +1001,6 @@ function garantirDiscsCarregadas(cb){
 var CUR_USER = null, CUR_PLANO = 'trial', APO_COUNT = 0, CUR_RENOVACAO = null;
 var SEL_BANCA = 'FCC', CUR_DATA = null;
 var MINHAS_APOSTILAS = [], _ERRO_RETRY_FN = null;
-var loaderMsgs = ['Consultando o estilo da banca...','Estruturando os tópicos...','Gerando teoria e ancoragem...','Criando o Raio-X da Banca...','Montando o mapa mental...','Finalizando teste imediato...'];
 var loaderIdx = 0, loaderTimer = null;
 
 // ══════════════════════════════════════
@@ -1387,8 +1386,13 @@ function gerar(){
   var loader=document.getElementById('gloader');
   loader.classList.add('show');
   loaderIdx=0;
-  document.getElementById('loader-msg').textContent=loaderMsgs[0];
-  loaderTimer=setInterval(function(){loaderIdx=(loaderIdx+1)%loaderMsgs.length;document.getElementById('loader-msg').textContent=loaderMsgs[loaderIdx];},2500);
+  // mostra só mensagens das seções que serão realmente geradas
+  var _loaderMsgs=['Consultando o estilo da banca...','Estruturando os tópicos...'];
+  if(qTeoria)_loaderMsgs.push('Gerando teoria e ancoragem...','Criando o Raio-X da Banca...');
+  if(qMapa)_loaderMsgs.push('Montando o mapa mental...');
+  if(qQuestoes)_loaderMsgs.push('Finalizando teste imediato...');
+  document.getElementById('loader-msg').textContent=_loaderMsgs[0];
+  loaderTimer=setInterval(function(){loaderIdx=(loaderIdx+1)%_loaderMsgs.length;document.getElementById('loader-msg').textContent=_loaderMsgs[loaderIdx];},2500);
 
 var _editCtx=MODO_GERADOR==='edital'&&SEL_EDITAL?' Concurso: '+SEL_EDITAL.orgao+' '+SEL_EDITAL.ano+', cargo '+SEL_EDITAL.cargo+'.':'';
 
@@ -1408,7 +1412,7 @@ if(qQuestoes){
 var _schema='{'+_campos.join(',')+'}';
 
 var prompt='Você é um professor especialista em concursos públicos, com foco absoluto no estilo da banca '+SEL_BANCA+'.\n'+
-    'Gere o material sobre "'+mod+'" da disciplina "'+disc+'", para concurseiros que estudam para provas da banca '+SEL_BANCA+'.'+_editCtx+
+    'Gere '+(qTeoria&&qMapa&&qQuestoes?'uma apostila COMPLETA e APROFUNDADA':'o material')+' sobre "'+mod+'" da disciplina "'+disc+'", para concurseiros que estudam para provas da banca '+SEL_BANCA+'.'+_editCtx+
     (qTeoria?' A teoria deve ser rica e didática — explique o conceito, o fundamento legal/teórico, classificações, requisitos e efeitos práticos, como em um curso completo, sem resumir demais.':' Gere APENAS as seções pedidas abaixo — não inclua teoria nem nenhum outro campo além dos listados no JSON.')+'\n\n'+
     (qTeoria?'Para o texto ficar limpo e agradável de ler, formate o campo "conteudo" de cada tópico usando HTML simples, SEM atributos e SEM aspas dentro das tags: use <p> para parágrafos, <ul><li> para listas de características/requisitos/tipos, <strong> para negrito em termos técnicos e <mark> para destacar pontos que mais caem em prova. NÃO use markdown (nada de ** ou -), apenas essas tags HTML.\n\n':'')+
     'RETORNE APENAS JSON VÁLIDO, sem markdown, sem texto fora do JSON:\n'+_schema+
