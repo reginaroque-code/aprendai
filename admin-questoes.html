@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>AprendAI — Administração de Questões</title>
+<style>
+  :root{
+    --navy:#0D2550;
+    --navy-light:#16386f;
+    --gold:#F0A500;
+    --bg:#f4f6fb;
+    --card:#ffffff;
+    --line:#e2e6ef;
+    --text:#1c2740;
+    --muted:#68728a;
+    --danger:#c0392b;
+    --danger-bg:#fdecea;
+    --ok:#1e8e5a;
+    --ok-bg:#e8f7f0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--text);
+  }
+
+  /* ---------- Tela de login ---------- */
+  #login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+  .login-box{background:var(--card);border-radius:16px;padding:40px 32px;width:100%;max-width:360px;box-shadow:0 10px 40px rgba(13,37,80,0.12);text-align:center;}
+  .login-box .logo{font-weight:800;font-size:1.4rem;color:var(--navy);margin-bottom:4px;}
+  .login-box .sub{color:var(--muted);font-size:.85rem;margin-bottom:24px;}
+  .login-box input{width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid var(--line);font-size:.95rem;margin-bottom:12px;}
+  .login-box input:focus{outline:none;border-color:var(--gold);}
+  .btn{display:inline-block;border:none;border-radius:10px;padding:12px 20px;font-size:.92rem;font-weight:700;cursor:pointer;transition:transform .1s ease, opacity .15s ease;}
+  .btn:active{transform:scale(.98);}
+  .btn-primary{background:var(--navy);color:#fff;width:100%;}
+  .btn-primary:hover{background:var(--navy-light);}
+  .btn-gold{background:var(--gold);color:var(--navy);}
+  .btn-gold:hover{opacity:.9;}
+  .btn-ghost{background:transparent;color:var(--muted);border:1.5px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--muted);}
+  .btn-danger{background:var(--danger-bg);color:var(--danger);}
+  .btn-danger:hover{background:#fbdbd7;}
+  .btn-sm{padding:7px 12px;font-size:.78rem;}
+  .login-err{color:var(--danger);font-size:.82rem;margin-bottom:10px;min-height:1em;}
+
+  /* ---------- App principal ---------- */
+  #app{display:none;}
+  header.top{background:var(--navy);color:#fff;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+  header.top h1{font-size:1.15rem;margin:0;font-weight:800;}
+  header.top h1 span{color:var(--gold);}
+  header.top .actions{display:flex;gap:10px;align-items:center;}
+
+  main{max-width:960px;margin:0 auto;padding:28px 20px 80px;}
+
+  .toolbar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;}
+  .toolbar input[type="text"]{flex:1;min-width:200px;padding:10px 14px;border-radius:10px;border:1.5px solid var(--line);font-size:.9rem;}
+
+  .msg{padding:10px 14px;border-radius:10px;font-size:.85rem;margin-bottom:16px;display:none;}
+  .msg.show{display:block;}
+  .msg.ok{background:var(--ok-bg);color:var(--ok);}
+  .msg.err{background:var(--danger-bg);color:var(--danger);}
+
+  .empty, .loading{color:var(--muted);font-size:.88rem;padding:18px 4px;}
+
+  .q-card{background:var(--card);border:1.5px solid var(--line);border-radius:14px;margin-bottom:12px;padding:14px 18px;}
+  .q-top{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
+  .badge{font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:50px;}
+  .badge.banca{background:#eef2fb;color:var(--navy);}
+  .badge.on{background:var(--ok-bg);color:var(--ok);}
+  .badge.off{background:#f0f1f5;color:var(--muted);}
+  .badge.tipo{background:#fff6e6;color:#8a6100;}
+  .q-trilha{font-size:.85rem;font-weight:700;color:var(--navy);}
+  .q-trilha .sep{color:var(--muted);font-weight:400;margin:0 4px;}
+  .q-enunc{font-size:.86rem;color:var(--text);line-height:1.5;margin-bottom:10px;}
+  .q-meta{font-size:.76rem;color:var(--muted);margin-bottom:10px;}
+  .q-actions{display:flex;gap:8px;}
+  .q-actions .btn{padding:8px 14px;font-size:.8rem;}
+
+  /* ---------- Formulário ---------- */
+  #form-card{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:22px;margin-bottom:24px;display:none;}
+  #form-card.show{display:block;}
+  #form-card h2{font-size:1.02rem;margin:0 0 16px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:5px;}
+  .field .hint{font-weight:400;color:var(--muted);font-size:.78rem;}
+  .field input[type="text"], .field input[type="number"], .field textarea, .field select{
+    width:100%;padding:10px 12px;border-radius:9px;border:1.5px solid var(--line);font-size:.88rem;font-family:inherit;resize:vertical;background:#fff;
+  }
+  .field textarea{min-height:80px;line-height:1.5;}
+  .field input:focus, .field textarea:focus, .field select:focus{outline:none;border-color:var(--gold);}
+  .row2{display:flex;gap:14px;flex-wrap:wrap;}
+  .row2 > div{flex:1;min-width:140px;}
+  .row3 > div{flex:1;min-width:120px;}
+  .check{display:flex;align-items:center;gap:8px;font-size:.85rem;}
+  .form-actions{display:flex;gap:10px;margin-top:18px;}
+  .alt-grid{display:grid;grid-template-columns:1fr;gap:8px;background:#fafbfd;border:1.5px solid var(--line);border-radius:10px;padding:12px;}
+  .alt-row{display:flex;gap:8px;align-items:center;}
+  .alt-row .letra{width:26px;flex-shrink:0;font-weight:800;color:var(--navy);text-align:center;}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ LOGIN ═══════════ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="logo">Aprend<span style="color:#F0A500">AI</span></div>
+    <div class="sub">Administração de Questões</div>
+    <input type="password" id="senha-input" placeholder="Senha de administrador"/>
+    <div class="login-err" id="login-err"></div>
+    <button class="btn btn-primary" onclick="login()">Entrar</button>
+  </div>
+</div>
+
+<!-- ═══════════ APP ═══════════ -->
+<div id="app">
+  <header class="top">
+    <h1>Aprend<span>AI</span> · Questões</h1>
+    <div class="actions">
+      <button class="btn btn-ghost btn-sm" onclick="sair()">Sair</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="msg" id="msg"></div>
+
+    <div class="toolbar">
+      <input type="text" id="busca" placeholder="Buscar por disciplina, assunto, banca ou enunciado..." oninput="renderLista()"/>
+      <button class="btn btn-gold" onclick="novoForm()">+ Nova questão</button>
+    </div>
+
+    <!-- ---- Formulário ---- -->
+    <div id="form-card">
+      <h2 id="form-titulo">Nova questão</h2>
+      <input type="hidden" id="f-id"/>
+
+      <div class="row3" style="display:flex;gap:14px;flex-wrap:wrap;">
+        <div class="field" style="flex:1;min-width:160px;">
+          <label>Banca</label>
+          <input type="text" id="f-banca" list="dl-bancas" placeholder="Ex: CEBRASPE"/>
+          <datalist id="dl-bancas">
+            <option value="CEBRASPE"></option><option value="FCC"></option><option value="FGV"></option>
+            <option value="VUNESP"></option><option value="IBFC"></option><option value="AOCP"></option>
+            <option value="Quadrix"></option><option value="IDECAN"></option><option value="IADES"></option>
+            <option value="Instituto Consulplan"></option><option value="FUNDATEC"></option>
+          </datalist>
+        </div>
+        <div class="field" style="flex:1;min-width:160px;">
+          <label>Órgão / concurso <span class="hint">(opcional)</span></label>
+          <input type="text" id="f-orgao" placeholder="Ex: PRF"/>
+        </div>
+        <div class="field" style="flex:1;min-width:110px;">
+          <label>Ano <span class="hint">(opcional)</span></label>
+          <input type="number" id="f-ano" placeholder="Ex: 2023"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Disciplina <span class="hint">— use o nome exatamente como aparece no edital</span></label>
+        <input type="text" id="f-disciplina" list="dl-disciplinas" oninput="atualizarAssuntosDatalist()" placeholder="Ex: Legislação de Trânsito"/>
+        <datalist id="dl-disciplinas"></datalist>
+      </div>
+
+      <div class="field">
+        <label>Assunto <span class="hint">— use o nome exatamente como aparece no edital</span></label>
+        <input type="text" id="f-assunto" list="dl-assuntos" placeholder="Ex: Infrações e penalidades"/>
+        <datalist id="dl-assuntos"></datalist>
+      </div>
+
+      <div class="field">
+        <label>Tipo de questão</label>
+        <select id="f-tipo" onchange="toggleTipo()">
+          <option value="multipla">Múltipla escolha (A–E)</option>
+          <option value="certo_errado">Certo ou Errado (CEBRASPE)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Enunciado</label>
+        <textarea id="f-enunciado" placeholder="Cole aqui o enunciado da questão..."></textarea>
+      </div>
+
+      <div class="field" id="bloco-alternativas">
+        <label>Alternativas <span class="hint">(E é opcional)</span></label>
+        <div class="alt-grid">
+          <div class="alt-row"><span class="letra">A</span><input type="text" id="f-alt-a"/></div>
+          <div class="alt-row"><span class="letra">B</span><input type="text" id="f-alt-b"/></div>
+          <div class="alt-row"><span class="letra">C</span><input type="text" id="f-alt-c"/></div>
+          <div class="alt-row"><span class="letra">D</span><input type="text" id="f-alt-d"/></div>
+          <div class="alt-row"><span class="letra">E</span><input type="text" id="f-alt-e"/></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Gabarito</label>
+        <select id="f-gabarito"></select>
+      </div>
+
+      <div class="field">
+        <label>Comentário <span class="hint">(opcional — explicação do gabarito)</span></label>
+        <textarea id="f-comentario" placeholder="Por que essa é a alternativa correta..."></textarea>
+      </div>
+
+      <label class="check"><input type="checkbox" id="f-ativo" checked/> Questão ativa (aparece no site)</label>
+
+      <div class="form-actions">
+        <button class="btn btn-primary" style="width:auto;" onclick="salvar()">Salvar questão</button>
+        <button class="btn btn-ghost" onclick="fecharForm()">Cancelar</button>
+      </div>
+    </div>
+
+    <!-- ---- Lista ---- -->
+    <div id="lista"><div class="loading">Carregando questões...</div></div>
+  </main>
+</div>
+
+<script>
+var SENHA = '';
+var QUESTOES = [];
+var MAPA_ASSUNTOS = {}; // { 'Nome da disciplina': ['assunto 1','assunto 2', ...] }
+
+// ══════════════ básicos comuns (mesma base do index.html) ══════════════
+var DISCIPLINAS_COMUNS = {
+  'portugues': {nome:'Língua Portuguesa', modulos:['Compreensão e interpretação de textos','Tipologia e gêneros textuais','Coesão e coerência textual','Ortografia oficial','Acentuação gráfica','Classes de palavras: emprego e flexão','Concordância nominal e verbal','Regência nominal e verbal','Crase','Pontuação','Sintaxe do período simples e composto','Colocação pronominal','Semântica: sinonímia, antonímia e polissemia','Reescrita de frases e substituição de termos','Figuras de linguagem']},
+  'rlm': {nome:'Raciocínio Lógico-Matemático', modulos:['Estruturas lógicas: proposições, conectivos e tabelas-verdade','Lógica de argumentação: analogias, inferências e conclusões','Diagramas lógicos e raciocínio sequencial','Princípios de contagem e análise combinatória','Probabilidade básica','Conjuntos: operações e problemas envolvendo conjuntos','Porcentagem, razão e proporção','Regra de três simples e composta','Sequências lógicas numéricas e figurais','Problemas de raciocínio matemático aplicados ao cotidiano']},
+  'dir-constitucional': {nome:'Direito Constitucional', modulos:['Constituição: conceito, classificação e princípios fundamentais','Direitos e garantias fundamentais','Organização do Estado: União, Estados, Municípios e DF','Organização dos Poderes: Legislativo, Executivo e Judiciário','Administração Pública na Constituição (art. 37)','Controle de constitucionalidade','Processo legislativo','Ordem social e ordem econômica na Constituição','Emendas constitucionais e cláusulas pétreas','Remédios constitucionais: habeas corpus, mandado de segurança e outros']},
+  'dir-administrativo': {nome:'Direito Administrativo', modulos:['Princípios da Administração Pública','Organização administrativa: administração direta e indireta','Atos administrativos: atributos, espécies e extinção','Poderes administrativos: vinculado, discricionário, hierárquico, disciplinar e de polícia','Licitações e contratos administrativos (Lei nº 14.133/2021)','Servidores públicos: regime jurídico e responsabilidades','Responsabilidade civil do Estado','Controle da Administração Pública','Improbidade administrativa (Lei nº 8.429/92)','Processo administrativo (Lei nº 9.784/99)']},
+  'etica-servico-publico': {nome:'Ética no Serviço Público', modulos:['Ética e moral: conceitos e distinções','Ética no setor público e código de conduta','Lei nº 8.027/90 — normas de conduta de servidores','Decreto nº 1.171/94 — Código de Ética do Servidor Público Federal','Lei de Acesso à Informação (Lei nº 12.527/2011)','Lei Geral de Proteção de Dados (LGPD) aplicada ao setor público','Improbidade administrativa e transparência','Conflito de interesses no serviço público']},
+  'dir-penal': {nome:'Direito Penal', modulos:['Princípios do Direito Penal. Conceito e fontes do Direito Penal','Aplicação da Lei Penal. Lei penal no tempo. Lei penal no espaço. Tempo e Lugar do crime. Territorialidade e extraterritorialidade','Do crime (parte I): conceito de crime. Fato típico. Dolo e culpa. Consumação e tentativa. Crime impossível. Ilicitude','Do crime (parte II): Culpabilidade. Imputabilidade penal. Erro de tipo e erro de proibição','Punibilidade e extinção da punibilidade','Crimes contra a pessoa','Crimes contra o patrimônio','Crimes contra a dignidade sexual. Crimes contra a incolumidade pública','Crimes contra a fé pública','Crimes contra a administração pública (parte 1): Crimes praticados por funcionário público contra a administração em geral','Crimes contra a administração pública (parte 2): Crimes praticados por particular contra a administração em geral','Crimes contra a administração pública (parte 3): Crimes contra a administração pública estrangeira. Crimes contra a administração da Justiça. Crimes contra as finanças públicas']},
+  'dir-processual-penal': {nome:'Direito Processual Penal', modulos:['Ação penal. Atos processuais (forma, lugar e tempo)','Provas (parte I): Teoria geral','Provas (parte II): Provas em espécie (pericial, interrogatório, confissão, perguntas ao ofendido, testemunhas, reconhecimento de pessoas e coisas, acareação, documentos, indícios). Busca e apreensão','Prisão: conceito, formalidades, espécies, mandado de prisão e cumprimento. Prisão em flagrante (espécies, hipóteses, etc.). Termo circunstanciado de ocorrência (Lei 9.099/95). Identificação Criminal (art. 5º, LVIII, da CF, e art. 3º da Lei nº 12.037/2009). Diligências investigatórias (art. 6º e 13 do CPP)']},
+  'informatica': {nome:'Noções de Informática', modulos:['Conceitos básicos de hardware e software','Sistemas operacionais: Windows e Linux (noções)','Edição de texto e planilhas (Word, Excel / LibreOffice)','Navegação na internet e correio eletrônico','Conceitos de redes de computadores','Segurança da informação: vírus, malware e boas práticas','Computação em nuvem: conceitos básicos','Backup e armazenamento de dados']},
+};
+
+function adicionarAoMapa(nome, modulos){
+  if(!nome) return;
+  if(!MAPA_ASSUNTOS[nome]) MAPA_ASSUNTOS[nome] = [];
+  (modulos||[]).forEach(function(m){
+    if(m && MAPA_ASSUNTOS[nome].indexOf(m) === -1) MAPA_ASSUNTOS[nome].push(m);
+  });
+}
+
+function carregarMapaAssuntos(){
+  Object.keys(DISCIPLINAS_COMUNS).forEach(function(k){
+    adicionarAoMapa(DISCIPLINAS_COMUNS[k].nome, DISCIPLINAS_COMUNS[k].modulos);
+  });
+  fetch('/api/disciplinas').then(function(r){return r.json();}).then(function(data){
+    Object.keys(data||{}).forEach(function(nome){ adicionarAoMapa(nome, (data[nome]||{}).mod); });
+    popularDatalistDisciplinas();
+  }).catch(function(){ popularDatalistDisciplinas(); });
+  fetch('/api/editais').then(function(r){return r.json();}).then(function(editais){
+    (editais||[]).forEach(function(ed){
+      (ed.disciplinas||[]).forEach(function(d){ adicionarAoMapa(d.nome, d.modulos); });
+    });
+    popularDatalistDisciplinas();
+  }).catch(function(){});
+}
+
+function popularDatalistDisciplinas(){
+  var dl = document.getElementById('dl-disciplinas');
+  dl.innerHTML = '';
+  Object.keys(MAPA_ASSUNTOS).sort().forEach(function(nome){
+    var o = document.createElement('option'); o.value = nome; dl.appendChild(o);
+  });
+}
+
+function atualizarAssuntosDatalist(){
+  var nome = document.getElementById('f-disciplina').value.trim();
+  var dl = document.getElementById('dl-assuntos');
+  dl.innerHTML = '';
+  var assuntos = MAPA_ASSUNTOS[nome];
+  if(!assuntos){
+    var achado = Object.keys(MAPA_ASSUNTOS).find(function(k){ return k.toLowerCase() === nome.toLowerCase(); });
+    if(achado) assuntos = MAPA_ASSUNTOS[achado];
+  }
+  (assuntos||[]).forEach(function(a){
+    var o = document.createElement('option'); o.value = a; dl.appendChild(o);
+  });
+}
+
+// ══════════════ login ══════════════
+function login(){
+  SENHA = document.getElementById('senha-input').value;
+  document.getElementById('login-err').textContent = '';
+  carregarLista(true);
+}
+document.getElementById('senha-input').addEventListener('keydown', function(e){
+  if(e.key === 'Enter') login();
+});
+function sair(){
+  SENHA = ''; QUESTOES = [];
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('senha-input').value = '';
+}
+function mostrarMsg(texto, tipo){
+  var el = document.getElementById('msg');
+  el.textContent = texto; el.className = 'msg show ' + tipo;
+  setTimeout(function(){ el.className = 'msg'; }, 4000);
+}
+async function chamarAPI(method, body){
+  var opts = { method: method, headers: { 'Content-Type':'application/json', 'x-admin-password': SENHA } };
+  if(body) opts.body = JSON.stringify(body);
+  var r = await fetch('/api/admin-questoes', opts);
+  var data = await r.json().catch(function(){ return {}; });
+  if(r.status === 401) throw new Error('SENHA_INVALIDA');
+  if(!r.ok) throw new Error(data.error || 'Erro na operação');
+  return data;
+}
+async function carregarLista(primeiraVez){
+  var lista = document.getElementById('lista');
+  if(primeiraVez) lista.innerHTML = '<div class="loading">Carregando questões...</div>';
+  try{
+    var data = await chamarAPI('GET');
+    QUESTOES = data;
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    carregarMapaAssuntos();
+    renderLista();
+  }catch(e){
+    if(e.message === 'SENHA_INVALIDA'){
+      document.getElementById('login-err').textContent = 'Senha incorreta.';
+    }else{
+      lista.innerHTML = '<div class="empty">Não foi possível carregar as questões. Tente novamente.</div>';
+      mostrarMsg('Erro ao carregar: ' + e.message, 'err');
+    }
+  }
+}
+
+// ══════════════ lista ══════════════
+function renderLista(){
+  var termo = (document.getElementById('busca').value||'').toLowerCase();
+  var lista = document.getElementById('lista');
+  var dados = QUESTOES.filter(function(q){
+    if(!termo) return true;
+    return (q.disciplina||'').toLowerCase().includes(termo) ||
+           (q.assunto||'').toLowerCase().includes(termo) ||
+           (q.banca||'').toLowerCase().includes(termo) ||
+           (q.enunciado||'').toLowerCase().includes(termo);
+  });
+  if(!dados.length){ lista.innerHTML = '<div class="empty">Nenhuma questão encontrada.</div>'; return; }
+  lista.innerHTML = dados.map(function(q){
+    var enuncCurto = (q.enunciado||'').length > 160 ? q.enunciado.slice(0,160)+'…' : q.enunciado;
+    var metaBits = [];
+    if(q.orgao) metaBits.push(q.orgao);
+    if(q.ano) metaBits.push(q.ano);
+    metaBits.push(q.tipo === 'certo_errado' ? 'Certo/Errado' : 'Múltipla escolha');
+    metaBits.push('Gabarito: ' + q.gabarito);
+    return '<div class="q-card">'+
+      '<div class="q-top">'+
+        '<span class="badge banca">'+escHTML(q.banca)+'</span>'+
+        '<span class="badge '+(q.ativo?'on':'off')+'">'+(q.ativo?'Ativa':'Inativa')+'</span>'+
+      '</div>'+
+      '<div class="q-trilha">'+escHTML(q.disciplina)+'<span class="sep">›</span>'+escHTML(q.assunto)+'</div>'+
+      '<div class="q-enunc">'+escHTML(enuncCurto)+'</div>'+
+      '<div class="q-meta">'+metaBits.map(escHTML).join(' · ')+'</div>'+
+      '<div class="q-actions">'+
+        '<button class="btn btn-ghost btn-sm" onclick="abrirForm(\''+q.id+'\')">Editar</button>'+
+        '<button class="btn btn-danger btn-sm" onclick="confirmarExclusao(\''+q.id+'\')">Apagar</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+function escHTML(v){
+  return String(v==null?'':v).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+
+// ══════════════ formulário ══════════════
+function novoForm(){
+  document.getElementById('form-titulo').textContent = 'Nova questão';
+  document.getElementById('f-id').value = crypto.randomUUID();
+  document.getElementById('f-banca').value = '';
+  document.getElementById('f-orgao').value = '';
+  document.getElementById('f-ano').value = '';
+  document.getElementById('f-disciplina').value = '';
+  document.getElementById('f-assunto').value = '';
+  document.getElementById('f-tipo').value = 'multipla';
+  document.getElementById('f-enunciado').value = '';
+  ['a','b','c','d','e'].forEach(function(l){ document.getElementById('f-alt-'+l).value=''; });
+  document.getElementById('f-comentario').value = '';
+  document.getElementById('f-ativo').checked = true;
+  toggleTipo();
+  document.getElementById('f-gabarito').value = 'A';
+  abrirCard();
+}
+function abrirForm(id){
+  var q = QUESTOES.find(function(x){ return x.id === id; });
+  if(!q) return;
+  document.getElementById('form-titulo').textContent = 'Editar questão';
+  document.getElementById('f-id').value = q.id;
+  document.getElementById('f-banca').value = q.banca || '';
+  document.getElementById('f-orgao').value = q.orgao || '';
+  document.getElementById('f-ano').value = q.ano || '';
+  document.getElementById('f-disciplina').value = q.disciplina || '';
+  document.getElementById('f-assunto').value = q.assunto || '';
+  document.getElementById('f-tipo').value = q.tipo || 'multipla';
+  document.getElementById('f-enunciado').value = q.enunciado || '';
+  var alt = q.alternativas || {};
+  ['a','b','c','d','e'].forEach(function(l){ document.getElementById('f-alt-'+l).value = alt[l.toUpperCase()] || ''; });
+  document.getElementById('f-comentario').value = q.comentario || '';
+  document.getElementById('f-ativo').checked = q.ativo !== false;
+  toggleTipo();
+  document.getElementById('f-gabarito').value = q.gabarito || (q.tipo==='certo_errado' ? 'Certo' : 'A');
+  abrirCard();
+}
+function abrirCard(){
+  document.getElementById('form-card').classList.add('show');
+  document.getElementById('form-card').scrollIntoView({behavior:'smooth', block:'start'});
+}
+function fecharForm(){
+  document.getElementById('form-card').classList.remove('show');
+}
+function toggleTipo(){
+  var tipo = document.getElementById('f-tipo').value;
+  var sel = document.getElementById('f-gabarito');
+  var atual = sel.value;
+  document.getElementById('bloco-alternativas').style.display = tipo === 'multipla' ? '' : 'none';
+  if(tipo === 'multipla'){
+    sel.innerHTML = ['A','B','C','D','E'].map(function(l){ return '<option value="'+l+'">'+l+'</option>'; }).join('');
+  }else{
+    sel.innerHTML = '<option value="Certo">Certo</option><option value="Errado">Errado</option>';
+  }
+  if(['A','B','C','D','E','Certo','Errado'].indexOf(atual) > -1) sel.value = atual;
+}
+
+async function salvar(){
+  var id = document.getElementById('f-id').value;
+  var banca = document.getElementById('f-banca').value.trim();
+  var orgao = document.getElementById('f-orgao').value.trim();
+  var ano = parseInt(document.getElementById('f-ano').value) || null;
+  var disciplina = document.getElementById('f-disciplina').value.trim();
+  var assunto = document.getElementById('f-assunto').value.trim();
+  var tipo = document.getElementById('f-tipo').value;
+  var enunciado = document.getElementById('f-enunciado').value.trim();
+  var comentario = document.getElementById('f-comentario').value.trim();
+  var ativo = document.getElementById('f-ativo').checked;
+  var gabarito = document.getElementById('f-gabarito').value;
+
+  if(!banca){ mostrarMsg('Digite a banca.', 'err'); return; }
+  if(!disciplina){ mostrarMsg('Digite a disciplina.', 'err'); return; }
+  if(!assunto){ mostrarMsg('Digite o assunto.', 'err'); return; }
+  if(!enunciado){ mostrarMsg('Digite o enunciado.', 'err'); return; }
+
+  var alternativas = null;
+  if(tipo === 'multipla'){
+    alternativas = {
+      A: document.getElementById('f-alt-a').value.trim(),
+      B: document.getElementById('f-alt-b').value.trim(),
+      C: document.getElementById('f-alt-c').value.trim(),
+      D: document.getElementById('f-alt-d').value.trim(),
+      E: document.getElementById('f-alt-e').value.trim(),
+    };
+    if(!alternativas.A || !alternativas.B || !alternativas.C || !alternativas.D){
+      mostrarMsg('Preencha ao menos as alternativas A, B, C e D.', 'err'); return;
+    }
+  }
+
+  try{
+    await chamarAPI('POST', { id, banca, orgao, ano, disciplina, assunto, tipo, enunciado, alternativas, gabarito, comentario, ativo });
+    mostrarMsg('Questão salva com sucesso!', 'ok');
+    fecharForm();
+    await carregarLista(false);
+  }catch(e){
+    mostrarMsg('Erro ao salvar: ' + e.message, 'err');
+  }
+}
+
+function confirmarExclusao(id){
+  if(confirm('Apagar esta questão? Essa ação não pode ser desfeita.')) apagar(id);
+}
+async function apagar(id){
+  try{
+    await chamarAPI('DELETE', { id });
+    mostrarMsg('Questão apagada.', 'ok');
+    await carregarLista(false);
+  }catch(e){
+    mostrarMsg('Erro ao apagar: ' + e.message, 'err');
+  }
+}
+</script>
+</body>
+</html>
