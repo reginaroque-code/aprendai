@@ -291,6 +291,55 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 .edital-card-meta{font-size:.73rem;color:rgba(255,255,255,0.42);}
 .edital-banca-info{display:inline-flex;align-items:center;gap:.4rem;background:rgba(240,180,41,0.1);border:1px solid rgba(240,180,41,0.25);border-radius:7px;padding:.38rem .75rem;font-size:.8rem;color:var(--gold);font-weight:600;margin-bottom:1.1rem;}
 
+/* ── TRILHA DE ESTUDOS (Por Edital: disciplinas em cards + assuntos verticais) ── */
+.trilha-back{display:inline-flex;align-items:center;gap:.3rem;background:none;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.55);font-size:.78rem;font-weight:600;padding:.42rem .8rem;border-radius:8px;cursor:pointer;font-family:inherit;margin-bottom:1rem;transition:.2s;}
+.trilha-back:hover{border-color:var(--gold);color:var(--gold);}
+.trilha-crumb{font-size:.8rem;color:rgba(255,255,255,0.5);margin-bottom:1.1rem;}
+.trilha-crumb b{color:#fff;font-weight:700;}
+.trilha-crumb .tc-sep{color:rgba(255,255,255,0.3);margin:0 .3rem;}
+.trilha-grupo-label{display:flex;align-items:center;gap:.6rem;margin:1.5rem 0 .9rem;font-size:.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);}
+.trilha-grupo-label:first-of-type{margin-top:0;}
+.trilha-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+@media(max-width:560px){.trilha-grid{grid-template-columns:1fr;}}
+.trilha-card{background:#0d1f3c;border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:1.05rem 1rem;cursor:pointer;transition:.22s;display:flex;flex-direction:column;gap:.7rem;}
+.trilha-card:hover{border-color:rgba(240,180,41,0.55);transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,0.35);}
+.trilha-card:active{transform:translateY(0);}
+.trilha-card-top{display:flex;align-items:center;gap:.7rem;}
+.trilha-ring{width:42px;height:42px;border-radius:50%;flex-shrink:0;position:relative;display:flex;align-items:center;justify-content:center;}
+.trilha-ring svg{position:absolute;top:0;left:0;}
+.trilha-ring-txt{position:relative;font-size:.62rem;font-weight:800;color:var(--gold);}
+.trilha-card-nome{font-size:.9rem;font-weight:700;line-height:1.25;color:#fff;}
+.trilha-card-meta{font-size:.7rem;color:rgba(255,255,255,0.5);font-weight:500;margin-top:.15rem;}
+.trilha-card-btn{width:100%;padding:.6rem;border-radius:8px;border:none;font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);transition:.2s;}
+.trilha-card-btn:hover{filter:brightness(1.05);}
+.trilha-titulo{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:1rem;}
+.trilha-lista{position:relative;padding-left:1.5rem;}
+.trilha-lista::before{content:'';position:absolute;left:.58rem;top:.6rem;bottom:.6rem;width:2px;background:linear-gradient(180deg,var(--gold),rgba(240,180,41,0.08));}
+.trilha-assunto-btn{position:relative;display:flex;align-items:center;justify-content:space-between;gap:.7rem;width:100%;text-align:left;background:#0d1f3c;border:1px solid rgba(255,255,255,0.12);border-radius:11px;padding:.85rem 1rem;margin-bottom:.6rem;cursor:pointer;font-family:inherit;color:#fff;transition:.2s;}
+.trilha-assunto-btn::before{content:'';position:absolute;left:-1.5rem;top:50%;transform:translateY(-50%);width:11px;height:11px;border-radius:50%;background:var(--navy);border:2px solid var(--gold);}
+.trilha-assunto-btn.feito::before{background:var(--gold);}
+.trilha-assunto-btn:hover{border-color:rgba(240,180,41,0.5);padding-left:1.1rem;}
+.trilha-assunto-txt{font-size:.87rem;font-weight:600;}
+.trilha-assunto-flag{font-size:.65rem;color:#4ade80;font-weight:700;}
+.trilha-assunto-arrow{color:var(--gold);font-size:1rem;flex-shrink:0;}
+.trilha-badge-salva{display:flex;align-items:center;justify-content:space-between;gap:.8rem;flex-wrap:wrap;background:rgba(22,163,74,0.1);border:1px solid rgba(22,163,74,0.35);border-radius:10px;padding:.8rem .9rem;margin-bottom:1.1rem;font-size:.78rem;color:#bbf7d0;}
+.trilha-badge-salva b{color:#fff;}
+.trilha-btn-abrir,.trilha-btn-regerar{background:none;border:1px solid rgba(255,255,255,0.3);color:#fff;font-family:inherit;font-size:.72rem;font-weight:700;padding:.4rem .8rem;border-radius:7px;cursor:pointer;transition:.2s;}
+.trilha-btn-abrir{background:var(--gold);color:var(--navy);border-color:var(--gold);}
+.trilha-btn-abrir:hover{filter:brightness(1.05);}
+.trilha-btn-regerar:hover{border-color:var(--gold);color:var(--gold);}
+.trilha-painel h3{font-size:1.05rem;color:#fff;margin-bottom:1rem;}
+.trilha-chk{display:flex;align-items:flex-start;gap:.65rem;background:rgba(240,180,41,0.06);border:1px solid rgba(240,180,41,0.25);border-radius:10px;padding:.8rem .9rem;margin-bottom:1.1rem;cursor:pointer;}
+.trilha-chk input{margin-top:.15rem;width:17px;height:17px;accent-color:var(--gold);flex-shrink:0;}
+.trilha-chk b{display:block;font-size:.85rem;margin-bottom:.15rem;color:#fff;}
+.trilha-chk span{font-size:.75rem;color:rgba(255,255,255,0.5);}
+.btn-mapa-demanda{margin-top:1.1rem;width:100%;padding:.75rem;border-radius:9px;border:1.5px solid rgba(240,180,41,0.4);background:none;color:var(--gold);font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;transition:.2s;}
+.btn-mapa-demanda:hover{background:rgba(240,180,41,0.08);}
+.btn-mapa-demanda:disabled{opacity:.6;cursor:default;}
+.qsrc-tag{display:inline-block;font-size:.62rem;font-weight:800;padding:.15rem .55rem;border-radius:5px;margin-bottom:.5rem;}
+.qsrc-tag.real{background:rgba(22,163,74,0.18);color:#4ade80;}
+.qsrc-tag.ia{background:rgba(59,130,246,0.18);color:#93c5fd;}
+
 /* loader */
 .loader{display:none;text-align:center;padding:3rem 1rem;}
 .loader.show{display:block;}
@@ -679,6 +728,8 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
         <div id="edital-banca-selecionada" style="display:none;margin-top:.7rem;"></div>
       </div>
 
+      <!-- bloco clássico: usado no Modo Livre. No modo Por Edital, some da vista e dá lugar à Trilha de Estudos (cards + assuntos) -->
+      <div id="bloco-form-classico">
       <!-- seção de banca (oculta no modo Por Edital) -->
       <div id="secao-banca-livre">
       <span class="gfl">BANCA</span>
@@ -707,11 +758,58 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
       <span class="gfl">O QUE VOCÊ QUER GERAR?</span>
       <div class="secoes-wrap" id="secoes-wrap">
         <label class="secao-chk on"><input type="checkbox" id="chk-teoria" checked onchange="toggleSecaoChk(this)"/> 📖 Teoria</label>
-        <label class="secao-chk on"><input type="checkbox" id="chk-mapa" checked onchange="toggleSecaoChk(this)"/> 🗺️ Mapa Mental</label>
         <label class="secao-chk on"><input type="checkbox" id="chk-questoes" checked onchange="toggleSecaoChk(this)"/> ✅ Questões</label>
       </div>
+      <!-- Mapa Mental agora é gerado sob demanda, como botão separado, depois que a apostila é exibida -->
+      <input type="checkbox" id="chk-mapa" style="display:none;"/>
       <button class="gbtn" id="gbtn" onclick="gerar()">⚡ Gerar Apostila com IA</button>
-    </div>
+      </div><!-- /bloco-form-classico -->
+
+      <!-- ══ TRILHA DE ESTUDOS (modo Por Edital) ══ -->
+      <!-- Tela 1: disciplinas em cards, separadas por Conhecimentos Básicos / Específicos -->
+      <div class="trilha" id="trilha-disciplinas" style="display:none;">
+        <button class="trilha-back" onclick="voltarParaEditalPicker()">‹ Trocar de edital</button>
+        <div class="trilha-crumb" id="trilha-crumb-disc"></div>
+        <div class="trilha-grupo-label" id="trilha-label-basicos">📘 Conhecimentos Básicos</div>
+        <div class="trilha-grid" id="trilha-grid-basicos"></div>
+        <div class="trilha-grupo-label" id="trilha-label-especificos">🎯 Conhecimentos Específicos</div>
+        <div class="trilha-grid" id="trilha-grid-especificos"></div>
+      </div>
+
+      <!-- Tela 2: assuntos da disciplina, em lista vertical clicável -->
+      <div class="trilha" id="trilha-assuntos" style="display:none;">
+        <button class="trilha-back" onclick="voltarParaDisciplinas()">‹ Voltar para disciplinas</button>
+        <div class="trilha-crumb" id="trilha-crumb-assunto"></div>
+        <h3 class="trilha-titulo" id="trilha-titulo-disc"></h3>
+        <div class="trilha-lista" id="trilha-lista-assuntos"></div>
+      </div>
+
+      <!-- Tela 3: gerar apostila do assunto (ou reabrir, se já existir) -->
+      <div class="trilha" id="trilha-config" style="display:none;">
+        <button class="trilha-back" onclick="voltarParaAssuntos()">‹ Voltar para assuntos</button>
+        <div class="trilha-crumb" id="trilha-crumb-config"></div>
+
+        <div class="trilha-badge-salva" id="trilha-badge-salva" style="display:none;">
+          <span>📌 Você já gerou essa apostila em <b id="trilha-badge-data">—</b> — sem gastar um novo crédito</span>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+            <button class="trilha-btn-abrir" onclick="trilhaAbrirExistente()">Abrir apostila</button>
+            <button class="trilha-btn-regerar" onclick="trilhaGerarNovaVersao()">🔁 Gerar versão nova</button>
+          </div>
+        </div>
+
+        <div class="trilha-painel" id="trilha-painel">
+          <h3 id="trilha-titulo-assunto"></h3>
+          <label class="trilha-chk" for="trilha-chk-questoes">
+            <input type="checkbox" id="trilha-chk-questoes"/>
+            <div>
+              <b>Quero praticar questões desse assunto também</b>
+              <span>Até 10 questões — provas reais quando existirem no nosso banco, complementadas por questões geradas no padrão da banca</span>
+            </div>
+          </label>
+          <button class="gbtn" onclick="trilhaGerar()">✨ Gerar apostila</button>
+        </div>
+      </div>
+    </div><!-- /gform -->
 
     <!-- loader -->
     <div class="loader" id="gloader">
@@ -916,11 +1014,14 @@ function setModoGerador(modo){
   document.getElementById('btn-modo-livre').classList.toggle('on', modo==='livre');
   document.getElementById('btn-modo-edital').classList.toggle('on', modo==='edital');
   document.getElementById('secao-banca-livre').style.display = modo==='livre' ? '' : 'none';
-  document.getElementById('edital-picker').classList.toggle('show', modo==='edital');
   // reset seleções
   var selDisc = document.getElementById('gdisc');
   selDisc.innerHTML = '<option value="">Selecione a disciplina...</option>';
   document.getElementById('gmod').innerHTML = '<option value="">Selecione o assunto...</option>';
+  // esconde as 3 telas da trilha sempre que o modo muda
+  document.getElementById('trilha-disciplinas').style.display='none';
+  document.getElementById('trilha-assuntos').style.display='none';
+  document.getElementById('trilha-config').style.display='none';
   if(modo==='livre'){
     SEL_EDITAL = null;
     Object.keys(DISCS).forEach(function(d){var o=document.createElement('option');o.value=d;o.textContent=d;selDisc.appendChild(o);});
@@ -928,9 +1029,15 @@ function setModoGerador(modo){
     document.querySelectorAll('.bp').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-b')==='FCC');});
     document.getElementById('banca-custom').style.display='none';
     document.getElementById('edital-banca-selecionada').style.display='none';
+    document.getElementById('edital-picker').classList.remove('show');
+    document.getElementById('edital-picker').style.display='none';
+    document.getElementById('bloco-form-classico').style.display='';
   } 
   else {
-      var lista = document.getElementById('edital-list');
+    document.getElementById('bloco-form-classico').style.display='none';
+    document.getElementById('edital-picker').classList.add('show');
+    document.getElementById('edital-picker').style.display='';
+    var lista = document.getElementById('edital-list');
     if(!EDITAIS_CARREGADOS && lista) lista.innerHTML = '<div style="color:rgba(255,255,255,0.4);font-size:.85rem;padding:.5rem 0;">Carregando editais...</div>';
     carregarEditaisData(function(){ filtrarEditais(); });  
   }
@@ -973,11 +1080,138 @@ function selecionarEdital(ed,cardEl){
   var bi=document.getElementById('edital-banca-selecionada');
   bi.style.display='';
   bi.innerHTML='<div class="edital-banca-info">🎯 Banca: <strong>'+ed.banca+'</strong></div>';
-  // popula disciplinas do edital
+  // popula disciplinas do edital (mantido para compatibilidade com atualizarModulos/onKey/renderApostila)
   var selDisc=document.getElementById('gdisc');
   selDisc.innerHTML='<option value="">Selecione a disciplina...</option>';
   disciplinasDoEdital(ed).forEach(function(d){var o=document.createElement('option');o.value=d.nome;o.textContent=d.nome;selDisc.appendChild(o);});
   document.getElementById('gmod').innerHTML='<option value="">Selecione o assunto...</option>';
+  // abre a Trilha de Estudos: tela de disciplinas em cards
+  document.getElementById('edital-picker').style.display='none';
+  renderTrilhaDisciplinas(ed);
+}
+
+// ══════════════════════════════════════
+// TRILHA DE ESTUDOS (modo Por Edital)
+// ══════════════════════════════════════
+var TRILHA_DISC_ATUAL = null, TRILHA_ASSUNTO_ATUAL = null, TRILHA_EXISTENTE_ID = null;
+
+function buscarApostilaSalva(discNome, assunto, ed){
+  return MINHAS_APOSTILAS.find(function(a){
+    return a.disciplina===discNome && a.assunto===assunto && a.banca===ed.banca && a.edital_orgao===ed.orgao;
+  });
+}
+function contarEstudados(discNome, modulos, ed){
+  var n=0;
+  modulos.forEach(function(m){ if(buscarApostilaSalva(discNome, m, ed)) n++; });
+  return n;
+}
+function ringSVG(pct){
+  var r=17,c=2*Math.PI*r,off=c*(1-pct/100);
+  return '<svg width="42" height="42" viewBox="0 0 42 42"><circle cx="21" cy="21" r="'+r+'" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="4"/><circle cx="21" cy="21" r="'+r+'" fill="none" stroke="#f0b429" stroke-width="4" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'" transform="rotate(-90 21 21)"/></svg>';
+}
+function renderTrilhaGrid(elId, lista, ed){
+  var el=document.getElementById(elId);
+  el.innerHTML='';
+  lista.forEach(function(d){
+    var feitos=contarEstudados(d.nome, d.modulos, ed);
+    var total=d.modulos.length;
+    var pct=total?Math.round(feitos/total*100):0;
+    var card=document.createElement('div');
+    card.className='trilha-card';
+    card.innerHTML=
+      '<div class="trilha-card-top">'+
+        '<div class="trilha-ring">'+ringSVG(pct)+'<span class="trilha-ring-txt">'+pct+'%</span></div>'+
+        '<div><div class="trilha-card-nome">'+escHTML(d.nome)+'</div><div class="trilha-card-meta">'+feitos+' de '+total+' assuntos estudados</div></div>'+
+      '</div>'+
+      '<button class="trilha-card-btn">Estudar agora</button>';
+    card.onclick=function(){ abrirTrilhaAssuntos(d, ed); };
+    el.appendChild(card);
+  });
+}
+function renderTrilhaDisciplinas(ed){
+  document.getElementById('bloco-form-classico').style.display='none';
+  document.getElementById('trilha-assuntos').style.display='none';
+  document.getElementById('trilha-config').style.display='none';
+  document.getElementById('trilha-crumb-disc').innerHTML=escHTML(ed.orgao+' '+ed.ano)+'<span class="tc-sep">·</span>Banca <b>'+escHTML(ed.banca)+'</b>';
+
+  var comuns=(ed.comuns||[]).map(function(cid){return DISCIPLINAS_COMUNS[cid];}).filter(Boolean);
+  var especificas=ed.disciplinas||[];
+
+  document.getElementById('trilha-label-basicos').style.display=comuns.length?'':'none';
+  renderTrilhaGrid('trilha-grid-basicos', comuns, ed);
+
+  document.getElementById('trilha-label-especificos').style.display=especificas.length?'':'none';
+  renderTrilhaGrid('trilha-grid-especificos', especificas, ed);
+
+  document.getElementById('trilha-disciplinas').style.display='';
+}
+function abrirTrilhaAssuntos(disc, ed){
+  TRILHA_DISC_ATUAL=disc;
+  document.getElementById('trilha-disciplinas').style.display='none';
+  document.getElementById('trilha-crumb-assunto').innerHTML=escHTML(ed.orgao+' '+ed.ano)+'<span class="tc-sep">›</span><b>'+escHTML(disc.nome)+'</b>';
+  document.getElementById('trilha-titulo-disc').textContent=disc.nome;
+  var lista=document.getElementById('trilha-lista-assuntos');
+  lista.innerHTML='';
+  disc.modulos.forEach(function(m){
+    var existente=buscarApostilaSalva(disc.nome, m, ed);
+    var btn=document.createElement('button');
+    btn.className='trilha-assunto-btn'+(existente?' feito':'');
+    btn.innerHTML='<span class="trilha-assunto-txt">'+escHTML(m)+(existente?' <span class="trilha-assunto-flag">· já estudado</span>':'')+'</span><span class="trilha-assunto-arrow">›</span>';
+    btn.onclick=function(){ abrirTrilhaConfig(disc, m, ed); };
+    lista.appendChild(btn);
+  });
+  document.getElementById('trilha-assuntos').style.display='';
+}
+function abrirTrilhaConfig(disc, assunto, ed){
+  TRILHA_DISC_ATUAL=disc;
+  TRILHA_ASSUNTO_ATUAL=assunto;
+  document.getElementById('trilha-assuntos').style.display='none';
+  document.getElementById('trilha-crumb-config').innerHTML=escHTML(ed.orgao+' '+ed.ano)+'<span class="tc-sep">›</span>'+escHTML(disc.nome)+'<span class="tc-sep">›</span><b>'+escHTML(assunto)+'</b>';
+  document.getElementById('trilha-titulo-assunto').textContent=assunto;
+
+  var existente=buscarApostilaSalva(disc.nome, assunto, ed);
+  if(existente){
+    TRILHA_EXISTENTE_ID=existente.id;
+    document.getElementById('trilha-badge-data').textContent=formatarDataCurta(existente.criado_em);
+    document.getElementById('trilha-badge-salva').style.display='flex';
+    document.getElementById('trilha-painel').style.display='none';
+  } else {
+    TRILHA_EXISTENTE_ID=null;
+    document.getElementById('trilha-badge-salva').style.display='none';
+    document.getElementById('trilha-painel').style.display='';
+    document.getElementById('trilha-chk-questoes').checked=false;
+  }
+  document.getElementById('trilha-config').style.display='';
+}
+function trilhaAbrirExistente(){
+  if(TRILHA_EXISTENTE_ID) abrirApostilaSalva(TRILHA_EXISTENTE_ID);
+}
+function trilhaGerarNovaVersao(){
+  document.getElementById('trilha-badge-salva').style.display='none';
+  document.getElementById('trilha-painel').style.display='';
+}
+function trilhaGerar(){
+  if(!TRILHA_DISC_ATUAL||!TRILHA_ASSUNTO_ATUAL){alert('Selecione um assunto.');return;}
+  document.getElementById('gdisc').value=TRILHA_DISC_ATUAL.nome;
+  atualizarModulos();
+  document.getElementById('gmod').value=TRILHA_ASSUNTO_ATUAL;
+  document.getElementById('chk-teoria').checked=true;
+  document.getElementById('chk-mapa').checked=false;
+  document.getElementById('chk-questoes').checked=document.getElementById('trilha-chk-questoes').checked;
+  gerar();
+}
+function voltarParaDisciplinas(){
+  document.getElementById('trilha-assuntos').style.display='none';
+  document.getElementById('trilha-disciplinas').style.display='';
+}
+function voltarParaAssuntos(){
+  document.getElementById('trilha-config').style.display='none';
+  document.getElementById('trilha-assuntos').style.display='';
+}
+function voltarParaEditalPicker(){
+  document.getElementById('trilha-disciplinas').style.display='none';
+  document.getElementById('edital-picker').classList.add('show');
+  document.getElementById('edital-picker').style.display='';
 }
 
 // ══════════════════════════════════════
@@ -1003,6 +1237,7 @@ function garantirDiscsCarregadas(cb){
 // ESTADO GLOBAL
 // ══════════════════════════════════════
 var CUR_USER = null, CUR_PLANO = 'trial', APO_COUNT = 0, CUR_RENOVACAO = null;
+var CUR_DISC_CTX = null, CUR_MOD_CTX = null;
 var SEL_BANCA = 'FCC', CUR_DATA = null;
 var MINHAS_APOSTILAS = [], _ERRO_RETRY_FN = null;
 var loaderIdx = 0, loaderTimer = null;
@@ -1380,7 +1615,7 @@ function gerar(){
   var qTeoria=document.getElementById('chk-teoria').checked;
   var qMapa=document.getElementById('chk-mapa').checked;
   var qQuestoes=document.getElementById('chk-questoes').checked;
-  if(!qTeoria&&!qMapa&&!qQuestoes){alert('Selecione ao menos uma opção: Teoria, Mapa Mental ou Questões.');return;}
+  if(!qTeoria&&!qMapa&&!qQuestoes){alert('Selecione ao menos uma opção: Teoria ou Questões.');return;}
   // verifica limite (contagem + prazo do trial)
   if(limiteAtingido()){document.getElementById('limit-wall').style.display='block';document.getElementById('gform').style.display='none';atualizarOpcoesLimite();return;}
 
@@ -1390,37 +1625,60 @@ function gerar(){
   var loader=document.getElementById('gloader');
   loader.classList.add('show');
   loaderIdx=0;
-  // mostra só mensagens das seções que serão realmente geradas
   var _loaderMsgs=['Consultando o estilo da banca...','Estruturando os tópicos...'];
   if(qTeoria)_loaderMsgs.push('Gerando teoria e ancoragem...','Criando o Raio-X da Banca...');
   if(qMapa)_loaderMsgs.push('Montando o mapa mental...');
-  if(qQuestoes)_loaderMsgs.push('Finalizando teste imediato...');
+  if(qQuestoes)_loaderMsgs.push('Selecionando questões reais e complementando com IA...');
   document.getElementById('loader-msg').textContent=_loaderMsgs[0];
   loaderTimer=setInterval(function(){loaderIdx=(loaderIdx+1)%_loaderMsgs.length;document.getElementById('loader-msg').textContent=_loaderMsgs[loaderIdx];},2500);
 
-var _editCtx=MODO_GERADOR==='edital'&&SEL_EDITAL?' Concurso: '+SEL_EDITAL.orgao+' '+SEL_EDITAL.ano+', cargo '+SEL_EDITAL.cargo+'.':'';
+  // se o usuário pediu questões, busca primeiro as REAIS já cadastradas (até 10)
+  // e só pede pra IA gerar o que ainda faltar pra completar 10
+  if(qQuestoes){
+    var qs=new URLSearchParams({banca:SEL_BANCA,disciplina:disc,assunto:mod,limite:'10'});
+    fetch('/api/questoes?'+qs.toString())
+      .then(function(r){return r.json();})
+      .then(function(reais){ prosseguirGeracao(disc,mod,qTeoria,qMapa,qQuestoes,(Array.isArray(reais)?reais:[]).slice(0,10)); })
+      .catch(function(){ prosseguirGeracao(disc,mod,qTeoria,qMapa,qQuestoes,[]); });
+  } else {
+    prosseguirGeracao(disc,mod,qTeoria,qMapa,qQuestoes,[]);
+  }
+}
 
-// monta o schema JSON só com os campos das seções marcadas — assim a IA
-// nem gera (nem cobra) tokens de saída das partes que o usuário não pediu
-var _campos=['"titulo":"título curto da apostila"','"introducao":"introdução contextualizando a importância do tema para a prova (2 a 3 frases)"'];
-if(qTeoria){
-  _campos.push('"teoria":[{"topico":"nome do subtópico","conteudo":"teoria aprofundada em HTML (250 a 400 palavras): conceito, base legal, classificações, requisitos e efeitos práticos — use <p>, <ul><li>, <strong> e <mark> como instruído","ancoragem":"exemplo prático, caso concreto ou mnemônico (até 40 palavras)","alerta":"pegadinha específica da banca '+SEL_BANCA+', com trecho de prova real se possível (até 40 palavras)"}]');
-  _campos.push('"raio_x_banca":{"pegadinhas":["pegadinha 1","pegadinha 2","pegadinha 3","pegadinha 4"],"temas_quentes":["tema 1","tema 2","tema 3","tema 4"],"dica_banca":"dica sobre o estilo da banca '+SEL_BANCA+' (até 40 palavras)"}');
+function _schemaQuestoesIA(n,banca){
+  var arr=[];
+  for(var i=0;i<n;i++){
+    arr.push('{"enunciado":"questão '+(i+1)+' no estilo '+banca+'","alternativas":{"A":"...","B":"...","C":"...","D":"...","E":"..."},"gabarito":"letra","comentario":"explicação completa do porquê certo/errado (até 70 palavras)"}');
+  }
+  return '['+arr.join(',')+']';
 }
-if(qMapa){
-  _campos.push('"mapa_mental":{"centro":"'+mod+'","ramos":[{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]}]}');
-}
-if(qQuestoes){
-  _campos.push('"teste_imediato":[{"enunciado":"questão 1 no estilo '+SEL_BANCA+'","alternativas":{"A":"...","B":"...","C":"...","D":"...","E":"..."},"gabarito":"letra","comentario":"explicação completa do porquê certo/errado (até 70 palavras)"},{"enunciado":"questão 2","alternativas":{"A":"...","B":"...","C":"...","D":"...","E":"..."},"gabarito":"letra","comentario":"explicação (até 70 palavras)"},{"enunciado":"questão 3","alternativas":{"A":"...","B":"...","C":"...","D":"...","E":"..."},"gabarito":"letra","comentario":"explicação (até 70 palavras)"}]');
-}
-var _schema='{'+_campos.join(',')+'}';
 
-var prompt='Você é um professor especialista em concursos públicos, com foco absoluto no estilo da banca '+SEL_BANCA+'.\n'+
-    'Gere '+(qTeoria&&qMapa&&qQuestoes?'uma apostila COMPLETA e APROFUNDADA':'o material')+' sobre "'+mod+'" da disciplina "'+disc+'", para concurseiros que estudam para provas da banca '+SEL_BANCA+'.'+_editCtx+
-    (qTeoria?' A teoria deve ser rica e didática — explique o conceito, o fundamento legal/teórico, classificações, requisitos e efeitos práticos, como em um curso completo, sem resumir demais.':' Gere APENAS as seções pedidas abaixo — não inclua teoria nem nenhum outro campo além dos listados no JSON.')+'\n\n'+
-    (qTeoria?'Para o texto ficar limpo e agradável de ler, formate o campo "conteudo" de cada tópico usando HTML simples, SEM atributos e SEM aspas dentro das tags: use <p> para parágrafos, <ul><li> para listas de características/requisitos/tipos, <strong> para negrito em termos técnicos e <mark> para destacar pontos que mais caem em prova. NÃO use markdown (nada de ** ou -), apenas essas tags HTML.\n\n':'')+
-    'RETORNE APENAS JSON VÁLIDO, sem markdown, sem texto fora do JSON:\n'+_schema+
-    (qTeoria?'\n\nUse de 5 a 6 tópicos em "teoria", cobrindo o assunto de forma completa. Priorize profundidade e clareza — a apostila deve ser suficiente para o aluno aprender o tema do zero.':'');
+function prosseguirGeracao(disc,mod,qTeoria,qMapa,qQuestoes,questoesReais){
+  var loader=document.getElementById('gloader');
+  var aiNecessarias = qQuestoes ? Math.max(0,10-questoesReais.length) : 0;
+  var _editCtx=MODO_GERADOR==='edital'&&SEL_EDITAL?' Concurso: '+SEL_EDITAL.orgao+' '+SEL_EDITAL.ano+', cargo '+SEL_EDITAL.cargo+'.':'';
+
+  // monta o schema JSON só com os campos das seções marcadas — assim a IA
+  // nem gera (nem cobra) tokens de saída das partes que o usuário não pediu
+  var _campos=['"titulo":"título curto da apostila"','"introducao":"introdução contextualizando a importância do tema para a prova (2 a 3 frases)"'];
+  if(qTeoria){
+    _campos.push('"teoria":[{"topico":"nome do subtópico","conteudo":"teoria aprofundada em HTML (250 a 400 palavras): conceito, base legal, classificações, requisitos e efeitos práticos — use <p>, <ul><li>, <strong> e <mark> como instruído","ancoragem":"exemplo prático, caso concreto ou mnemônico (até 40 palavras)","alerta":"pegadinha específica da banca '+SEL_BANCA+', com trecho de prova real se possível (até 40 palavras)"}]');
+    _campos.push('"raio_x_banca":{"pegadinhas":["pegadinha 1","pegadinha 2","pegadinha 3","pegadinha 4"],"temas_quentes":["tema 1","tema 2","tema 3","tema 4"],"dica_banca":"dica sobre o estilo da banca '+SEL_BANCA+' (até 40 palavras)"}');
+  }
+  if(qMapa){
+    _campos.push('"mapa_mental":{"centro":"'+mod+'","ramos":[{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]}]}');
+  }
+  if(qQuestoes&&aiNecessarias>0){
+    _campos.push('"teste_imediato":'+_schemaQuestoesIA(aiNecessarias,SEL_BANCA));
+  }
+  var _schema='{'+_campos.join(',')+'}';
+
+  var prompt='Você é um professor especialista em concursos públicos, com foco absoluto no estilo da banca '+SEL_BANCA+'.\n'+
+      'Gere '+(qTeoria&&qMapa&&qQuestoes?'uma apostila COMPLETA e APROFUNDADA':'o material')+' sobre "'+mod+'" da disciplina "'+disc+'", para concurseiros que estudam para provas da banca '+SEL_BANCA+'.'+_editCtx+
+      (qTeoria?' A teoria deve ser rica e didática — explique o conceito, o fundamento legal/teórico, classificações, requisitos e efeitos práticos, como em um curso completo, sem resumir demais.':' Gere APENAS as seções pedidas abaixo — não inclua teoria nem nenhum outro campo além dos listados no JSON.')+'\n\n'+
+      (qTeoria?'Para o texto ficar limpo e agradável de ler, formate o campo "conteudo" de cada tópico usando HTML simples, SEM atributos e SEM aspas dentro das tags: use <p> para parágrafos, <ul><li> para listas de características/requisitos/tipos, <strong> para negrito em termos técnicos e <mark> para destacar pontos que mais caem em prova. NÃO use markdown (nada de ** ou -), apenas essas tags HTML.\n\n':'')+
+      'RETORNE APENAS JSON VÁLIDO, sem markdown, sem texto fora do JSON:\n'+_schema+
+      (qTeoria?'\n\nUse de 5 a 6 tópicos em "teoria", cobrindo o assunto de forma completa. Priorize profundidade e clareza — a apostila deve ser suficiente para o aluno aprender o tema do zero.':'');
   fetch('/api/generate',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
@@ -1433,6 +1691,7 @@ var prompt='Você é um professor especialista em concursos públicos, com foco 
     if(d.content&&d.content.length){d.content.forEach(function(b){if(b.type==='text')txt+=b.text;});}
     var data=repairJSON(txt);
     if(!data){mostrarErroGeracao('Não conseguimos interpretar a apostila gerada. Tente novamente.');return;}
+    if(qQuestoes) data._questoes_reais=questoesReais;
     CUR_DATA=data;
     try{
       renderApostila(data,disc,mod);
@@ -1476,7 +1735,7 @@ function salvarApostilaGerada(disc,mod){
     .then(function(r){return r.json();})
     .then(function(row){
       if(row&&row.id){
-        MINHAS_APOSTILAS.unshift({id:row.id,disciplina:disc,assunto:mod,banca:SEL_BANCA,criado_em:row.criado_em||new Date().toISOString()});
+        MINHAS_APOSTILAS.unshift({id:row.id,disciplina:disc,assunto:mod,banca:SEL_BANCA,edital_orgao:payload.edital_orgao,criado_em:row.criado_em||new Date().toISOString()});
         renderSidebarApostilas();
       }
     })
@@ -1556,6 +1815,10 @@ function abrirApostilaSalva(id){
       if(!row||row.error||!row.dados){mostrarErroGeracao('Não foi possível carregar esta apostila salva.',function(){abrirApostilaSalva(id);});return;}
       SEL_BANCA=row.banca||SEL_BANCA;
       CUR_DATA=row.dados;
+      if(MODO_GERADOR==='edital'&&SEL_EDITAL){
+        var _d=disciplinasDoEdital(SEL_EDITAL).find(function(x){return x.nome===row.disciplina;});
+        if(_d)TRILHA_DISC_ATUAL=_d;
+      }
       var pillsOverride=DISCS[row.disciplina]?DISCS[row.disciplina].mod:[];
       renderApostila(row.dados,row.disciplina,row.assunto,row.edital_orgao,pillsOverride);
       renderSidebarApostilas(row.id);
@@ -1568,6 +1831,7 @@ function abrirApostilaSalva(id){
 }
 
 function renderApostila(d,disc,mod,orgaoNome,pillsOverride){
+  CUR_DISC_CTX=disc; CUR_MOD_CTX=mod;
   // pills de assuntos da disciplina
   var pillsEl=document.getElementById('apost-pills');
   pillsEl.innerHTML='';
@@ -1585,9 +1849,13 @@ function renderApostila(d,disc,mod,orgaoNome,pillsOverride){
     b.className='apill'+(m===mod?' on':'');
     b.textContent=m;
     b.onclick=function(){
-      document.getElementById('gmod').value=m;
       document.getElementById('apostila-view').style.display='none';
       document.getElementById('gform').style.display='block';
+      if(MODO_GERADOR==='edital'&&SEL_EDITAL&&TRILHA_DISC_ATUAL){
+        abrirTrilhaConfig(TRILHA_DISC_ATUAL,m,SEL_EDITAL);
+      } else {
+        document.getElementById('gmod').value=m;
+      }
     };
     pillsEl.appendChild(b);
   });
@@ -1631,24 +1899,41 @@ function renderApostila(d,disc,mod,orgaoNome,pillsOverride){
     html+='</div></div>';
   }
 
-// mapa mental
+// mapa mental — gerado no momento (chk-mapa) ou, mais comumente agora, sob demanda depois
   if(d.mapa_mental){
-    html+='<div class="ablock"><div class="ablock-title" style="display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap;"><span>🗺️ Mapa Mental</span>'+
+    html+='<div class="ablock" id="bloco-mapa"><div class="ablock-title" style="display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap;"><span>🗺️ Mapa Mental</span>'+
       (canPDF?'<button class="aact-btn aact-o" style="padding:.4rem .9rem;font-size:.78rem;" onclick="imprimirMapaMental()">🖨️ Imprimir em A4</button>':
       '<span class="lock-msg">🔒 Impressão do mapa no plano Pro</span>')+
       '</div><div class="mapa-svg-wrap">'+buildSVG(d.mapa_mental)+'</div></div>';
+  } else {
+    html+='<div class="ablock" id="bloco-mapa"><div class="ablock-title"><span>🗺️ Mapa Mental</span></div>'+
+      '<button class="btn-mapa-demanda" id="btn-mapa-demanda" onclick="gerarMapaSobDemanda()">🗺️ Gerar mapa mental deste assunto</button></div>';
   }
 
-  // teste
-  if(d.teste_imediato&&d.teste_imediato.length){
-    html+='<div class="ablock"><div class="ablock-title">✅ Teste Imediato</div>';
-    d.teste_imediato.forEach(function(q,qi){
-      html+='<div class="qcard" id="q'+qi+'"><div class="qnum">Questão '+(qi+1)+' · '+SEL_BANCA+' estilo</div><div class="qenunc">'+q.enunciado+'</div><div class="qalts">';
+  // questões para praticar — mistura questões REAIS já cadastradas com as geradas por IA, até 10 no total
+  var _questoesReais=d._questoes_reais||[];
+  var _questoesIA=(d.teste_imediato||[]).map(function(q){return {q:q,fonte:'ia'};});
+  var _questoesTodas=_questoesReais.map(function(q){return {q:q,fonte:'real'};}).concat(_questoesIA).slice(0,10);
+  if(_questoesTodas.length){
+    html+='<div class="ablock"><div class="ablock-title">✅ Questões para praticar <span style="font-size:.7rem;color:rgba(255,255,255,.4);font-weight:500;">('+_questoesTodas.length+' selecionadas)</span></div>';
+    _questoesTodas.forEach(function(item,qi){
+      var q=item.q;
+      var origemTag = item.fonte==='real'
+        ? '<span class="qsrc-tag real">🟢 PROVA REAL'+(q.orgao?(' · '+escHTML(q.orgao)):'')+(q.ano?(' '+q.ano):'')+'</span>'
+        : '<span class="qsrc-tag ia">🤖 GERADA POR IA · padrão '+escHTML(SEL_BANCA)+'</span>';
+      var alternativasObj=q.alternativas||{};
+      var gabaritoVal=q.gabarito;
+      var comentarioVal=q.comentario||'';
+      if(item.fonte==='real'&&q.tipo==='certo_errado'){
+        alternativasObj={A:'Certo',B:'Errado'};
+        gabaritoVal=(q.gabarito==='Certo')?'A':'B';
+      }
+      html+='<div class="qcard" id="q'+qi+'">'+origemTag+'<div class="qnum">Questão '+(qi+1)+'</div><div class="qenunc">'+q.enunciado+'</div><div class="qalts">';
       ['A','B','C','D','E'].forEach(function(l){
-        if(q.alternativas&&q.alternativas[l])
-          html+='<button class="qalt" onclick="responder('+qi+',\''+l+'\',\''+q.gabarito+'\',`'+escHTML(q.comentario)+'`)">'+l+') '+q.alternativas[l]+'</button>';
+        if(alternativasObj[l])
+          html+='<button class="qalt" onclick="responder('+qi+',\''+l+'\',\''+gabaritoVal+'\',`'+escHTML(comentarioVal)+'`)">'+l+') '+alternativasObj[l]+'</button>';
       });
-      html+='</div><div class="qgab" id="gab'+qi+'">📘 <strong>Gabarito: '+q.gabarito+'</strong> — '+escHTML(q.comentario)+'</div></div>';
+      html+='</div><div class="qgab" id="gab'+qi+'">📘 <strong>Gabarito: '+gabaritoVal+'</strong>'+(comentarioVal?(' — '+escHTML(comentarioVal)):'')+'</div></div>';
     });
     html+='</div>';
   }
@@ -1680,6 +1965,38 @@ function responder(qi,letra,gab,comentario){
 }
 
 // ══════════════════════════════════════
+// MAPA MENTAL SOB DEMANDA — gerado só quando o usuário pede, depois da apostila já estar pronta
+function gerarMapaSobDemanda(){
+  if(!CUR_DISC_CTX||!CUR_MOD_CTX||!CUR_DATA)return;
+  var btn=document.getElementById('btn-mapa-demanda');
+  if(btn){btn.disabled=true;btn.textContent='Gerando mapa mental...';}
+  var schema='{"mapa_mental":{"centro":"'+CUR_MOD_CTX+'","ramos":[{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]}]}}';
+  var prompt='Você é um professor especialista em concursos públicos, com foco absoluto no estilo da banca '+SEL_BANCA+'.\n'+
+    'Gere APENAS um mapa mental sobre "'+CUR_MOD_CTX+'" da disciplina "'+CUR_DISC_CTX+'", pra concurseiros que estudam pra banca '+SEL_BANCA+'.\n\n'+
+    'RETORNE APENAS JSON VÁLIDO, sem markdown, sem texto fora do JSON:\n'+schema;
+  fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:prompt})})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var txt='';
+      if(d.content&&d.content.length){d.content.forEach(function(b){if(b.type==='text')txt+=b.text;});}
+      var data=repairJSON(txt);
+      if(!data||!data.mapa_mental){
+        if(btn){btn.disabled=false;btn.textContent='Não foi possível gerar o mapa. Tentar de novo';}
+        return;
+      }
+      CUR_DATA.mapa_mental=data.mapa_mental;
+      var bloco=document.getElementById('bloco-mapa');
+      var canPDF=(CUR_PLANO==='pro'||CUR_PLANO==='trial');
+      bloco.innerHTML='<div class="ablock-title" style="display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap;"><span>🗺️ Mapa Mental</span>'+
+        (canPDF?'<button class="aact-btn aact-o" style="padding:.4rem .9rem;font-size:.78rem;" onclick="imprimirMapaMental()">🖨️ Imprimir em A4</button>':
+        '<span class="lock-msg">🔒 Impressão do mapa no plano Pro</span>')+
+        '</div><div class="mapa-svg-wrap">'+buildSVG(data.mapa_mental)+'</div>';
+    })
+    .catch(function(){
+      if(btn){btn.disabled=false;btn.textContent='Erro de conexão. Tentar de novo';}
+    });
+}
+
 // MAPA MENTAL — organograma minimalista (esquerda → direita)
 // ══════════════════════════════════════
 function mmCtx(){
