@@ -1434,9 +1434,15 @@ function doCad(){
         if(d.refresh_token)STORAGE.setItem('sb_rtok',d.refresh_token);
         CUR_USER=d.user;
         showA('ok','Conta criada! Verifique seu e-mail para confirmar.');
+        if(d.access_token)enviarEmailBoasVindas(d.access_token);
         setTimeout(function(){renderDash(d.user);go('dash');},1800);
       } else {showA('ok','Quase lá! Confirme seu e-mail para ativar a conta.');}
     }).catch(function(){setLd('btncad',false,'Criar conta grátis — 7 dias');showA('err','Erro de conexão.');});
+}
+function enviarEmailBoasVindas(token){
+  // Disparo silencioso: não deve travar nem afetar a experiência de cadastro
+  // caso o envio falhe por qualquer motivo.
+  fetch('/api/welcome-email',{method:'POST',headers:{Authorization:'Bearer '+token}}).catch(function(){});
 }
 function doForgot(){
   var email=document.getElementById('femail').value.trim();
