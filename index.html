@@ -2875,25 +2875,52 @@ function carregarFinanceiro() {
 }
 
 function carregarAvatar() {
-  try {
-    const uid = window._currentUserId || 'user';
-    const saved = localStorage.getItem('aprendai_avatar_' + uid);
-    const av = document.getElementById('ds-avatar');
-    if (saved && av) { av.innerHTML = '<img src="' + saved + '" alt="Foto">'; }
-  } catch(e) {}
+  var user = null;
+  try { user = JSON.parse(localStorage.getItem('sb_usr') || 'null'); } catch(e) {}
+  var uid = user ? (user.id || '') : '';
+  var avatarEl = document.getElementById('ds-avatar');
+  if (!avatarEl) return;
+  var saved = (uid ? localStorage.getItem('avatar_' + uid) : null) || localStorage.getItem('dash_avatar');
+  if (saved && saved.startsWith('data:')) {
+    avatarEl.style.backgroundImage = 'url(' + saved + ')';
+    avatarEl.style.backgroundSize = 'cover';
+    avatarEl.style.backgroundPosition = 'center';
+    avatarEl.textContent = '';
+  }
 }
 
 function uploadFoto(input) {
-  const file = input?.files?.[0];
+  var file = input.files && input.files[0];
   if (!file) return;
-  const reader = new FileReader();
+  var user = null;
+  try { user = JSON.parse(localStorage.getItem('sb_usr') || 'null'); } catch(e) {}
+  var uid = user ? (user.id || '') : '';
+  var reader = new FileReader();
   reader.onload = function(e) {
-    try {
-      const uid = window._currentUserId || 'user';
-      localStorage.setItem('aprendai_avatar_' + uid, e.target.result);
-      const av = document.getElementById('ds-avatar');
-      if (av) av.innerHTML = '<img src="' + e.target.result + '" alt="Foto">';
-    } catch(err) { alert('Não foi possível salvar a foto. Tente uma imagem menor.'); }
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement('canvas');
+      canvas.width = 160; canvas.height = 160;
+      var ctx = canvas.getContext('2d');
+      var size = Math.min(img.width, img.height);
+      var sx = (img.width - size) / 2;
+      var sy = (img.height - size) / 2;
+      ctx.beginPath();
+      ctx.arc(80, 80, 80, 0, Math.PI * 2);
+      ctx.clip();
+      ctx.drawImage(img, sx, sy, size, size, 0, 0, 160, 160);
+      var dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+      if (uid) localStorage.setItem('avatar_' + uid, dataUrl);
+      localStorage.setItem('dash_avatar', dataUrl);
+      var avatarEl = document.getElementById('ds-avatar');
+      if (avatarEl) {
+        avatarEl.style.backgroundImage = 'url(' + dataUrl + ')';
+        avatarEl.style.backgroundSize = 'cover';
+        avatarEl.style.backgroundPosition = 'center';
+        avatarEl.textContent = '';
+      }
+    };
+    img.src = e.target.result;
   };
   reader.readAsDataURL(file);
 }
