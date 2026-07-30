@@ -2717,6 +2717,7 @@ function syncRecentes() {
     return;
   }
   list.innerHTML = apostilas.slice(0, 6).map(function(apo) { return buildApoItem(apo); }).join('');
+  renderAposFull(apostilas);
 }
 function renderAposFull(lista) {
   var list = document.getElementById('dash-apo-full-list');
