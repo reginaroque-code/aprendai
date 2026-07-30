@@ -2734,18 +2734,21 @@ function buildApoItem(apo) {
   var banca = apo.banca ? ' · ' + apo.banca : '';
   var edital = apo.edital_orgao ? ' · ' + apo.edital_orgao : '';
   var id = apo.id || '';
-  return '<div class="dash-apo-card" onclick="abrirApostilaSalva(\"' + id + '\")" style="cursor:pointer">' +
-    '<div class="dash-apo-icon">📄</div>' +
-    '<div class="dash-apo-info">' +
-      '<div class="dash-apo-disc">' + (apo.disciplina || '') + '</div>' +
-      '<div class="dash-apo-ass">' + (apo.assunto || '') + banca + edital + '</div>' +
-      (data ? '<div class="dash-apo-date">' + data + '</div>' : '') +
-    '</div>' +
-    '<div class="dash-apo-actions">' +
-      '<button onclick="event.stopPropagation();abrirApostilaSalva(\"' + id + '\")" title="Abrir" class="dash-apo-btn">↗</button>' +
-    '</div>' +
-  '</div>';
+  var h = '';
+  h += '<div class="dash-apo-card" data-apo-id="' + id + '" onclick="abrirApostilaSalva(this.dataset.apoId)" style="cursor:pointer">';
+  h += '<div class="dash-apo-icon">📄</div>';
+  h += '<div class="dash-apo-info">';
+  h += '<div class="dash-apo-disc">' + (apo.disciplina || '') + '</div>';
+  h += '<div class="dash-apo-ass">' + (apo.assunto || '') + banca + edital + '</div>';
+  if (data) h += '<div class="dash-apo-date">' + data + '</div>';
+  h += '</div>';
+  h += '<div class="dash-apo-actions">';
+  h += '<button onclick="event.stopPropagation();abrirApostilaSalva(this.closest(\'[data-apo-id]\').dataset.apoId)" title="Abrir" class="dash-apo-btn">↗</button>';
+  h += '</div>';
+  h += '</div>';
+  return h;
 }
+
 function dashBuscar() {
   var input = document.getElementById('dash-search-input');
   var q = (input ? input.value : '').toLowerCase().trim();
