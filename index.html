@@ -2705,133 +2705,100 @@ function sincronizarDash() {
 
   carregarAvatar();
   setTimeout(syncRecentes, 400);
+  mostraRenovacao();
 }
 
 function syncRecentes() {
-  const src = document.getElementById('apo-sidebar-list');
-  const dst = document.getElementById('dash-recent-list');
-  if (!src || !dst) return;
-  const items = src.querySelectorAll('.apo-sidebar-item');
-  if (!items.length) return;
-  const iconMap = {'tributár':'💰','tributari':'💰','civil':'⚖️','constitucional':'⚖️','administrat':'🏛️','penal':'⚖️','processo':'📋','inform':'💻','português':'🔤','lingua':'🔤','matemat':'🔢','contabil':'📊','audit':'🔍','fisc':'🔍','governa':'🗂️','geo':'🗺️','historia':'📖','econom':'📊'};
-  function getIcon(txt) {
-    const t = (txt || '').toLowerCase();
-    for (const [k, v] of Object.entries(iconMap)) { if (t.includes(k)) return v; }
-    return '📄';
+  var list = document.getElementById('dash-apo-list');
+  if (!list) return;
+  var apostilas = window.MINHAS_APOSTILAS || [];
+  if (!apostilas.length) {
+    list.innerHTML = '<p style="color:#8891a4;text-align:center;padding:20px 0">Nenhuma apostila gerada ainda.<br>Use o gerador acima!</p>';
+    return;
   }
-  let html = '';
-  let count = 0;
-  items.forEach(item => {
-    if (count >= 6) return;
-    const txt = item.querySelector('.apo-si-txt')?.textContent || '';
-    const data = item.querySelector('.apo-si-data')?.textContent || '';
-    const partes = txt.split(' - ');
-    const disc = partes[0] || '';
-    const assunto = partes.slice(1).join(' - ') || txt;
-    const icon = getIcon(disc);
-    const onclick = item.getAttribute('onclick') || '';
-    html += '<div class="dash-apo-item" onclick="' + onclick.replace(/"/g,"'") + '"><div class="dash-apo-thumb">' + icon + '</div><div class="dash-apo-info"><div class="dash-apo-disc">' + disc + '</div><div class="dash-apo-nome">' + assunto + '</div><div class="dash-apo-meta">📅 ' + data + '</div></div><div class="dash-apo-actions"><button class="dash-icon-btn" title="Abrir" onclick="event.stopPropagation();' + onclick.replace(/"/g,"'") + '">👁️</button></div></div>';
-    count++;
+  renderAposFull(apostilas.slice(0, 6));
+}
+function renderAposFull(lista) {
+  var list = document.getElementById('dash-apo-list');
+  if (!list) return;
+  var apos = lista || window.MINHAS_APOSTILAS || [];
+  if (!apos.length) {
+    list.innerHTML = '<p style="color:#8891a4;text-align:center;padding:20px 0">Nenhuma apostila encontrada.</p>';
+    return;
+  }
+  list.innerHTML = apos.map(function(apo) { return buildApoItem(apo); }).join('');
+}
+function buildApoItem(apo) {
+  var data = apo.criado_em ? new Date(apo.criado_em).toLocaleDateString('pt-BR') : '';
+  var banca = apo.banca ? ' · ' + apo.banca : '';
+  var edital = apo.edital_orgao ? ' · ' + apo.edital_orgao : '';
+  return '<div class="dash-apo-card" onclick="abrirApostilaSalva(\'' + apo.id + '\')" style="cursor:pointer">' +
+    '<div class="dash-apo-icon">📄</div>' +
+    '<div class="dash-apo-info">' +
+      '<div class="dash-apo-disc">' + (apo.disciplina || '') + '</div>' +
+      '<div class="dash-apo-ass">' + (apo.assunto || '') + banca + edital + '</div>' +
+      (data ? '<div class="dash-apo-date">' + data + '</div>' : '') +
+    '</div>' +
+    '<div class="dash-apo-actions">' +
+      '<button onclick="event.stopPropagation();abrirApostilaSalva(\'' + apo.id + '\')" title="Abrir apostila" class="dash-apo-btn">↗</button>' +
+    '</div>' +
+  '</div>';
+}
+function dashBuscar() {
+  var input = document.getElementById('dash-search-input');
+  var q = (input ? input.value : '').toLowerCase().trim();
+  var apostilas = window.MINHAS_APOSTILAS || [];
+  var res = document.getElementById('dash-search-results');
+  if (!q) {
+    renderAposFull(apostilas.slice(0, 6));
+    if (res) res.textContent = '';
+    return;
+  }
+  var filtered = apostilas.filter(function(apo) {
+    return (apo.disciplina || '').toLowerCase().includes(q) ||
+           (apo.assunto || '').toLowerCase().includes(q) ||
+           (apo.banca || '').toLowerCase().includes(q) ||
+           (apo.edital_orgao || '').toLowerCase().includes(q);
   });
-  dst.innerHTML = html || '<p style="font-size:13px;color:rgba(255,255,255,0.35);padding:16px 0">Nenhuma apostila gerada ainda.</p>';
-}
-
-function renderAposFull(modo) {
-  const src = document.getElementById('apo-sidebar-list');
-  const dst = document.getElementById('dash-apo-full-list');
-  if (!src || !dst) return;
-  const items = src.querySelectorAll('.apo-sidebar-item');
-  if (!items.length) { dst.innerHTML = '<p style="font-size:13px;color:rgba(255,255,255,0.35);padding:16px 0">Nenhuma apostila gerada ainda.</p>'; return; }
-  const iconMap = {'tributár':'💰','tributari':'💰','civil':'⚖️','constitucional':'⚖️','penal':'⚖️','processo':'📋','inform':'💻','português':'🔤','lingua':'🔤','matemat':'🔢','contabil':'📊','audit':'🔍','fisc':'🔍','governa':'🗂️','geo':'🗺️','historia':'📖','econom':'📊'};
-  function getIcon(txt){ const t=(txt||'').toLowerCase(); for(const[k,v]of Object.entries(iconMap)){if(t.includes(k))return v;} return'📄'; }
-  if (modo === 'disciplina') {
-    const grupos = {};
-    items.forEach(item => {
-      const txt = item.querySelector('.apo-si-txt')?.textContent || '';
-      const disc = txt.split(' - ')[0] || 'Outros';
-      if (!grupos[disc]) grupos[disc] = [];
-      grupos[disc].push(item);
-    });
-    let html = '';
-    Object.entries(grupos).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([disc, its]) => {
-      html += '<div class="dash-disc-label">' + disc + ' (' + its.length + ')</div>';
-      its.forEach(item => { html += buildApoItem(item, getIcon(disc)); });
-    });
-    dst.innerHTML = html;
-  } else if (modo === 'edital') {
-    const grupos = { 'Por Edital': [], 'Modo Livre': [] };
-    items.forEach(item => {
-      const txt = item.querySelector('.apo-si-txt')?.textContent || '';
-      if (txt.includes('|')) grupos['Por Edital'].push(item);
-      else grupos['Modo Livre'].push(item);
-    });
-    let html = '';
-    Object.entries(grupos).forEach(([grupo, its]) => {
-      if (!its.length) return;
-      html += '<div class="dash-disc-label">' + grupo + ' (' + its.length + ')</div>';
-      its.forEach(item => { html += buildApoItem(item, '🎯'); });
-    });
-    dst.innerHTML = html;
-  } else {
-    let html = '';
-    items.forEach(item => {
-      const txt = item.querySelector('.apo-si-txt')?.textContent || '';
-      const disc = txt.split(' - ')[0] || '';
-      html += buildApoItem(item, getIcon(disc));
-    });
-    dst.innerHTML = html;
-  }
-}
-
-function buildApoItem(item, icon) {
-  const txt = item.querySelector('.apo-si-txt')?.textContent || '';
-  const data = item.querySelector('.apo-si-data')?.textContent || '';
-  const partes = txt.split(' - ');
-  const disc = partes[0] || '';
-  const assunto = partes.slice(1).join(' - ') || txt;
-  const onclick = item.getAttribute('onclick') || '';
-  return '<div class="dash-apo-item" onclick="' + onclick.replace(/"/g,"'") + '"><div class="dash-apo-thumb">' + icon + '</div><div class="dash-apo-info"><div class="dash-apo-disc">' + disc + '</div><div class="dash-apo-nome">' + assunto + '</div><div class="dash-apo-meta">📅 ' + data + '</div></div><div class="dash-apo-actions"><button class="dash-icon-btn" title="Abrir" onclick="event.stopPropagation();' + onclick.replace(/"/g,"'") + '">👁️</button></div></div>';
-}
-
-function filtrarApos(modo, btn) {
-  document.querySelectorAll('.dash-ftab').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  renderAposFull(modo);
-}
-
-function dashBuscar(q) {
-  const res = document.getElementById('dash-search-results');
-  if (!res) return;
-  q = q.trim().toLowerCase();
-  if (!q || q.length < 2) { res.classList.remove('show'); return; }
-  const src = document.getElementById('apo-sidebar-list');
-  const items = src ? src.querySelectorAll('.apo-sidebar-item') : [];
-  const matches = [];
-  items.forEach(item => {
-    const txt = (item.querySelector('.apo-si-txt')?.textContent || '').toLowerCase();
-    if (txt.includes(q)) {
-      const orig = item.querySelector('.apo-si-txt')?.textContent || '';
-      const data = item.querySelector('.apo-si-data')?.textContent || '';
-      const onclick = item.getAttribute('onclick') || '';
-      matches.push({ txt: orig, data, onclick });
-    }
-  });
-  if (!matches.length) {
-    res.innerHTML = '<div class="dash-sr-empty">Nenhuma apostila encontrada para "<strong>' + q + '</strong>"</div>';
-  } else {
-    res.innerHTML = matches.slice(0,8).map(m => {
-      const p = m.txt.split(' - ');
-      const disc = p[0] || '';
-      const nome = p.slice(1).join(' - ') || m.txt;
-      return '<div class="dash-sr-item" onclick="' + m.onclick.replace(/"/g,"'") + '"><div class="dash-sr-disc">' + disc + '</div><div class="dash-sr-nome">' + nome + '</div></div>';
-    }).join('');
-  }
-  res.classList.add('show');
+  renderAposFull(filtered);
+  if (res) res.textContent = filtered.length + ' apostila(s) encontrada(s)';
 }
 
 function fecharBusca() {
   const res = document.getElementById('dash-search-results');
   if (res) res.classList.remove('show');
+}
+
+function mostraRenovacao() {
+  var user = null;
+  try { user = JSON.parse(localStorage.getItem('sb_usr') || 'null'); } catch(e) {}
+  var meta = (user && user.user_metadata) ? user.user_metadata : {};
+  var proxRen = meta.proxima_renovacao;
+  var offer = meta.hotmart_offer || 'z74o6jlh';
+  if (!proxRen) return;
+  var msLeft = new Date(proxRen) - new Date();
+  var daysLeft = Math.ceil(msLeft / 86400000);
+  if (daysLeft > 7) return;
+  var existing = document.getElementById('dash-renewal-banner');
+  if (existing) existing.remove();
+  var isUrgent = daysLeft <= 3;
+  var bgColor = isUrgent ? '#fef2f2' : '#fffbeb';
+  var bdColor = isUrgent ? '#fca5a5' : '#fcd34d';
+  var txtColor = isUrgent ? '#dc2626' : '#b45309';
+  var msg = daysLeft <= 0 ? 'Seu plano expirou!' : daysLeft === 1 ? 'Seu plano expira amanhã!' : 'Seu plano expira em ' + daysLeft + ' dias!';
+  var icon = isUrgent ? '🔴' : '⚠️';
+  var renewUrl = 'https://pay.hotmart.com/' + offer;
+  var banner = document.createElement('div');
+  banner.id = 'dash-renewal-banner';
+  banner.style.cssText = 'background:' + bgColor + ';border:1.5px solid ' + bdColor + ';border-radius:10px;padding:12px 18px;margin-bottom:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;';
+  banner.innerHTML = '<span style="font-size:1.3em">' + icon + '</span><div style="flex:1;min-width:180px"><strong style="color:' + txtColor + ';font-size:.96em">' + msg + '</strong><span style="color:#555;font-size:.85em;margin-left:8px">Renove para continuar gerando apostilas.</span></div><a href="' + renewUrl + '" target="_blank" style="background:' + txtColor + ';color:#fff;padding:7px 18px;border-radius:7px;font-size:.87em;font-weight:700;text-decoration:none;white-space:nowrap;display:inline-block">Renovar Agora</a>';
+  var dashMain = document.querySelector('#page-dash .dash-main');
+  var firstSection = dashMain && (dashMain.querySelector('.dash-gen-hero') || dashMain.querySelector('.dash-section'));
+  if (firstSection) {
+    dashMain.insertBefore(banner, firstSection);
+  } else if (dashMain) {
+    dashMain.prepend(banner);
+  }
 }
 
 function carregarFinanceiro() {
