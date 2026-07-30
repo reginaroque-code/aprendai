@@ -2728,6 +2728,23 @@ function renderAposFull(lista) {
   }
   list.innerHTML = apos.map(function(apo) { return buildApoItem(apo); }).join('');
 }
+function buildApoItem(apo) {
+  var data = apo.criado_em ? new Date(apo.criado_em).toLocaleDateString('pt-BR') : '';
+  var banca = apo.banca ? ' · ' + apo.banca : '';
+  var edital = apo.edital_orgao ? ' · ' + apo.edital_orgao : '';
+  var id = apo.id || '';
+  return '<div class="dash-apo-card" onclick="abrirApostilaSalva(\"' + id + '\")" style="cursor:pointer">' +
+    '<div class="dash-apo-icon">📄</div>' +
+    '<div class="dash-apo-info">' +
+      '<div class="dash-apo-disc">' + (apo.disciplina || '') + '</div>' +
+      '<div class="dash-apo-ass">' + (apo.assunto || '') + banca + edital + '</div>' +
+      (data ? '<div class="dash-apo-date">' + data + '</div>' : '') +
+    '</div>' +
+    '<div class="dash-apo-actions">' +
+      '<button onclick="event.stopPropagation();abrirApostilaSalva(\"' + id + '\")" title="Abrir" class="dash-apo-btn">↗</button>' +
+    '</div>' +
+  '</div>';
+}
 function dashBuscar() {
   var input = document.getElementById('dash-search-input');
   var q = (input ? input.value : '').toLowerCase().trim();
