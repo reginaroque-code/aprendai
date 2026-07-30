@@ -2617,6 +2617,280 @@ window.addEventListener('load',function(){
     setInterval(function(){if(STORAGE.getItem('sb_tok'))sbRefreshToken();},50*60*1000);
   }
 });
+
+/* ══════════════════════════════════════════
+   NOVA ÁREA DE MEMBROS — FUNÇÕES JS
+══════════════════════════════════════════ */
+
+// ── Troca de seção no dashboard
+function dashSec(sec) {
+  const secs = ['inicio','apostilas','financeiro','sugestoes','suporte'];
+  secs.forEach(s => {
+    const el = document.getElementById('dash-sec-' + s);
+    if (el) el.style.display = (s === sec) ? 'block' : 'none';
+    const nav = document.getElementById('ds-nav-' + s);
+    if (nav) nav.classList.toggle('active', s === sec);
+  });
+  if (sec === 'financeiro') carregarFinanceiro();
+  if (sec === 'apostilas') renderAposFull('todas');
+}
+
+// ── Sync sidebar e novos elementos após renderDash() original
+function sincronizarDash() {
+  const nome = document.getElementById('dash-name')?.textContent || '';
+  const elNome = document.getElementById('ds-profile-name');
+  if (elNome) elNome.textContent = nome;
+  try {
+    const elEmail = document.getElementById('ds-profile-email');
+    if (elEmail && window._currentUserEmail) elEmail.textContent = window._currentUserEmail;
+  } catch(e) {}
+  const plano = document.getElementById('dash-plan')?.textContent || '';
+  const elPlan = document.getElementById('ds-plan-badge');
+  if (elPlan && plano) elPlan.textContent = '⭐ ' + plano;
+  const countEl = document.getElementById('dash-count');
+  const limitEl = document.getElementById('dash-limit');
+  if (countEl && limitEl) {
+    const usado = parseInt(countEl.textContent) || 0;
+    const textoLimite = limitEl.textContent || '';
+    const match = textoLimite.match(/de (\d+)/);
+    const total = match ? parseInt(match[1]) : 150;
+    const restantes = total - usado;
+    const elR = document.getElementById('dash-restantes');
+    if (elR) elR.textContent = restantes;
+    const elGN = document.getElementById('dash-gen-num');
+    if (elGN) elGN.textContent = restantes;
+    const elBar = document.getElementById('dash-gen-bar');
+    if (elBar) elBar.style.width = Math.max(0, Math.min(100, (restantes/total)*100)) + '%';
+    const badge = document.getElementById('ds-apo-badge');
+    if (badge) badge.textContent = usado;
+  }
+  const elHoje = document.getElementById('dash-data-hoje');
+  if (elHoje) {
+    const d = new Date();
+    const dias = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+    const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+    elHoje.textContent = dias[d.getDay()] + ', ' + d.getDate() + ' de ' + meses[d.getMonth()] + ' de ' + d.getFullYear() + ' — Continue seus estudos de onde parou.';
+  }
+  carregarAvatar();
+  setTimeout(syncRecentes, 300);
+}
+
+function syncRecentes() {
+  const src = document.getElementById('apo-sidebar-list');
+  const dst = document.getElementById('dash-recent-list');
+  if (!src || !dst) return;
+  const items = src.querySelectorAll('.apo-sidebar-item');
+  if (!items.length) return;
+  const iconMap = {'tributár':'💰','tributari':'💰','civil':'⚖️','constitucional':'⚖️','administrat':'🏛️','penal':'⚖️','processo':'📋','inform':'💻','português':'🔤','lingua':'🔤','matemat':'🔢','contabil':'📊','audit':'🔍','fisc':'🔍','governa':'🗂️','geo':'🗺️','historia':'📖','econom':'📊'};
+  function getIcon(txt) {
+    const t = (txt || '').toLowerCase();
+    for (const [k, v] of Object.entries(iconMap)) { if (t.includes(k)) return v; }
+    return '📄';
+  }
+  let html = '';
+  let count = 0;
+  items.forEach(item => {
+    if (count >= 6) return;
+    const txt = item.querySelector('.apo-si-txt')?.textContent || '';
+    const data = item.querySelector('.apo-si-data')?.textContent || '';
+    const partes = txt.split(' - ');
+    const disc = partes[0] || '';
+    const assunto = partes.slice(1).join(' - ') || txt;
+    const icon = getIcon(disc);
+    const onclick = item.getAttribute('onclick') || '';
+    html += '<div class="dash-apo-item" onclick="' + onclick.replace(/"/g,"'") + '"><div class="dash-apo-thumb">' + icon + '</div><div class="dash-apo-info"><div class="dash-apo-disc">' + disc + '</div><div class="dash-apo-nome">' + assunto + '</div><div class="dash-apo-meta">📅 ' + data + '</div></div><div class="dash-apo-actions"><button class="dash-icon-btn" title="Abrir" onclick="event.stopPropagation();' + onclick.replace(/"/g,"'") + '">👁️</button></div></div>';
+    count++;
+  });
+  dst.innerHTML = html || '<p style="font-size:13px;color:rgba(255,255,255,0.35);padding:16px 0">Nenhuma apostila gerada ainda.</p>';
+}
+
+function renderAposFull(modo) {
+  const src = document.getElementById('apo-sidebar-list');
+  const dst = document.getElementById('dash-apo-full-list');
+  if (!src || !dst) return;
+  const items = src.querySelectorAll('.apo-sidebar-item');
+  if (!items.length) { dst.innerHTML = '<p style="font-size:13px;color:rgba(255,255,255,0.35);padding:16px 0">Nenhuma apostila gerada ainda.</p>'; return; }
+  const iconMap = {'tributár':'💰','tributari':'💰','civil':'⚖️','constitucional':'⚖️','penal':'⚖️','processo':'📋','inform':'💻','português':'🔤','lingua':'🔤','matemat':'🔢','contabil':'📊','audit':'🔍','fisc':'🔍','governa':'🗂️','geo':'🗺️','historia':'📖','econom':'📊'};
+  function getIcon(txt){ const t=(txt||'').toLowerCase(); for(const[k,v]of Object.entries(iconMap)){if(t.includes(k))return v;} return'📄'; }
+  if (modo === 'disciplina') {
+    const grupos = {};
+    items.forEach(item => {
+      const txt = item.querySelector('.apo-si-txt')?.textContent || '';
+      const disc = txt.split(' - ')[0] || 'Outros';
+      if (!grupos[disc]) grupos[disc] = [];
+      grupos[disc].push(item);
+    });
+    let html = '';
+    Object.entries(grupos).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([disc, its]) => {
+      html += '<div class="dash-disc-label">' + disc + ' (' + its.length + ')</div>';
+      its.forEach(item => { html += buildApoItem(item, getIcon(disc)); });
+    });
+    dst.innerHTML = html;
+  } else if (modo === 'edital') {
+    const grupos = { 'Por Edital': [], 'Modo Livre': [] };
+    items.forEach(item => {
+      const txt = item.querySelector('.apo-si-txt')?.textContent || '';
+      if (txt.includes('|')) grupos['Por Edital'].push(item);
+      else grupos['Modo Livre'].push(item);
+    });
+    let html = '';
+    Object.entries(grupos).forEach(([grupo, its]) => {
+      if (!its.length) return;
+      html += '<div class="dash-disc-label">' + grupo + ' (' + its.length + ')</div>';
+      its.forEach(item => { html += buildApoItem(item, '🎯'); });
+    });
+    dst.innerHTML = html;
+  } else {
+    let html = '';
+    items.forEach(item => {
+      const txt = item.querySelector('.apo-si-txt')?.textContent || '';
+      const disc = txt.split(' - ')[0] || '';
+      html += buildApoItem(item, getIcon(disc));
+    });
+    dst.innerHTML = html;
+  }
+}
+
+function buildApoItem(item, icon) {
+  const txt = item.querySelector('.apo-si-txt')?.textContent || '';
+  const data = item.querySelector('.apo-si-data')?.textContent || '';
+  const partes = txt.split(' - ');
+  const disc = partes[0] || '';
+  const assunto = partes.slice(1).join(' - ') || txt;
+  const onclick = item.getAttribute('onclick') || '';
+  return '<div class="dash-apo-item" onclick="' + onclick.replace(/"/g,"'") + '"><div class="dash-apo-thumb">' + icon + '</div><div class="dash-apo-info"><div class="dash-apo-disc">' + disc + '</div><div class="dash-apo-nome">' + assunto + '</div><div class="dash-apo-meta">📅 ' + data + '</div></div><div class="dash-apo-actions"><button class="dash-icon-btn" title="Abrir" onclick="event.stopPropagation();' + onclick.replace(/"/g,"'") + '">👁️</button></div></div>';
+}
+
+function filtrarApos(modo, btn) {
+  document.querySelectorAll('.dash-ftab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderAposFull(modo);
+}
+
+function dashBuscar(q) {
+  const res = document.getElementById('dash-search-results');
+  if (!res) return;
+  q = q.trim().toLowerCase();
+  if (!q || q.length < 2) { res.classList.remove('show'); return; }
+  const src = document.getElementById('apo-sidebar-list');
+  const items = src ? src.querySelectorAll('.apo-sidebar-item') : [];
+  const matches = [];
+  items.forEach(item => {
+    const txt = (item.querySelector('.apo-si-txt')?.textContent || '').toLowerCase();
+    if (txt.includes(q)) {
+      const orig = item.querySelector('.apo-si-txt')?.textContent || '';
+      const data = item.querySelector('.apo-si-data')?.textContent || '';
+      const onclick = item.getAttribute('onclick') || '';
+      matches.push({ txt: orig, data, onclick });
+    }
+  });
+  if (!matches.length) {
+    res.innerHTML = '<div class="dash-sr-empty">Nenhuma apostila encontrada para "<strong>' + q + '</strong>"</div>';
+  } else {
+    res.innerHTML = matches.slice(0,8).map(m => {
+      const p = m.txt.split(' - ');
+      const disc = p[0] || '';
+      const nome = p.slice(1).join(' - ') || m.txt;
+      return '<div class="dash-sr-item" onclick="' + m.onclick.replace(/"/g,"'") + '"><div class="dash-sr-disc">' + disc + '</div><div class="dash-sr-nome">' + nome + '</div></div>';
+    }).join('');
+  }
+  res.classList.add('show');
+}
+
+function fecharBusca() {
+  const res = document.getElementById('dash-search-results');
+  if (res) res.classList.remove('show');
+}
+
+function carregarFinanceiro() {
+  const dst = document.getElementById('dash-fin-list');
+  if (!dst) return;
+  try {
+    const meta = window._currentUserMeta || {};
+    const plano = document.getElementById('dash-plan')?.textContent || 'Essencial';
+    const ativacao = meta.data_ativacao || meta.created_at || null;
+    const valor = plano.toLowerCase().includes('pro') ? 'R$ 119,90' : 'R$ 59,90';
+    let html = '';
+    if (ativacao) {
+      const d = new Date(ativacao);
+      const fmt = d.toLocaleDateString('pt-BR');
+      html = '<div class="dash-fin-item"><div class="dash-fin-ico">✅</div><div class="dash-fin-info"><div class="dash-fin-desc">Plano ' + plano + ' — Ativo</div><div class="dash-fin-date">Ativado em ' + fmt + '</div></div><div class="dash-fin-valor">' + valor + '/mês</div></div>';
+    } else {
+      html = '<div style="padding:24px;text-align:center;font-size:13px;color:rgba(255,255,255,0.35);">Nenhum pagamento registrado ainda. Acesse o Hotmart para ver o histórico.</div>';
+    }
+    dst.innerHTML = html;
+  } catch(e) {
+    dst.innerHTML = '<div style="padding:24px;text-align:center;font-size:13px;color:rgba(255,255,255,0.35);">Acesse o Hotmart para ver seu histórico de pagamentos.</div>';
+  }
+}
+
+function carregarAvatar() {
+  try {
+    const uid = window._currentUserId || 'user';
+    const saved = localStorage.getItem('aprendai_avatar_' + uid);
+    const av = document.getElementById('ds-avatar');
+    if (saved && av) { av.innerHTML = '<img src="' + saved + '" alt="Foto">'; }
+  } catch(e) {}
+}
+
+function uploadFoto(input) {
+  const file = input?.files?.[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const uid = window._currentUserId || 'user';
+      localStorage.setItem('aprendai_avatar_' + uid, e.target.result);
+      const av = document.getElementById('ds-avatar');
+      if (av) av.innerHTML = '<img src="' + e.target.result + '" alt="Foto">';
+    } catch(err) { alert('Não foi possível salvar a foto. Tente uma imagem menor.'); }
+  };
+  reader.readAsDataURL(file);
+}
+
+function enviarSugestao() {
+  const tipo = document.getElementById('sug-tipo')?.value || '';
+  const titulo = document.getElementById('sug-titulo')?.value?.trim() || '';
+  const detalhes = document.getElementById('sug-detalhes')?.value?.trim() || '';
+  if (!titulo) { alert('Por favor, descreva sua sugestão antes de enviar.'); return; }
+  const tipoLabel = document.getElementById('sug-tipo')?.options[document.getElementById('sug-tipo')?.selectedIndex]?.text || tipo;
+  const corpo = encodeURIComponent('Tipo: ' + tipoLabel + '\n\nSugestão: ' + titulo + '\n\nDetalhes: ' + (detalhes || '(não informado)') + '\n\n---\nEnviado pela Área de Membros AprendAI');
+  const assunto = encodeURIComponent('[Sugestão AprendAI] ' + tipoLabel + ': ' + titulo.substring(0,60));
+  window.location.href = 'mailto:aprendai.net@gmail.com?subject=' + assunto + '&body=' + corpo;
+  const ok = document.getElementById('sug-ok');
+  if (ok) ok.style.display = 'block';
+  const t = document.getElementById('sug-titulo');
+  const d = document.getElementById('sug-detalhes');
+  if (t) t.value = '';
+  if (d) d.value = '';
+}
+
+function enviarSuporteMsg() {
+  const assunto = document.getElementById('sup-assunto')?.value || '';
+  const msg = document.getElementById('sup-mensagem')?.value?.trim() || '';
+  if (!msg) { alert('Por favor, escreva sua mensagem antes de enviar.'); return; }
+  const corpo = encodeURIComponent('Assunto: ' + assunto + '\n\nMensagem:\n' + msg + '\n\n---\nEnviado pela Área de Membros AprendAI');
+  const sub = encodeURIComponent('[Suporte AprendAI] ' + assunto);
+  window.location.href = 'mailto:aprendai.net@gmail.com?subject=' + sub + '&body=' + corpo;
+  const ok = document.getElementById('sup-ok');
+  if (ok) ok.style.display = 'block';
+  const m = document.getElementById('sup-mensagem');
+  if (m) m.value = '';
+}
+
+(function() {
+  const obs = new MutationObserver(function(muts) {
+    muts.forEach(m => {
+      if (m.target.id === 'page-dash' && m.target.style.display !== 'none' && m.target.style.display !== '') {
+        setTimeout(sincronizarDash, 150);
+      }
+    });
+  });
+  document.addEventListener('DOMContentLoaded', function() {
+    const dash = document.getElementById('page-dash');
+    if (dash) obs.observe(dash, { attributes: true, attributeFilter: ['style'] });
+  });
+})();
 </script>
 </body>
 </html>
