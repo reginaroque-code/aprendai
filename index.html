@@ -2743,10 +2743,45 @@ function buildApoItem(apo) {
   if (data) h += '<div class="dash-apo-date">' + data + '</div>';
   h += '</div>';
   h += '<div class="dash-apo-actions">';
-  h += '<button onclick="event.stopPropagation();abrirApostilaSalva(this.closest(\'[data-apo-id]\').dataset.apoId)" title="Abrir" class="dash-apo-btn">↗</button>';
+  h += '<button onclick="event.stopPropagation();abrirApostilaSalva(this.parentElement.parentElement.dataset.apoId)" title="Reabrir apostila" class="dash-apo-btn">↗</button>';
+  h += '<button onclick="event.stopPropagation();imprimirApostila(this.parentElement.parentElement.dataset.apoId)" title="Imprimir apostila" class="dash-apo-btn">🖨</button>';
+  h += '<button onclick="event.stopPropagation();regerarApostila(this.parentElement.parentElement.dataset.apoId)" title="Regerar apostila" class="dash-apo-btn">🔄</button>';
   h += '</div>';
   h += '</div>';
   return h;
+}
+function imprimirApostila(id) {
+  abrirApostilaSalva(id);
+  setTimeout(function() {
+    if (typeof imprimirPDF === 'function') imprimirPDF();
+    else window.print();
+  }, 1500);
+}
+function regerarApostila(id) {
+  var apo = (window.MINHAS_APOSTILAS || []).find(function(a) { return a.id === id; });
+  if (!apo) return;
+  window.go('gen');
+  setTimeout(function() {
+    var discSel = document.getElementById('gdisc');
+    var bancaInput = document.getElementById('banca-custom');
+    var keyInput = document.getElementById('gkey');
+    if (discSel && apo.disciplina) {
+      var opts = Array.from(discSel.options);
+      var match = opts.find(function(o) { return o.text === apo.disciplina || o.value === apo.disciplina; });
+      if (match) {
+        discSel.value = match.value;
+        discSel.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    }
+    if (bancaInput && apo.banca) {
+      bancaInput.value = apo.banca;
+      bancaInput.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+    if (keyInput && apo.assunto) {
+      keyInput.value = apo.assunto;
+      keyInput.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+  }, 600);
 }
 
 function dashBuscar() {
