@@ -2709,17 +2709,17 @@ function sincronizarDash() {
 }
 
 function syncRecentes() {
-  var list = document.getElementById('dash-apo-list');
+  var list = document.getElementById('dash-recent-list');
   if (!list) return;
   var apostilas = window.MINHAS_APOSTILAS || [];
   if (!apostilas.length) {
     list.innerHTML = '<p style="color:#8891a4;text-align:center;padding:20px 0">Nenhuma apostila gerada ainda.<br>Use o gerador acima!</p>';
     return;
   }
-  renderAposFull(apostilas.slice(0, 6));
+  list.innerHTML = apostilas.slice(0, 6).map(function(apo) { return buildApoItem(apo); }).join('');
 }
 function renderAposFull(lista) {
-  var list = document.getElementById('dash-apo-list');
+  var list = document.getElementById('dash-apo-full-list');
   if (!list) return;
   var apos = lista || window.MINHAS_APOSTILAS || [];
   if (!apos.length) {
@@ -2727,22 +2727,6 @@ function renderAposFull(lista) {
     return;
   }
   list.innerHTML = apos.map(function(apo) { return buildApoItem(apo); }).join('');
-}
-function buildApoItem(apo) {
-  var data = apo.criado_em ? new Date(apo.criado_em).toLocaleDateString('pt-BR') : '';
-  var banca = apo.banca ? ' · ' + apo.banca : '';
-  var edital = apo.edital_orgao ? ' · ' + apo.edital_orgao : '';
-  return '<div class="dash-apo-card" onclick="abrirApostilaSalva(\'' + apo.id + '\')" style="cursor:pointer">' +
-    '<div class="dash-apo-icon">📄</div>' +
-    '<div class="dash-apo-info">' +
-      '<div class="dash-apo-disc">' + (apo.disciplina || '') + '</div>' +
-      '<div class="dash-apo-ass">' + (apo.assunto || '') + banca + edital + '</div>' +
-      (data ? '<div class="dash-apo-date">' + data + '</div>' : '') +
-    '</div>' +
-    '<div class="dash-apo-actions">' +
-      '<button onclick="event.stopPropagation();abrirApostilaSalva(\'' + apo.id + '\')" title="Abrir apostila" class="dash-apo-btn">↗</button>' +
-    '</div>' +
-  '</div>';
 }
 function dashBuscar() {
   var input = document.getElementById('dash-search-input');
@@ -2763,12 +2747,6 @@ function dashBuscar() {
   renderAposFull(filtered);
   if (res) res.textContent = filtered.length + ' apostila(s) encontrada(s)';
 }
-
-function fecharBusca() {
-  const res = document.getElementById('dash-search-results');
-  if (res) res.classList.remove('show');
-}
-
 function mostraRenovacao() {
   var user = null;
   try { user = JSON.parse(localStorage.getItem('sb_usr') || 'null'); } catch(e) {}
@@ -2793,10 +2771,17 @@ function mostraRenovacao() {
   banner.style.cssText = 'background:' + bgColor + ';border:1.5px solid ' + bdColor + ';border-radius:10px;padding:12px 18px;margin-bottom:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;';
   banner.innerHTML = '<span style="font-size:1.3em">' + icon + '</span><div style="flex:1;min-width:180px"><strong style="color:' + txtColor + ';font-size:.96em">' + msg + '</strong><span style="color:#555;font-size:.85em;margin-left:8px">Renove para continuar gerando apostilas.</span></div><a href="' + renewUrl + '" target="_blank" style="background:' + txtColor + ';color:#fff;padding:7px 18px;border-radius:7px;font-size:.87em;font-weight:700;text-decoration:none;white-space:nowrap;display:inline-block">Renovar Agora</a>';
   var dashMain = document.querySelector('#page-dash .dash-main');
-  var firstSection = dashMain && (dashMain.querySelector('.dash-gen-hero') || dashMain.querySelector('.dash-section'));
-  if (firstSection) {
-    dashMain.insertBefore(banner, firstSection);
-  } else if (dashMain) {
+  if (!dashMain) return;
+  var refNode = null;
+  for (var i = 0; i < dashMain.children.length; i++) {
+    var child = dashMain.children[i];
+    if (child.classList.contains('dash-section') || child.id === 'dash-sec-inicio') {
+      refNode = child; break;
+    }
+  }
+  if (refNode) {
+    dashMain.insertBefore(banner, refNode);
+  } else {
     dashMain.prepend(banner);
   }
 }
