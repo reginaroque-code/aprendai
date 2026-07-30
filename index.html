@@ -449,6 +449,16 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
   nav .nav-mid{display:none;}
 }
 @media(max-width:600px){.pgrid,.sgrid{grid-template-columns:1fr;}.ftop{grid-template-columns:1fr;}.dgrid{grid-template-columns:1fr;}}
+/* ── MOBILE HAMBURGER ── */
+.dash-hamburger{display:none;background:none;border:none;color:rgba(255,255,255,0.75);font-size:20px;cursor:pointer;padding:4px 8px;line-height:1;margin-right:8px;flex-shrink:0;}
+#dash-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:290;}
+#dash-overlay.show{display:block;}
+@media(max-width:900px){
+  .dash-hamburger{display:flex;align-items:center;justify-content:center;}
+  .dash-sidebar{transform:translateX(-220px);transition:transform .25s ease;}
+  .dash-sidebar.open{transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,0.4);}
+  .dash-search-wrap{max-width:100%;}
+}
 /* ══════════════════════════════════════════
    NOVA ÁREA DE MEMBROS — SIDEBAR + TOPBAR
 ══════════════════════════════════════════ */
@@ -820,7 +830,8 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 
   <!-- TOPBAR COM BUSCA -->
   <header class="dash-topbar">
-    <div class="dash-search-wrap">
+    <button class="dash-hamburger" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+      <div class="dash-search-wrap">
       <span class="dash-search-icon">🔍</span>
       <input class="dash-search-input" id="dash-search" type="text"
         placeholder="Buscar disciplina, assunto, concurso, banca ou cargo..."
@@ -1008,6 +1019,7 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
   </div>
 
 </div><!-- .dash-main -->
+<div id="dash-overlay" onclick="toggleSidebar()"></div>
 </div><!-- #page-dash -->
 
 
@@ -2637,42 +2649,62 @@ function dashSec(sec) {
 
 // ── Sync sidebar e novos elementos após renderDash() original
 function sincronizarDash() {
-  const nome = document.getElementById('dash-name')?.textContent || '';
+  let user = null;
+  try { user = JSON.parse(localStorage.getItem('sb_usr') || 'null'); } catch(e) {}
+  const meta = user?.user_metadata || {};
+
+  const nomeCompleto = meta.full_name || user?.email?.split('@')[0] || document.getElementById('dash-name')?.textContent || 'Usuário';
+  const primeiroNome = nomeCompleto.split(' ')[0];
+
   const elNome = document.getElementById('ds-profile-name');
-  if (elNome) elNome.textContent = nome;
-  try {
-    const elEmail = document.getElementById('ds-profile-email');
-    if (elEmail && window._currentUserEmail) elEmail.textContent = window._currentUserEmail;
-  } catch(e) {}
-  const plano = document.getElementById('dash-plan')?.textContent || '';
+  if (elNome) elNome.textContent = nomeCompleto;
+  const dashName = document.getElementById('dash-name');
+  if (dashName) dashName.textContent = primeiroNome;
+
+  const email = user?.email || window._currentUserEmail || '';
+  const elEmail = document.getElementById('ds-profile-email');
+  if (elEmail) elEmail.textContent = email;
+
+  window._currentUserId = user?.id || 'user';
+
+  const planoRaw = meta.plano || 'trial';
+  const planoLabel = planoRaw === 'pro' ? 'Pro' : planoRaw === 'pro_anual' ? 'Pro Anual' : planoRaw === 'trial' ? 'Trial' : planoRaw.charAt(0).toUpperCase() + planoRaw.slice(1);
   const elPlan = document.getElementById('ds-plan-badge');
-  if (elPlan && plano) elPlan.textContent = '⭐ ' + plano;
-  const countEl = document.getElementById('dash-count');
-  const limitEl = document.getElementById('dash-limit');
-  if (countEl && limitEl) {
-    const usado = parseInt(countEl.textContent) || 0;
-    const textoLimite = limitEl.textContent || '';
-    const match = textoLimite.match(/de (\d+)/);
-    const total = match ? parseInt(match[1]) : 150;
-    const restantes = total - usado;
-    const elR = document.getElementById('dash-restantes');
-    if (elR) elR.textContent = restantes;
-    const elGN = document.getElementById('dash-gen-num');
-    if (elGN) elGN.textContent = restantes;
-    const elBar = document.getElementById('dash-gen-bar');
-    if (elBar) elBar.style.width = Math.max(0, Math.min(100, (restantes/total)*100)) + '%';
-    const badge = document.getElementById('ds-apo-badge');
-    if (badge) badge.textContent = usado;
-  }
+  if (elPlan) elPlan.textContent = '⭐ ' + planoLabel;
+  const dashPlan = document.getElementById('dash-plan');
+  if (dashPlan) dashPlan.textContent = planoLabel;
+
+  const limiteTotal = (planoRaw === 'pro' || planoRaw === 'pro_anual') ? 150 : 30;
+  const apostilasMes = meta.apostilas_mes !== undefined ? meta.apostilas_mes : (parseInt(document.getElementById('dash-count')?.textContent) || 0);
+  const restantes = Math.max(0, limiteTotal - apostilasMes);
+
+  const dashCount = document.getElementById('dash-count');
+  if (dashCount) dashCount.textContent = apostilasMes;
+  const dashLimit = document.getElementById('dash-limit');
+  if (dashLimit) dashLimit.textContent = 'de ' + limiteTotal + ' dispon\u00edveis';
+
+  const elR = document.getElementById('dash-restantes');
+  if (elR) elR.textContent = restantes;
+  const elGN = document.getElementById('dash-gen-num');
+  if (elGN) elGN.textContent = restantes;
+  const elBar = document.getElementById('dash-gen-bar');
+  if (elBar) elBar.style.width = Math.max(0, Math.min(100, (restantes / limiteTotal) * 100)) + '%';
+  const badge = document.getElementById('ds-apo-badge');
+  if (badge) badge.textContent = apostilasMes;
+
+  const av = document.getElementById('ds-avatar');
+  if (av && !av.querySelector('img')) av.textContent = (nomeCompleto || 'U').charAt(0).toUpperCase();
+
   const elHoje = document.getElementById('dash-data-hoje');
   if (elHoje) {
     const d = new Date();
-    const dias = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
-    const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
-    elHoje.textContent = dias[d.getDay()] + ', ' + d.getDate() + ' de ' + meses[d.getMonth()] + ' de ' + d.getFullYear() + ' — Continue seus estudos de onde parou.';
+    const dias = ['Domingo', 'Segunda', 'Ter\u00e7a', 'Quarta', 'Quinta', 'Sexta', 'S\u00e1bado'];
+    const meses = ['janeiro', 'fevereiro', 'mar\u00e7o', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+    elHoje.textContent = dias[d.getDay()] + ', ' + d.getDate() + ' de ' + meses[d.getMonth()] + ' de ' + d.getFullYear() + ' \u2014 Continue seus estudos de onde parou.';
   }
+
   carregarAvatar();
-  setTimeout(syncRecentes, 300);
+  setTimeout(syncRecentes, 400);
 }
 
 function syncRecentes() {
@@ -2805,23 +2837,33 @@ function fecharBusca() {
 function carregarFinanceiro() {
   const dst = document.getElementById('dash-fin-list');
   if (!dst) return;
-  try {
-    const meta = window._currentUserMeta || {};
-    const plano = document.getElementById('dash-plan')?.textContent || 'Essencial';
-    const ativacao = meta.data_ativacao || meta.created_at || null;
-    const valor = plano.toLowerCase().includes('pro') ? 'R$ 119,90' : 'R$ 59,90';
-    let html = '';
-    if (ativacao) {
-      const d = new Date(ativacao);
-      const fmt = d.toLocaleDateString('pt-BR');
-      html = '<div class="dash-fin-item"><div class="dash-fin-ico">✅</div><div class="dash-fin-info"><div class="dash-fin-desc">Plano ' + plano + ' — Ativo</div><div class="dash-fin-date">Ativado em ' + fmt + '</div></div><div class="dash-fin-valor">' + valor + '/mês</div></div>';
-    } else {
-      html = '<div style="padding:24px;text-align:center;font-size:13px;color:rgba(255,255,255,0.35);">Nenhum pagamento registrado ainda. Acesse o Hotmart para ver o histórico.</div>';
-    }
-    dst.innerHTML = html;
-  } catch(e) {
-    dst.innerHTML = '<div style="padding:24px;text-align:center;font-size:13px;color:rgba(255,255,255,0.35);">Acesse o Hotmart para ver seu histórico de pagamentos.</div>';
+  dst.innerHTML = '<div style="padding:24px;text-align:center;font-size:13px;color:rgba(255,255,255,0.35);">Carregando...</div>';
+  let user = null;
+  try { user = JSON.parse(localStorage.getItem('sb_usr') || 'null'); } catch(e) {}
+  const meta = user?.user_metadata || {};
+  const planoRaw = meta.plano || 'trial';
+  const planoLabel = planoRaw === 'pro' ? 'Pro' : planoRaw === 'pro_anual' ? 'Pro Anual' : 'Trial Gratuito';
+  const isAtivo = planoRaw === 'pro' || planoRaw === 'pro_anual';
+  const ativadoEm = meta.plano_ativado_em || meta.trial_start || null;
+  const proxRenovacao = meta.proxima_renovacao || null;
+  const offerCode = meta.hotmart_offer || null;
+  const apostilasMes = meta.apostilas_mes || 0;
+  const limiteTotal = isAtivo ? 150 : 30;
+  let html = '';
+  html += '<div class="dash-fin-item"><div class="dash-fin-ico" style="background:rgba(240,180,41,0.12);">\u2B50</div><div class="dash-fin-info"><div class="dash-fin-desc">Plano ' + planoLabel + ' \u2014 <span style="color:' + (isAtivo ? '#4ade80' : '#fbbf24') + ';font-weight:600">' + (isAtivo ? 'Ativo' : 'Trial') + '</span></div>';
+  if (ativadoEm) { const d = new Date(ativadoEm); html += '<div class="dash-fin-date">Ativado em ' + d.toLocaleDateString("pt-BR") + '</div>'; }
+  html += '</div><div class="dash-fin-valor" style="color:var(--gold);">' + (isAtivo ? 'R$ 119,90/m\u00eas' : 'Gratuito') + '</div></div>';
+  if (proxRenovacao) {
+    const dr = new Date(proxRenovacao);
+    const dias = Math.ceil((dr - new Date()) / 86400000);
+    const cor = dias <= 5 ? '#f87171' : dias <= 15 ? '#fbbf24' : '#4ade80';
+    html += '<div class="dash-fin-item"><div class="dash-fin-ico" style="background:rgba(59,130,246,0.12);">\uD83D\uDD04</div><div class="dash-fin-info"><div class="dash-fin-desc">Pr\u00f3xima renova\u00e7\u00e3o</div><div class="dash-fin-date">' + dr.toLocaleDateString("pt-BR") + '</div></div><div class="dash-fin-valor" style="color:' + cor + ';">' + dias + ' dias</div></div>';
   }
+  const pct = Math.min(100, Math.round((apostilasMes / limiteTotal) * 100));
+  html += '<div class="dash-fin-item"><div class="dash-fin-ico" style="background:rgba(139,92,246,0.12);">\uD83D\uDCDA</div><div class="dash-fin-info"><div class="dash-fin-desc">Apostilas geradas este m\u00eas</div><div class="dash-fin-date"><div style="margin-top:6px;height:5px;background:rgba(255,255,255,0.1);border-radius:3px;width:140px;"><div style="height:100%;width:' + pct + '%;background:var(--gold);border-radius:3px;"></div></div></div></div><div class="dash-fin-valor">' + apostilasMes + '<span style="font-size:11px;font-weight:400;color:rgba(255,255,255,0.4);">/' + limiteTotal + '</span></div></div>';
+  dst.innerHTML = html;
+  const linkEl = document.getElementById('dash-fin-hotmart-link');
+  if (linkEl && offerCode) linkEl.href = 'https://pay.hotmart.com/' + offerCode;
 }
 
 function carregarAvatar() {
@@ -2878,19 +2920,42 @@ function enviarSuporteMsg() {
   if (m) m.value = '';
 }
 
+function toggleSidebar() {
+  const sidebar = document.querySelector('.dash-sidebar');
+  const overlay = document.getElementById('dash-overlay');
+  if (!sidebar) return;
+  const isOpen = sidebar.classList.contains('open');
+  sidebar.classList.toggle('open', !isOpen);
+  if (overlay) overlay.classList.toggle('show', !isOpen);
+}
+
 (function() {
+  const _origGo = window.go;
+  if (typeof _origGo === 'function') {
+    window.go = function(page) {
+      _origGo(page);
+      if (page === 'dash') {
+        setTimeout(sincronizarDash, 100);
+        setTimeout(sincronizarDash, 700);
+      }
+    };
+  }
   const obs = new MutationObserver(function(muts) {
-    muts.forEach(m => {
+    muts.forEach(function(m) {
       if (m.target.id === 'page-dash' && m.target.style.display !== 'none' && m.target.style.display !== '') {
-        setTimeout(sincronizarDash, 150);
+        setTimeout(sincronizarDash, 250);
       }
     });
   });
   document.addEventListener('DOMContentLoaded', function() {
     const dash = document.getElementById('page-dash');
     if (dash) obs.observe(dash, { attributes: true, attributeFilter: ['style'] });
+    if (typeof window.go === 'function' && typeof sincronizarDash === 'function') {
+      const _g = window.go;
+      window.go = function(page) { _g(page); if (page === 'dash') { setTimeout(sincronizarDash, 100); setTimeout(sincronizarDash, 700); } };
+    }
   });
-})();
+})());
 </script>
 </body>
 </html>
