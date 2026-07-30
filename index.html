@@ -449,6 +449,145 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
   nav .nav-mid{display:none;}
 }
 @media(max-width:600px){.pgrid,.sgrid{grid-template-columns:1fr;}.ftop{grid-template-columns:1fr;}.dgrid{grid-template-columns:1fr;}}
+/* ══════════════════════════════════════════
+   NOVA ÁREA DE MEMBROS — SIDEBAR + TOPBAR
+══════════════════════════════════════════ */
+
+/* Oculta o nav fixo na área de membros nova */
+#page-dash nav { display: none !important; }
+#page-dash { padding-top: 0 !important; }
+
+/* ── SIDEBAR ESQUERDA ── */
+.dash-sidebar{position:fixed;top:0;left:0;bottom:0;width:220px;background:var(--navy);border-right:1px solid rgba(255,255,255,0.07);display:flex;flex-direction:column;z-index:300;overflow-y:auto;}
+.ds-logo{display:flex;align-items:center;gap:8px;padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,0.07);}
+.ds-logo .logo-icon{width:30px;height:30px;font-size:14px;}
+.ds-logo .logo-text{font-size:1.1rem;}
+.ds-profile{padding:18px 16px 14px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.07);}
+.ds-avatar-wrap{position:relative;display:inline-block;margin-bottom:10px;}
+.ds-avatar{width:66px;height:66px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:var(--navy);border:2px solid rgba(255,255,255,0.12);overflow:hidden;}
+.ds-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+.ds-photo-btn{position:absolute;bottom:0;right:0;width:22px;height:22px;background:var(--gold);border-radius:50%;border:2px solid var(--navy);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;line-height:1;padding:0;color:var(--navy);}
+.ds-profile-name{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px;}
+.ds-profile-email{font-size:10px;color:rgba(255,255,255,0.38);margin-bottom:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px;margin-left:auto;margin-right:auto;}
+.ds-plan-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(240,180,41,0.1);border:1px solid rgba(240,180,41,0.25);color:var(--gold);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;}
+.ds-nav{flex:1;padding:6px 0;}
+.ds-nav-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.22);padding:10px 16px 4px;}
+.ds-nav-item{display:flex;align-items:center;gap:8px;padding:9px 16px;color:rgba(255,255,255,0.52);font-size:13px;cursor:pointer;border-left:2px solid transparent;transition:all .15s;width:100%;text-align:left;background:none;border-top:none;border-right:none;border-bottom:none;font-family:inherit;}
+.ds-nav-item:hover{background:rgba(255,255,255,0.05);color:#fff;}
+.ds-nav-item.active{background:rgba(240,180,41,0.1);color:var(--gold);border-left-color:var(--gold);font-weight:600;}
+.ds-nav-badge{margin-left:auto;background:var(--gold);color:var(--navy);font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;min-width:18px;text-align:center;}
+.ds-footer{padding:12px 16px;border-top:1px solid rgba(255,255,255,0.07);}
+.ds-signout{background:none;border:none;color:rgba(255,255,255,0.3);font-size:12px;cursor:pointer;font-family:inherit;padding:4px 0;text-align:left;}
+.ds-signout:hover{color:rgba(255,255,255,0.6);}
+
+/* ── AREA PRINCIPAL ── */
+.dash-main{margin-left:220px;min-height:100vh;}
+
+/* ── TOPBAR COM BUSCA ── */
+.dash-topbar{background:rgba(10,22,40,0.98);border-bottom:1px solid rgba(255,255,255,0.07);padding:0 24px;height:54px;display:flex;align-items:center;position:sticky;top:0;z-index:200;}
+.dash-search-wrap{flex:1;max-width:560px;position:relative;}
+.dash-search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.28);font-size:14px;pointer-events:none;}
+.dash-search-input{width:100%;height:36px;padding:0 12px 0 36px;border:1px solid rgba(255,255,255,0.1);border-radius:8px;font-size:13px;color:#fff;background:rgba(255,255,255,0.06);outline:none;font-family:inherit;transition:border-color .15s;}
+.dash-search-input:focus{border-color:rgba(240,180,41,0.4);background:rgba(255,255,255,0.08);}
+.dash-search-input::placeholder{color:rgba(255,255,255,0.25);}
+.dash-search-results{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#162036;border:1px solid rgba(240,180,41,0.2);border-radius:10px;z-index:300;display:none;max-height:300px;overflow-y:auto;box-shadow:0 12px 32px rgba(0,0,0,0.4);}
+.dash-search-results.show{display:block;}
+.dash-sr-item{padding:10px 14px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.04);transition:background .1s;}
+.dash-sr-item:last-child{border-bottom:none;}
+.dash-sr-item:hover{background:rgba(240,180,41,0.07);}
+.dash-sr-disc{font-size:10px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px;}
+.dash-sr-nome{font-size:13px;color:rgba(255,255,255,0.85);}
+.dash-sr-empty{padding:16px;text-align:center;font-size:13px;color:rgba(255,255,255,0.35);}
+
+/* ── SECOES ── */
+.dash-page-pad{padding:24px;}
+.dash-section{display:block;}
+.dash-greeting{margin-bottom:20px;}
+.dash-greeting-title{font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:3px;}
+.dash-greeting-sub{font-size:13px;color:rgba(255,255,255,0.4);}
+.dash-section-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:16px;}
+
+/* ── STATS ── */
+.dash-stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.dash-stat{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;}
+.dash-stat-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.dash-stat-icon.gold{background:rgba(240,180,41,0.14);}
+.dash-stat-icon.blue{background:rgba(59,130,246,0.12);}
+.dash-stat-icon.green{background:rgba(22,163,74,0.12);}
+.dash-stat-icon.purple{background:rgba(139,92,246,0.12);}
+.dash-stat-label{font-size:10px;color:rgba(255,255,255,0.38);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;}
+.dash-stat-value{font-size:22px;font-weight:800;color:#fff;line-height:1;}
+.dash-stat-sub{font-size:11px;color:rgba(255,255,255,0.38);margin-top:2px;}
+
+/* ── HERO CARD GERADOR ── */
+.dash-gen-hero{background:linear-gradient(135deg,#0a2240 0%,#1a3a6a 100%);border:1px solid rgba(240,180,41,0.18);border-radius:16px;padding:26px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:24px;position:relative;overflow:hidden;}
+.dash-gen-hero::after{content:'';position:absolute;width:220px;height:220px;background:rgba(240,180,41,0.05);border-radius:50%;right:-60px;top:-60px;pointer-events:none;}
+.dash-gen-hero-text{position:relative;z-index:1;}
+.dash-gen-hero-text h3{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:6px;}
+.dash-gen-hero-text p{font-size:13px;color:rgba(255,255,255,0.52);line-height:1.55;max-width:380px;}
+.dash-gen-counter{display:flex;align-items:center;gap:10px;margin-top:13px;font-size:13px;color:rgba(255,255,255,0.6);}
+.dash-gen-count-num{font-size:18px;font-weight:800;color:var(--gold);}
+.dash-gen-bar{width:80px;height:5px;background:rgba(255,255,255,0.12);border-radius:3px;overflow:hidden;}
+.dash-gen-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:3px;transition:width .4s;}
+.dash-gen-actions{display:flex;flex-direction:column;gap:8px;flex-shrink:0;position:relative;z-index:1;}
+.dash-btn-gen{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);border:none;border-radius:10px;padding:13px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .2s;}
+.dash-btn-gen:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(240,180,41,0.3);}
+.dash-btn-edital{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.88);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:11px 18px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;text-align:center;transition:all .15s;}
+.dash-btn-edital:hover{background:rgba(255,255,255,0.13);}
+
+/* ── APOSTILAS RECENTES / LISTA ── */
+.dash-recent-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.dash-see-all{background:none;border:none;color:var(--gold);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;padding:0;}
+.dash-see-all:hover{color:var(--gold2);}
+.dash-apo-item{display:flex;align-items:center;gap:12px;padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;cursor:pointer;margin-bottom:8px;transition:all .18s;}
+.dash-apo-item:hover{background:rgba(240,180,41,0.06);border-color:rgba(240,180,41,0.22);}
+.dash-apo-thumb{width:34px;height:34px;border-radius:8px;background:rgba(240,180,41,0.14);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.dash-apo-info{flex:1;min-width:0;}
+.dash-apo-disc{font-size:10px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px;}
+.dash-apo-nome{font-size:13px;color:rgba(255,255,255,0.88);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.dash-apo-meta{font-size:11px;color:rgba(255,255,255,0.32);margin-top:2px;}
+.dash-apo-actions{display:flex;gap:5px;flex-shrink:0;}
+.dash-icon-btn{width:28px;height:28px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;color:rgba(255,255,255,0.45);transition:all .1s;}
+.dash-icon-btn:hover{background:rgba(255,255,255,0.08);color:#fff;}
+
+/* Filtros */
+.dash-filter-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
+.dash-ftab{padding:5px 14px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid rgba(255,255,255,0.14);color:rgba(255,255,255,0.52);background:none;font-family:inherit;transition:all .15s;}
+.dash-ftab.active{background:var(--gold);color:var(--navy);border-color:var(--gold);font-weight:700;}
+.dash-ftab:hover:not(.active){border-color:rgba(255,255,255,0.3);color:#fff;}
+.dash-disc-label{font-size:11px;font-weight:700;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:.8px;margin:16px 0 8px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,0.06);}
+
+/* Financeiro */
+.dash-fin-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;overflow:hidden;margin-bottom:16px;}
+.dash-fin-hdr{background:rgba(255,255,255,0.03);padding:13px 18px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:#fff;}
+.dash-fin-item{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.04);}
+.dash-fin-item:last-child{border-bottom:none;}
+.dash-fin-ico{width:34px;height:34px;border-radius:8px;background:rgba(22,163,74,0.12);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.dash-fin-info{flex:1;}
+.dash-fin-desc{font-size:13px;color:#fff;font-weight:500;margin-bottom:2px;}
+.dash-fin-date{font-size:11px;color:rgba(255,255,255,0.38);}
+.dash-fin-valor{font-size:14px;font-weight:700;color:#4ade80;}
+.dash-manage-link{display:inline-flex;align-items:center;gap:6px;color:var(--gold);font-size:13px;font-weight:600;text-decoration:none;margin-top:6px;}
+.dash-manage-link:hover{color:var(--gold2);text-decoration:underline;}
+
+/* Sugestoes / Suporte */
+.dash-sug-card,.dash-sup-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:14px;padding:24px;}
+.dash-sug-card h4,.dash-sup-card h4{font-size:15px;font-weight:700;color:#fff;margin-bottom:6px;}
+.dash-sug-card p,.dash-sup-card p{font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:16px;line-height:1.6;}
+.dash-sup-icon{font-size:36px;text-align:center;margin-bottom:12px;}
+.dash-sup-card{text-align:center;}
+.dash-sup-card .fg{text-align:left;}
+.dash-textarea{width:100%;padding:.7rem .95rem;border:1.5px solid rgba(255,255,255,0.12);border-radius:9px;font-size:.9rem;font-family:inherit;resize:vertical;outline:none;background:#0d1f3c;color:#fff;margin-bottom:1rem;}
+.dash-textarea:focus{border-color:var(--gold);}
+
+/* Responsive */
+@media(max-width:900px){
+.dash-sidebar{display:none;}
+.dash-main{margin-left:0;}
+.dash-stats-row{grid-template-columns:1fr 1fr;}
+.dash-gen-hero{flex-direction:column;}
+}
+@media(max-width:600px){.dash-stats-row{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -640,37 +779,237 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
   </div>
 </div>
 
-<!-- ══ DASHBOARD ══ -->
+<!-- ══ DASHBOARD NOVA ÁREA DE MEMBROS ══ -->
 <div id="page-dash" class="page">
-  <div class="dash-shell">
-  <div class="dw">
-    <div class="dh"><div><h2 id="dnom">Olá! 👋</h2><p id="demail"></p></div><button class="sbtn sbtn-o" onclick="doLogout()">Sair da conta</button></div>
-    <div class="tbanner" id="tbanner"><p>🎉 Você está no <strong>período gratuito de 7 dias</strong>. Aproveite todos os recursos!</p><button class="sbtn" style="background:var(--gold);color:var(--navy);font-weight:700;" onclick="go('landing');setTimeout(()=>document.getElementById('planos').scrollIntoView({behavior:'smooth'}),250)">Assinar com 50% OFF →</button></div>
-    <div class="dgrid">
-      <div class="dc"><div class="dcl">Plano atual</div><div id="dchip" style="margin-top:.35rem;"></div></div>
-      <div class="dc"><div class="dcl">Apostilas este mês</div><div class="dcv" id="dcnt">0</div><div class="dcs" id="dlim">de 30 disponíveis</div></div>
-      <div class="dc"><div class="dcl">Impressão PDF</div><div class="dcv" id="dpdf">—</div><div class="dcs" id="dpdfs"></div></div>
+
+<!-- SIDEBAR ESQUERDA -->
+<aside class="dash-sidebar">
+  <div class="ds-logo">
+    <div class="logo-icon">A</div>
+    <div class="logo-col">
+      <span class="logo-text">Aprend<span>AI</span></span>
+      <span class="logo-beta">Beta</span>
     </div>
-    <button class="da" onclick="go('gen')">
-      <div style="font-size:2.2rem;margin-bottom:.4rem;">📚</div>
-      <h3>Abrir Gerador de Apostilas</h3>
-      <p>Clique para gerar sua próxima apostila com IA</p>
-    </button>
-    <div class="dlinks">
-      <a onclick="go('landing');setTimeout(()=>document.getElementById('planos').scrollIntoView({behavior:'smooth'}),250)">Gerenciar assinatura →</a>
-      <a href="mailto:contato@aprendai.net.br">Suporte →</a>
+  </div>
+  <div class="ds-profile">
+    <div class="ds-avatar-wrap">
+      <div class="ds-avatar" id="ds-avatar">R</div>
+      <input type="file" id="ds-photo-input" accept="image/*" style="display:none" onchange="uploadFoto(this)">
+      <button class="ds-photo-btn" onclick="document.getElementById('ds-photo-input').click()" title="Alterar foto">📷</button>
+    </div>
+    <div class="ds-profile-name" id="ds-profile-name">Usuário</div>
+    <div class="ds-profile-email" id="ds-profile-email"></div>
+    <div class="ds-plan-badge" id="ds-plan-badge">⭐ Pro</div>
+  </div>
+  <nav class="ds-nav">
+    <div class="ds-nav-label">Menu</div>
+    <button class="ds-nav-item active" id="ds-nav-inicio" onclick="dashSec('inicio')">🏠 &nbsp;Início</button>
+    <button class="ds-nav-item" id="ds-nav-apostilas" onclick="dashSec('apostilas')">📚 &nbsp;Apostilas Geradas <span class="ds-nav-badge" id="ds-apo-badge">0</span></button>
+    <div class="ds-nav-label" style="margin-top:10px">Conta</div>
+    <button class="ds-nav-item" id="ds-nav-financeiro" onclick="dashSec('financeiro')">💰 &nbsp;Financeiro</button>
+    <button class="ds-nav-item" id="ds-nav-sugestoes" onclick="dashSec('sugestoes')">💡 &nbsp;Sugestões</button>
+    <button class="ds-nav-item" id="ds-nav-suporte" onclick="dashSec('suporte')">🎧 &nbsp;Suporte</button>
+  </nav>
+  <div class="ds-footer">
+    <button class="ds-signout" onclick="doLogout()">⎋ &nbsp;Sair da conta</button>
+  </div>
+</aside>
+
+<!-- AREA PRINCIPAL -->
+<div class="dash-main">
+
+  <!-- TOPBAR COM BUSCA -->
+  <header class="dash-topbar">
+    <div class="dash-search-wrap">
+      <span class="dash-search-icon">🔍</span>
+      <input class="dash-search-input" id="dash-search" type="text"
+        placeholder="Buscar disciplina, assunto, concurso, banca ou cargo..."
+        oninput="dashBuscar(this.value)" onblur="setTimeout(()=>fecharBusca(),200)">
+      <div class="dash-search-results" id="dash-search-results"></div>
+    </div>
+  </header>
+
+  <!-- ── SEÇÃO: INÍCIO ── -->
+  <div class="dash-section" id="dash-sec-inicio">
+    <div class="dash-page-pad">
+
+      <!-- Banner trial (mantido com id original) -->
+      <div class="tbanner" id="trial-banner" style="display:none;margin-bottom:16px;">
+        <p>🎉 Você está no <strong>período gratuito de 7 dias</strong>. Aproveite todos os recursos!</p>
+        <button class="sbtn" id="trial-cta" style="background:var(--gold);color:var(--navy);font-weight:700;" onclick="document.getElementById('trial-cta').onclick">Assinar com 50% OFF →</button>
+      </div>
+
+      <!-- Saudação -->
+      <div class="dash-greeting">
+        <h2 class="dash-greeting-title">Olá, <span id="dash-name">usuário</span>! 👋</h2>
+        <p class="dash-greeting-sub" id="dash-data-hoje"></p>
+      </div>
+
+      <!-- Stats row (mantém ids originais: dash-count, dash-limit, dash-plan) -->
+      <div class="dash-stats-row">
+        <div class="dash-stat">
+          <div class="dash-stat-icon gold">📚</div>
+          <div>
+            <div class="dash-stat-label">Apostilas este mês</div>
+            <div class="dash-stat-value"><span id="dash-count">0</span></div>
+            <div class="dash-stat-sub" id="dash-limit">de 150 disponíveis</div>
+          </div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-icon blue">🗂️</div>
+          <div>
+            <div class="dash-stat-label">Plano atual</div>
+            <div class="dash-stat-value" id="dash-plan">Pro</div>
+            <div class="dash-stat-sub">Ativo</div>
+          </div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-icon green">🖨️</div>
+          <div>
+            <div class="dash-stat-label">Impressão PDF</div>
+            <div class="dash-stat-value">✓</div>
+            <div class="dash-stat-sub">Ilimitado</div>
+          </div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-icon purple">⚡</div>
+          <div>
+            <div class="dash-stat-label">Créditos restantes</div>
+            <div class="dash-stat-value" id="dash-restantes">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Card Gerador -->
+      <div class="dash-gen-hero">
+        <div class="dash-gen-hero-text">
+          <h3>⚡ Gerar nova apostila</h3>
+          <p>Escolha a disciplina, o assunto ou selecione pelo edital — a IA monta o material em segundos, com foco total na sua banca.</p>
+          <div class="dash-gen-counter">
+            <span>Créditos este mês:</span>
+            <span class="dash-gen-count-num" id="dash-gen-num">—</span>
+            <div class="dash-gen-bar"><div class="dash-gen-bar-fill" id="dash-gen-bar" style="width:100%"></div></div>
+          </div>
+        </div>
+        <div class="dash-gen-actions">
+          <button class="dash-btn-gen" onclick="go('gen')">📝 Modo Livre</button>
+          <button class="dash-btn-edital" onclick="go('gen');setTimeout(()=>{const b=document.querySelector('.modo-btn:last-child');if(b)b.click();},500)">🎯 Por Edital</button>
+        </div>
+      </div>
+
+      <!-- Recentes -->
+      <div class="dash-recent-header">
+        <div style="font-size:14px;font-weight:700;color:#fff;">📂 Apostilas Recentes</div>
+        <button class="dash-see-all" onclick="dashSec('apostilas')">Ver todas →</button>
+      </div>
+      <div id="dash-recent-list">
+        <p style="font-size:13px;color:rgba(255,255,255,0.35);padding:16px 0">Nenhuma apostila gerada ainda. Clique em Gerar nova apostila para começar!</p>
+      </div>
+
+      <!-- Links discretos -->
+      <div class="dlinks" style="margin-top:1.5rem;">
+        <a id="dash-link-assinar" href="#" target="_blank" style="display:none;color:rgba(255,255,255,0.35);font-size:.8rem;">Gerenciar assinatura →</a>
+        <a href="mailto:aprendai.net@gmail.com" style="color:rgba(255,255,255,0.35);font-size:.8rem;">Suporte →</a>
+      </div>
+
     </div>
   </div>
 
-  <!-- barra lateral: apostilas já geradas pelo usuário -->
-  <aside class="apo-sidebar" id="apo-sidebar-dash">
-    <div class="apo-sidebar-title">📂 Minhas Apostilas</div>
-    <div class="apo-sidebar-list" id="apo-sidebar-list-dash">
-      <div class="apo-sidebar-empty">Nenhuma apostila gerada ainda.</div>
+  <!-- ── SEÇÃO: APOSTILAS GERADAS ── -->
+  <div class="dash-section" id="dash-sec-apostilas" style="display:none">
+    <div class="dash-page-pad">
+      <div class="dash-section-title">📚 Minhas Apostilas</div>
+      <div class="dash-filter-tabs">
+        <button class="dash-ftab active" onclick="filtrarApos('todas',this)">Todas</button>
+        <button class="dash-ftab" onclick="filtrarApos('disciplina',this)">Por Disciplina</button>
+        <button class="dash-ftab" onclick="filtrarApos('edital',this)">Por Edital</button>
+      </div>
+      <div id="dash-apo-full-list">
+        <!-- populado por renderAposFull() -->
+      </div>
+      <!-- Mantém o elemento original para compatibilidade com o JS existente -->
+      <div style="display:none"><div class="apo-sidebar-list" id="apo-sidebar-list"></div></div>
     </div>
-  </aside>
   </div>
-</div>
+
+  <!-- ── SEÇÃO: FINANCEIRO ── -->
+  <div class="dash-section" id="dash-sec-financeiro" style="display:none">
+    <div class="dash-page-pad">
+      <div class="dash-section-title">💰 Financeiro</div>
+      <div class="dash-fin-card">
+        <div class="dash-fin-hdr">📋 &nbsp;Histórico de Pagamentos</div>
+        <div id="dash-fin-list">
+          <div style="padding:24px;text-align:center;color:rgba(255,255,255,0.35);font-size:13px;">Carregando informações...</div>
+        </div>
+      </div>
+      <a class="dash-manage-link" id="dash-fin-hotmart-link" href="https://hotmart.com/product/area-de-membros" target="_blank">↗ Gerenciar assinatura no Hotmart</a>
+    </div>
+  </div>
+
+  <!-- ── SEÇÃO: SUGESTÕES ── -->
+  <div class="dash-section" id="dash-sec-sugestoes" style="display:none">
+    <div class="dash-page-pad">
+      <div class="dash-section-title">💡 Sugestões</div>
+      <div class="dash-sug-card">
+        <h4>Sugira conteúdo para o AprendAI</h4>
+        <p>Faltou alguma disciplina ou assunto? Nos conte — priorizamos as sugestões dos membros no nosso roadmap.</p>
+        <div class="fg">
+          <label>Tipo de sugestão</label>
+          <select class="gsel" id="sug-tipo">
+            <option value="assunto">Novo assunto em disciplina existente</option>
+            <option value="disciplina">Nova disciplina</option>
+            <option value="edital">Novo edital</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Descreva sua sugestão</label>
+          <input type="text" id="sug-titulo" placeholder="Ex: Contabilidade Pública — SIAFI e execução orçamentária">
+        </div>
+        <div class="fg">
+          <label>Detalhes adicionais (opcional)</label>
+          <textarea id="sug-detalhes" class="dash-textarea" rows="3" placeholder="Qual concurso, banca ou contexto você está estudando?"></textarea>
+        </div>
+        <button class="abtn abtn-g" onclick="enviarSugestao()">📨 Enviar sugestão</button>
+        <div id="sug-ok" style="display:none;margin-top:12px;background:rgba(22,163,74,0.1);border:1px solid rgba(22,163,74,0.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#4ade80;">✅ Sugestão enviada! Obrigada — analisaremos em breve.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SEÇÃO: SUPORTE ── -->
+  <div class="dash-section" id="dash-sec-suporte" style="display:none">
+    <div class="dash-page-pad">
+      <div class="dash-section-title">🎧 Suporte</div>
+      <div class="dash-sup-card">
+        <div class="dash-sup-icon">👩‍💻</div>
+        <h4>Fale com a equipe AprendAI</h4>
+        <p>Dúvidas, problemas técnicos ou questões financeiras — estamos aqui. Respondemos em até 24h úteis.</p>
+        <div class="fg" style="text-align:left">
+          <label>Assunto</label>
+          <select class="gsel" id="sup-assunto">
+            <option>Dúvida sobre o produto</option>
+            <option>Problema técnico</option>
+            <option>Financeiro / Assinatura</option>
+            <option>Sugestão de melhoria</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="fg" style="text-align:left">
+          <label>Sua mensagem</label>
+          <textarea id="sup-mensagem" class="dash-textarea" rows="4" placeholder="Descreva sua dúvida, problema ou sugestão..."></textarea>
+        </div>
+        <button class="abtn abtn-g" onclick="enviarSuporteMsg()">📨 Enviar mensagem</button>
+        <div id="sup-ok" style="display:none;margin-top:12px;background:rgba(22,163,74,0.1);border:1px solid rgba(22,163,74,0.3);border-radius:8px;padding:10px 14px;font-size:13px;color:#4ade80;">✅ Mensagem enviada! Entraremos em contato em breve.</div>
+        <p style="margin-top:14px;font-size:12px;color:rgba(255,255,255,0.3);">
+          Ou escreva diretamente: <a href="mailto:aprendai.net@gmail.com" style="color:var(--gold);font-weight:600">aprendai.net@gmail.com</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- .dash-main -->
+</div><!-- #page-dash -->
+
 
 <!-- ══ GERADOR ══ -->
 <div id="page-gen" class="page">
