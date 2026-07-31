@@ -1761,8 +1761,8 @@ function doLogin(){
     STORAGE.setItem('sb_tok',d.access_token);
     if(d.refresh_token)STORAGE.setItem('sb_rtok',d.refresh_token);
     fetch(SB_URL+'/auth/v1/logout?scope=others',{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+d.access_token}}).catch(function(){});
-    renderDash(d.user);go('dash');
-  }).catch(function(){
+    STORAGE.setItem('sb_usr',JSON.stringify(d.user||{}));renderDash(d.user);go('dash');
+  },function(){
     setLd('btnlogin',false,'Entrar');
     showA('err','Erro de conexão. Verifique sua internet e tente novamente.');
   });
@@ -1826,14 +1826,14 @@ function renderDash(user){
     APO_COUNT=0;
     salvarContador(0);
   }
-  document.getElementById('dnom').textContent='Olá, '+nome.split(' ')[0]+'! 👋';
-  document.getElementById('demail').textContent=user.email||'';
-  var chip=document.getElementById('dchip');
-  var pdf=document.getElementById('dpdf');
-  var pdfs=document.getElementById('dpdfs');
-  var lim=document.getElementById('dlim');
-  var cnt=document.getElementById('dcnt');
-  var tb=document.getElementById('tbanner');
+  document.getElementById('ds-profile-name').textContent='Olá, '+nome.split(' ')[0]+'! 👋';
+  document.getElementById('ds-profile-email').textContent=user.email||'';
+  var chip=document.getElementById('ds-plan-badge');
+  var pdf=document.getElementById('dpdf')||{};
+  var pdfs=document.getElementById('dpdfs')||{};
+  var lim=document.getElementById('dlim')||{};
+  var cnt=document.getElementById('ds-apo-badge');
+  var tb=document.getElementById('tbanner')||{};
   cnt.textContent=APO_COUNT;
   if(CUR_PLANO==='trial'){chip.innerHTML='<span class="chip cht">✨ Teste Grátis</span>';pdf.textContent='✓ Liberado';pdfs.textContent='Aproveite os 7 dias';lim.textContent='de 5 disponíveis';tb.style.display='flex';}
   else if(CUR_PLANO==='essencial'){chip.innerHTML='<span class="chip che">📘 Essencial</span>';pdf.textContent='✕ Não incluído';pdfs.textContent='Faça upgrade para Pro';lim.textContent='de 30 disponíveis';tb.style.display='none';}
