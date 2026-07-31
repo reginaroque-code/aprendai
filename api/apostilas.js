@@ -16,7 +16,7 @@ const SB_URL = process.env.SUPABASE_URL;
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 // Chave pública (publishable/anon) do Supabase — a mesma já embutida no index.html,
 // usada só para validar o token do usuário em /auth/v1/user.
-const ANON_KEY = process.env.SUPABASE_ANON_KEY || 'sb_publishable_iGmTY-Ry_S90JyK9L5QZNg_k1hmJlos';
+
 
 async function usuarioDoToken(token) {
   const r = await fetch(`${SB_URL}/auth/v1/user`, {
