@@ -1887,7 +1887,12 @@ function renderDash(user){
   var fw=document.getElementById('dash-fin-widget');
   if(fw){
     var plLabel=CUR_PLANO==='pro'?'Plano Pro':CUR_PLANO==='essencial'?'Essencial':'Trial';
-    fw.innerHTML='<div class="dash-fin-row"><div class="dash-fin-row-ico">💳</div><div class="dash-fin-row-info"><div class="dash-fin-row-desc">'+plLabel+'</div><div class="dash-fin-row-date">Plano atual ativo</div></div><div class="dash-fin-row-val">Ativo</div></div><div style="margin-top:10px;"><button onclick="dashSec('financeiro')" style="width:100%;background:#f8f9fa;border:1px solid #e2e6ea;border-radius:8px;padding:8px;font-size:12px;color:#6c757d;cursor:pointer;font-family:inherit;">Ver histórico completo →</button></div>';
+    var btn=document.createElement('button');
+    btn.textContent='Ver histórico completo →';
+    btn.style.cssText='width:100%;background:#f8f9fa;border:1px solid #e2e6ea;border-radius:8px;padding:8px;font-size:12px;color:#6c757d;cursor:pointer;font-family:inherit;margin-top:10px;';
+    btn.onclick=function(){dashSec('financeiro');};
+    fw.innerHTML='<div class="dash-fin-row"><div class="dash-fin-row-ico">💳</div><div class="dash-fin-row-info"><div class="dash-fin-row-desc">'+plLabel+'</div><div class="dash-fin-row-date">Plano atual ativo</div></div><div class="dash-fin-row-val">Ativo</div></div>';
+    fw.appendChild(btn);
   }
 }
 }
