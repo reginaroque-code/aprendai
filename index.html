@@ -2132,9 +2132,9 @@ function prosseguirGeracao(disc,mod,qTeoria,qMapa,qQuestoes,questoesReais){
 function registrarApostilaGerada(){
   APO_COUNT++;
   var _maxAp=CUR_PLANO==='essencial'?30:(CUR_PLANO==='pro'?150:5);
-  document.getElementById('gcnt').textContent=APO_COUNT;
-  document.getElementById('dcnt').textContent=APO_COUNT;
-  document.getElementById('gfill').style.width=Math.min(100,APO_COUNT/_maxAp*100)+'%';
+  var _gcnt=document.getElementById('gcnt');if(_gcnt)_gcnt.textContent=APO_COUNT;
+  var _dcnt=document.getElementById('dcnt');if(_dcnt)_dcnt.textContent=APO_COUNT;
+  var _gfill=document.getElementById('gfill');if(_gfill)_gfill.style.width=Math.min(100,APO_COUNT/_maxAp*100)+'%';
   salvarContador(APO_COUNT);
 }
 
