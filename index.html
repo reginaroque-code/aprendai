@@ -2033,7 +2033,7 @@ function gerar(){
   if(!disc){alert('Selecione a disciplina.');return;}
   if(!mod){alert('Selecione o assunto.');return;}
   var qTeoria=document.getElementById('chk-teoria').checked;
-  var qMapa=document.getElementById('chk-mapa').checked;
+  var qMapa=false; // mapa mental desativado temporariamente
   var qQuestoes=document.getElementById('chk-questoes').checked;
   if(!qTeoria&&!qMapa&&!qQuestoes){alert('Selecione ao menos uma opção: Teoria ou Questões.');return;}
   // verifica limite (contagem + prazo do trial)
@@ -2151,8 +2151,20 @@ function salvarApostilaGerada(disc,mod){
     edital_orgao:(MODO_GERADOR==='edital'&&SEL_EDITAL)?SEL_EDITAL.orgao:null,
     dados:CUR_DATA
   };
-  fetch('/api/apostilas',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+tok},body:JSON.stringify(payload)})
-    .then(function(r){return r.json();})
+  function _tentarSalvar(token){
+    return fetch('/api/apostilas',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify(payload)})
+      .then(function(r){
+        if(r.status===401){
+          return sbRefreshToken().then(function(novoTok){
+            if(!novoTok)return null;
+            return fetch('/api/apostilas',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+novoTok},body:JSON.stringify(payload)})
+              .then(function(r2){return r2.json();});
+          });
+        }
+        return r.json();
+      });
+  }
+  _tentarSalvar(tok)
     .then(function(row){
       if(row&&row.id){
         MINHAS_APOSTILAS.unshift({id:row.id,disciplina:disc,assunto:mod,banca:SEL_BANCA,edital_orgao:payload.edital_orgao,criado_em:row.criado_em||new Date().toISOString()});
@@ -2181,8 +2193,18 @@ function carregarMinhasApostilas(){
   var tok=STORAGE.getItem('sb_tok');
   if(!tok){MINHAS_APOSTILAS=[];renderSidebarApostilas();return;}
   fetch('/api/apostilas',{headers:{'Authorization':'Bearer '+tok}})
-    .then(function(r){return r.json();})
+    .then(function(r){
+      if(r.status===401){
+        return sbRefreshToken().then(function(novoTok){
+          if(!novoTok){MINHAS_APOSTILAS=[];renderSidebarApostilas();return null;}
+          return fetch('/api/apostilas',{headers:{'Authorization':'Bearer '+novoTok}})
+            .then(function(r2){return r2.json();});
+        });
+      }
+      return r.json();
+    })
     .then(function(list){
+      if(list==null)return;
       MINHAS_APOSTILAS=Array.isArray(list)?list:[];
       renderSidebarApostilas();
     })
