@@ -2880,21 +2880,42 @@ function carregarAvatar() {
   var uid = user ? (user.id || '') : '';
   var avatarEl = document.getElementById('ds-avatar');
   if (!avatarEl) return;
-  var saved = (uid ? localStorage.getItem('avatar_' + uid) : null) || localStorage.getItem('dash_avatar');
-  if (saved && saved.startsWith('data:')) {
-    avatarEl.style.backgroundImage = 'url(' + saved + ')';
-    avatarEl.style.backgroundSize = 'cover';
-    avatarEl.style.backgroundPosition = 'center';
-    avatarEl.textContent = '';
+  if (uid) {
+    var publicUrl = SB_URL + '/storage/v1/object/public/avatares/' + uid + '.jpg?t=' + Date.now();
+    var testImg = new Image();
+    testImg.onload = function() {
+      avatarEl.style.backgroundImage = 'url(' + publicUrl + ')';
+      avatarEl.style.backgroundSize = 'cover';
+      avatarEl.style.backgroundPosition = 'center';
+      avatarEl.textContent = '';
+    };
+    testImg.onerror = function() {
+      var saved = localStorage.getItem('avatar_' + uid) || localStorage.getItem('dash_avatar');
+      if (saved && saved.startsWith('data:')) {
+        avatarEl.style.backgroundImage = 'url(' + saved + ')';
+        avatarEl.style.backgroundSize = 'cover';
+        avatarEl.style.backgroundPosition = 'center';
+        avatarEl.textContent = '';
+      }
+    };
+    testImg.src = publicUrl;
+  } else {
+    var saved = localStorage.getItem('dash_avatar');
+    if (saved && saved.startsWith('data:')) {
+      avatarEl.style.backgroundImage = 'url(' + saved + ')';
+      avatarEl.style.backgroundSize = 'cover';
+      avatarEl.style.backgroundPosition = 'center';
+      avatarEl.textContent = '';
+    }
   }
 }
-
 function uploadFoto(input) {
   var file = input.files && input.files[0];
   if (!file) return;
   var user = null;
   try { user = JSON.parse(localStorage.getItem('sb_usr') || 'null'); } catch(e) {}
   var uid = user ? (user.id || '') : '';
+  var tok = localStorage.getItem('sb_tok') || '';
   var reader = new FileReader();
   reader.onload = function(e) {
     var img = new Image();
@@ -2919,12 +2940,31 @@ function uploadFoto(input) {
         avatarEl.style.backgroundPosition = 'center';
         avatarEl.textContent = '';
       }
+      if (uid) {
+        canvas.toBlob(function(blob) {
+          if (!blob) return;
+          var hdr = {};
+          hdr['apikey'] = SB_KEY;
+          hdr['Authorization'] = 'Bearer ' + (tok || SB_KEY);
+          hdr['Content-Type'] = 'image/jpeg';
+          hdr['x-upsert'] = 'true';
+          fetch(SB_URL + '/storage/v1/object/avatares/' + uid + '.jpg', {
+            method: 'PUT',
+            headers: hdr,
+            body: blob
+          }).then(function(r) {
+            if (r.ok && avatarEl) {
+              var pubUrl = SB_URL + '/storage/v1/object/public/avatares/' + uid + '.jpg?t=' + Date.now();
+              avatarEl.style.backgroundImage = 'url(' + pubUrl + ')';
+            }
+          }).catch(function(err) { console.warn('Avatar upload:', err); });
+        }, 'image/jpeg', 0.82);
+      }
     };
     img.src = e.target.result;
   };
   reader.readAsDataURL(file);
 }
-
 function enviarSugestao() {
   const tipo = document.getElementById('sug-tipo')?.value || '';
   const titulo = document.getElementById('sug-titulo')?.value?.trim() || '';
