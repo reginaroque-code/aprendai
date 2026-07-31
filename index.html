@@ -2875,21 +2875,25 @@ function carregarFinanceiro() {
 }
 
 function carregarAvatar() {
+  if (window._avatarCarregando) return;
   var user = null;
   try { user = JSON.parse(localStorage.getItem('sb_usr') || 'null'); } catch(e) {}
   var uid = user ? (user.id || '') : '';
   var avatarEl = document.getElementById('ds-avatar');
   if (!avatarEl) return;
   if (uid) {
+    window._avatarCarregando = true;
     var publicUrl = SB_URL + '/storage/v1/object/public/avatares/' + uid + '.jpg?t=' + Date.now();
     var testImg = new Image();
     testImg.onload = function() {
+      window._avatarCarregando = false;
       avatarEl.style.backgroundImage = 'url(' + publicUrl + ')';
       avatarEl.style.backgroundSize = 'cover';
       avatarEl.style.backgroundPosition = 'center';
       avatarEl.textContent = '';
     };
     testImg.onerror = function() {
+      window._avatarCarregando = false;
       var saved = localStorage.getItem('avatar_' + uid) || localStorage.getItem('dash_avatar');
       if (saved && saved.startsWith('data:')) {
         avatarEl.style.backgroundImage = 'url(' + saved + ')';
