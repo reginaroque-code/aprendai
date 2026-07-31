@@ -1747,19 +1747,26 @@ function setLd(id,on,lbl){var b=document.getElementById(id);if(!b)return;b.disab
 function doLogin(){
   clearE();hideA();
   var email=document.getElementById('lemail').value.trim();
-  var senha=document.getElementById('lsenha').value;
-  if(!email){document.getElementById('errle').textContent='Informe seu e-mail';return;}
-  if(!senha){document.getElementById('errls').textContent='Informe sua senha';return;}
+  var pass=document.getElementById('lsenha').value;
+  if(!email){showE('lemail','Informe seu e-mail');return;}
+  if(!pass){showE('lsenha','Informe sua senha');return;}
   setLd('btnlogin',true,'Entrar');
-  sbPost('/auth/v1/token?grant_type=password',{email:email,password:senha})
-    .then(function(d){
+  sbPost('/auth/v1/token?grant_type=password',{email:email,password:pass}).then(function(d){
+    if(!d||!d.access_token){
       setLd('btnlogin',false,'Entrar');
-      if(d.error){showA('err','E-mail ou senha incorretos.');return;}
-      STORAGE.setItem('sb_tok',d.access_token);
-      if(d.refresh_token)STORAGE.setItem('sb_rtok',d.refresh_token);
-      STORAGE.setItem('sb_usr',JSON.stringify(d.user));
-      CUR_USER=d.user; renderDash(d.user); go('dash');
-    }).catch(function(){setLd('btnlogin',false,'Entrar');showA('err','Erro de conexão.');});
+      var msg=d&&(d.error_description||d.msg||d.error)||'E-mail ou senha incorretos.';
+      showA('err',msg);
+      return;
+    }
+    STORAGE.setItem('sb_tok',d.access_token);
+    if(d.refresh_token)STORAGE.setItem('sb_rtok',d.refresh_token);
+    // Revogar outras sessões ativas (sessão única)
+    fetch(SB_URL+'/auth/v1/logout?scope=others',{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+d.access_token}}).catch(function(){});
+    renderDash(d.user);go('dash');
+  }).catch(function(){
+    setLd('btnlogin',false,'Entrar');
+    showA('err','Erro de conexão. Verifique sua internet e tente novamente.');
+  });
 }
 function doCad(){
   clearE();hideA();
