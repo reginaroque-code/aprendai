@@ -20,7 +20,7 @@ const ANON_KEY = process.env.SUPABASE_ANON_KEY || 'sb_publishable_iGmTY-Ry_S90Jy
 
 async function usuarioDoToken(token) {
   const r = await fetch(`${SB_URL}/auth/v1/user`, {
-    headers: { apikey: ANON_KEY, Authorization: `Bearer ${token}` },
+    headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${token}` },
   });
   if (!r.ok) return null;
   const user = await r.json();
