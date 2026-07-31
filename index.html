@@ -464,7 +464,7 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 ══════════════════════════════════════════ */
 
 /* Oculta o nav fixo na área de membros nova */
-.dash-sidebar nav,.dash-sidebar .ds-nav{position:static!important;top:auto!important;left:auto!important;right:auto!important;width:100%!important;z-index:auto!important;display:flex!important;flex-direction:column!important;background:transparent!important;backdrop-filter:none!important;}
+.dash-sidebar nav,.dash-sidebar .ds-nav{position:static!important;top:auto!important;left:auto!important;right:auto!important;width:100%!important;z-index:auto!important;display:flex!important;flex-direction:column!important;justify-content:flex-start!important;align-items:stretch!important;background:transparent!important;backdrop-filter:none!important;flex:1 1 auto!important;overflow-y:auto!important;}
 #page-dash { padding-top: 0 !important; }
 
 /* ── SIDEBAR ESQUERDA ── */
@@ -549,6 +549,24 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 .dash-recent-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
 .dash-see-all{background:none;border:none;color:var(--gold);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;padding:0;}
 .dash-see-all:hover{color:var(--gold2);}
+.dash-two-col{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;margin-top:20px;}
+.dash-col-left{}
+.dash-col-right{display:flex;flex-direction:column;gap:16px;}
+.dash-widget-card{background:#fff;border:1px solid #e2e6ea;border-radius:12px;overflow:hidden;}
+.dash-widget-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #f0f2f5;font-size:13px;font-weight:700;color:#0D2550;}
+.dash-widget-body{padding:14px 16px;}
+.dash-fin-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f2f5;}
+.dash-fin-row:last-child{border-bottom:none;}
+.dash-fin-row-ico{width:32px;height:32px;border-radius:8px;background:rgba(22,163,74,0.1);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.dash-fin-row-info{flex:1;}
+.dash-fin-row-desc{font-size:12.5px;color:#212529;font-weight:500;}
+.dash-fin-row-date{font-size:11px;color:#adb5bd;margin-top:1px;}
+.dash-fin-row-val{font-size:13px;font-weight:700;color:#16a34a;}
+.dash-apo-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.dash-apo-tab{background:#f0f2f5;border:none;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:#6c757d;cursor:pointer;font-family:inherit;transition:all .15s;}
+.dash-apo-tab.active{background:#0D2550;color:#fff;}
+.dash-apo-tab:hover:not(.active){background:#dee2e6;color:#343a40;}
+@media(max-width:1100px){.dash-two-col{grid-template-columns:1fr;}}
 .dash-apo-item{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#fff;border:1px solid #e2e6ea;border-radius:10px;cursor:pointer;margin-bottom:8px;transition:all .18s;}
 .dash-apo-item:hover{background:rgba(240,180,41,0.06);border-color:rgba(240,180,41,0.22);}
 .dash-apo-thumb{width:34px;height:34px;border-radius:8px;background:rgba(240,180,41,0.14);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
@@ -909,18 +927,45 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
       </div>
 
       <!-- Recentes -->
-      <div class="dash-recent-header">
-        <div style="font-size:14px;font-weight:700;color:#fff;">📂 Apostilas Recentes</div>
-        <button class="dash-see-all" onclick="dashSec('apostilas')">Ver todas →</button>
-      </div>
-      <div id="dash-recent-list">
-        <p style="font-size:13px;color:rgba(255,255,255,0.35);padding:16px 0">Nenhuma apostila gerada ainda. Clique em Gerar nova apostila para começar!</p>
-      </div>
-
-      <!-- Links discretos -->
-      <div class="dlinks" style="margin-top:1.5rem;">
-        <a id="dash-link-assinar" href="#" target="_blank" style="display:none;color:rgba(255,255,255,0.35);font-size:.8rem;">Gerenciar assinatura →</a>
-        <a href="mailto:aprendai.net@gmail.com" style="color:rgba(255,255,255,0.35);font-size:.8rem;">Suporte →</a>
+      <div class="dash-two-col">
+        <div class="dash-col-left">
+          <div class="dash-recent-header">
+            <div style="font-size:14px;font-weight:700;color:#0D2550;">📚 Minhas Apostilas</div>
+            <button class="dash-see-all" onclick="dashSec('apostilas')">Ver todas →</button>
+          </div>
+          <div class="dash-apo-tabs">
+            <button class="dash-apo-tab active" onclick="filtrarApos('todas',this)">Todas</button>
+            <button class="dash-apo-tab" onclick="filtrarApos('disciplina',this)">Por Disciplina</button>
+            <button class="dash-apo-tab" onclick="filtrarApos('edital',this)">Por Edital</button>
+          </div>
+          <div id="dash-recent-list">
+            <p style="font-size:13px;color:#adb5bd;padding:16px 0">Nenhuma apostila gerada ainda. Clique em Gerar nova apostila para começar!</p>
+          </div>
+          <div class="dlinks" style="margin-top:1rem;display:none;">
+            <a id="dash-link-assinar" href="#" target="_blank" style="color:#6c757d;font-size:.8rem;">Gerenciar assinatura →</a>
+          </div>
+        </div>
+        <div class="dash-col-right">
+          <div class="dash-widget-card">
+            <div class="dash-widget-hdr">
+              <span>💰 Financeiro</span>
+              <button class="dash-see-all" onclick="dashSec('financeiro')">Ver tudo →</button>
+            </div>
+            <div class="dash-widget-body" id="dash-fin-widget">
+              <p style="color:#adb5bd;font-size:13px;padding:4px 0;">Carregando...</p>
+            </div>
+          </div>
+          <div class="dash-widget-card">
+            <div class="dash-widget-hdr">
+              <span>💡 Sugestões</span>
+              <span style="font-size:10px;font-weight:700;background:#e8f5e9;color:#16a34a;padding:2px 8px;border-radius:10px;">NOVO</span>
+            </div>
+            <div class="dash-widget-body">
+              <p style="font-size:13px;color:#6c757d;margin-bottom:12px;line-height:1.5;">Faltou alguma disciplina ou assunto? Conte para a gente e priorizamos no roadmap.</p>
+              <button onclick="dashSec('sugestoes')" style="background:#0D2550;color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;width:100%;">Enviar sugestão →</button>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -1837,7 +1882,14 @@ function renderDash(user){
   cnt.textContent=APO_COUNT;
   if(CUR_PLANO==='trial'){chip.innerHTML='<span class="chip cht">✨ Teste Grátis</span>';pdf.textContent='✓ Liberado';pdfs.textContent='Aproveite os 7 dias';lim.textContent='de 5 disponíveis';tb.style.display='flex';}
   else if(CUR_PLANO==='essencial'){chip.innerHTML='<span class="chip che">📘 Essencial</span>';pdf.textContent='✕ Não incluído';pdfs.textContent='Faça upgrade para Pro';lim.textContent='de 30 disponíveis';tb.style.display='none';}
-  else{chip.innerHTML='<span class="chip chp">⭐ Pro</span>';pdf.textContent='✓ Ilimitado';pdfs.textContent='Imprima à vontade';lim.textContent='de 150 disponíveis';cnt.textContent=APO_COUNT;tb.style.display='none';}
+  else{chip.innerHTML='<span class="chip chp">⭐ Pro</span>';pdf.textContent='✓ Ilimitado';pdfs.textContent='Imprima à vontade';lim.textContent='de 150 disponíveis';cnt.textContent=APO_COUNT;tb.style.display='none';
+  // Atualizar widget financeiro na página Início
+  var fw=document.getElementById('dash-fin-widget');
+  if(fw){
+    var plLabel=CUR_PLANO==='pro'?'Plano Pro':CUR_PLANO==='essencial'?'Essencial':'Trial';
+    fw.innerHTML='<div class="dash-fin-row"><div class="dash-fin-row-ico">💳</div><div class="dash-fin-row-info"><div class="dash-fin-row-desc">'+plLabel+'</div><div class="dash-fin-row-date">Plano atual ativo</div></div><div class="dash-fin-row-val">Ativo</div></div><div style="margin-top:10px;"><button onclick="dashSec('financeiro')" style="width:100%;background:#f8f9fa;border:1px solid #e2e6ea;border-radius:8px;padding:8px;font-size:12px;color:#6c757d;cursor:pointer;font-family:inherit;">Ver histórico completo →</button></div>';
+  }
+}
 }
 
 // ══════════════════════════════════════
