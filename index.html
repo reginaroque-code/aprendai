@@ -2657,6 +2657,7 @@ var HOTMART_LINKS = {
   pro_mensal:        'https://pay.hotmart.com/K106557882U?off=z74o6jlh',
   pro_anual:         'https://pay.hotmart.com/K106557882U?off=t8v8if3i'
 };
+  
 function goCheckout(plano){
   var chave = plano + '_' + (isAnl ? 'anual' : 'mensal');
   var url = HOTMART_LINKS[chave];
@@ -2674,16 +2675,19 @@ function goCheckoutAnualAtual(){
 function atualizarOpcoesLimite(){
   var opcoes = document.getElementById('wall-opcoes-renovacao');
   var btnAssinar = document.getElementById('wall-btn-assinar');
-  if(CUR_PLANO==='essencial' || CUR_PLANO==='pro'){
+  var btnAguardar = document.getElementById('wall-btn-aguardar');
+  var dataEl = document.getElementById('wall-renova-data');
+  if(planoExpirado()){
     opcoes.style.display='flex';
     btnAssinar.style.display='none';
-    var dataEl = document.getElementById('wall-renova-data');
-    if(CUR_RENOVACAO){
-      var d = new Date(CUR_RENOVACAO);
-      dataEl.textContent = d.toLocaleDateString('pt-BR');
-    } else {
-      dataEl.textContent = 'no início do próximo ciclo';
-    }
+    if(btnAguardar)btnAguardar.style.display='none';
+    if(dataEl)dataEl.textContent = 'vencido em ' + new Date(CUR_RENOVACAO).toLocaleDateString('pt-BR');
+  } else if(CUR_PLANO==='essencial' || CUR_PLANO==='pro'){
+    opcoes.style.display='flex';
+    btnAssinar.style.display='none';
+    if(btnAguardar)btnAguardar.style.display='';
+    if(CUR_RENOVACAO){var d=new Date(CUR_RENOVACAO);dataEl.textContent=d.toLocaleDateString('pt-BR');}
+    else{dataEl.textContent='no início do próximo ciclo';}
   } else {
     opcoes.style.display='none';
     btnAssinar.style.display='';
