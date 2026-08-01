@@ -2922,7 +2922,7 @@ function mostraRenovacao() {
   var txtColor = isUrgent ? '#dc2626' : '#b45309';
   var msg = daysLeft <= 0 ? 'Seu plano expirou!' : daysLeft === 1 ? 'Seu plano expira amanhã!' : 'Seu plano expira em ' + daysLeft + ' dias!';
   var icon = isUrgent ? '🔴' : '⚠️';
-  var renewUrl = 'https://pay.hotmart.com/' + offer;
+  var renewUrl = getRenewUrl();
   var banner = document.createElement('div');
   banner.id = 'dash-renewal-banner';
   banner.style.cssText = 'background:' + bgColor + ';border:1.5px solid ' + bdColor + ';border-radius:10px;padding:12px 18px;margin-bottom:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;';
