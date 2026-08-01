@@ -1088,13 +1088,14 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
     <div class="limit-wall" id="limit-wall" style="display:none;">
       <h3>🚫 Limite do plano atingido</h3>
       <p>Você usou todas as apostilas disponíveis no seu plano este mês.</p>
-      <div id="wall-opcoes-renovacao" style="display:none;flex-direction:column;gap:.6rem;align-items:center;margin-top:.5rem;">
-        <button class="btn-gold" onclick="goCheckoutAnualAtual()">📆 Mudar para o plano anual e economizar</button>
-        <button class="btn-ghost" onclick="go('dash')">🗓️ Vou aguardar — renova em <span id="wall-renova-data">breve</span></button>
-      </div>
+      
       <button class="btn-gold" id="wall-btn-assinar" onclick="go('landing');setTimeout(()=>document.getElementById('planos').scrollIntoView({behavior:'smooth'}),250)">Ver planos e assinar →</button>
     </div>
-
+  <div id="wall-opcoes-renovacao" style="display:none;flex-direction:column;gap:.6rem;align-items:center;margin-top:.5rem;">
+    <button class="btn-gold" onclick="goRenovar()">🔄 Renovar agora</button>
+    <button class="btn-ghost" onclick="goCheckoutAnualAtual()">📆 Mudar para o plano anual e economizar</button>
+    <button class="btn-ghost" id="wall-btn-aguardar" onclick="go('dash')">🗓️ Vou aguardar — renova em <span id="wall-renova-data">breve</span></button>
+  </div>
     <!-- formulário -->
     <div class="gform" id="gform">
       <div class="gform-title">📋 Configure sua apostila</div>
@@ -1757,6 +1758,11 @@ function salvarContador(count){
     });
   }).catch(function(e){console.error('Falha ao salvar contador:',e);});
 }
+function planoExpirado(){
+  if(CUR_PLANO!=='essencial'&&CUR_PLANO!=='pro')return false;
+  if(!CUR_RENOVACAO)return false; // sem data de renovação = conta manual/cortesia, não bloqueia
+  return Date.now()>=new Date(CUR_RENOVACAO).getTime();
+}  
 function limiteAtingido(){
   var max=CUR_PLANO==='essencial'?30:(CUR_PLANO==='pro'?150:5);
   if(CUR_PLANO==='trial'){
@@ -1764,6 +1770,7 @@ function limiteAtingido(){
     var ts=meta.trial_start;
     if(ts&&(Date.now()-new Date(ts).getTime())/(1000*60*60*24)>=7)return true;
   }
+  if(planoExpirado())return true;
   return APO_COUNT>=max;
 }
 function stab(t){
@@ -1867,7 +1874,7 @@ function renderDash(user){
   APO_COUNT=parseInt(meta.apostilas_mes)||0;
   CUR_RENOVACAO=meta.proxima_renovacao||null;
   // reinicia contador se entrou em novo mês (planos pagos)
-  if(CUR_PLANO!=='trial'&&(!meta.mes_ref||meta.mes_ref!==mesRef())){
+  if(CUR_PLANO!=='trial'&&!planoExpirado()&&(!meta.mes_ref||meta.mes_ref!==mesRef())){
     APO_COUNT=0;
     salvarContador(0);
   }
@@ -1926,11 +1933,16 @@ function initGerador(){
   })();
   if(limiteAtingido()){
     wall.style.display='block';form.style.display='none';
-    if(CUR_PLANO==='trial'){
-      if(_trialDias>=7&&APO_COUNT<5){
+    if(planoExpirado()){
+      wall.querySelector('h3').textContent='🚫 Seu plano expirou';
+      wall.querySelector('p').textContent='Sua assinatura '+(CUR_PLANO==='pro'?'Pro':'Essencial')+' venceu. Renove para continuar gerando apostilas.';
+    } 
+    else if(CUR_PLANO==='trial'){
+        if(_trialDias>=7&&APO_COUNT<5){
         wall.querySelector('h3').textContent='🚫 Período de teste encerrado';
         wall.querySelector('p').textContent='Seus 7 dias de teste grátis expiraram. Assine um plano para continuar gerando apostilas.';
-      } else {
+        } 
+        else {
         wall.querySelector('h3').textContent='🚫 Limite do teste grátis atingido';
         wall.querySelector('p').textContent='Você usou as 5 apostilas do teste grátis. Assine um plano para continuar gerando apostilas.';
       }
