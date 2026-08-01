@@ -181,8 +181,8 @@ footer{background:#060f1e;padding:2.5rem 5% 1.5rem;color:rgba(255,255,255,0.5);}
 .tab.on{background:#fff;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,0.1);}
 .fg{margin-bottom:1rem;}
 label{display:block;font-size:.78rem;font-weight:600;color:var(--navy);margin-bottom:.35rem;}
-input[type=text],input[type=email],input[type=password]{width:100%;padding:.7rem .95rem;border:1.5px solid var(--gray2);border-radius:9px;font-size:.9rem;font-family:inherit;color:var(--text);background:#fff;outline:none;transition:border-color .2s,box-shadow .2s;}
-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);}
+input[type=text],input[type=email],input[type=password],input[type=tel],select{width:100%;padding:.7rem .95rem;border:1.5px solid var(--gray2);border-radius:9px;font-size:.9rem;font-family:inherit;color:var(--text);background:#fff;outline:none;transition:border-color .2s,box-shadow .2s;}
+input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);}
 .ferr{font-size:.73rem;color:var(--red);margin-top:.28rem;}
 .cb-privacy{margin-bottom:.9rem;}
 .cb-privacy label{font-size:.82rem;color:var(--muted);cursor:pointer;}
@@ -791,6 +791,14 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
       <div id="fcad" style="display:none;">
         <div class="fg"><label>Nome completo</label><input type="text" id="cnome" placeholder="Seu nome"/><div class="ferr" id="errcn"></div></div>
         <div class="fg"><label>E-mail</label><input type="email" id="cemail" placeholder="seu@email.com"/><div class="ferr" id="errce"></div></div>
+        <div class="fg"><label>WhatsApp</label><input type="tel" id="cwhats" placeholder="(00) 00000-0000"/><div class="ferr" id="errcw"></div></div>
+        <div class="fg" style="display:flex;gap:.6rem;">
+          <div style="flex:2;"><label>Cidade</label><input type="text" id="ccidade" placeholder="Sua cidade"/><div class="ferr" id="errcc2"></div></div>
+          <div style="flex:1;"><label>Estado</label><select id="cestado">
+            <option value="">UF</option>
+            <option>AC</option><option>AL</option><option>AP</option><option>AM</option><option>BA</option><option>CE</option><option>DF</option><option>ES</option><option>GO</option><option>MA</option><option>MT</option><option>MS</option><option>MG</option><option>PA</option><option>PB</option><option>PR</option><option>PE</option><option>PI</option><option>RJ</option><option>RN</option><option>RS</option><option>RO</option><option>RR</option><option>SC</option><option>SP</option><option>SE</option><option>TO</option>
+          </select><div class="ferr" id="errce2"></div></div>
+        </div>
         <div class="fg"><label>Senha</label><div class="pw"><input type="password" id="csenha" placeholder="Mínimo 6 caracteres"/><span class="pt" onclick="tp('csenha',this)">👁️</span></div><div class="ferr" id="errcs"></div></div>
         <div class="fg"><label>Confirmar senha</label><div class="pw"><input type="password" id="cconf" placeholder="Repita a senha"/><span class="pt" onclick="tp('cconf',this)">👁️</span></div><div class="ferr" id="errcc"></div></div>
         <div class="fg cb-privacy"><label style="display:flex;align-items:flex-start;gap:.5rem;font-weight:400;"><input type="checkbox" id="caceite" style="margin-top:.2rem;width:auto;"/><span>Li e aceito a <a href="politica-privacidade.html" target="_blank">Política de Privacidade</a></span></label><div class="ferr" id="errca"></div></div>
@@ -1816,18 +1824,24 @@ function doCad(){
   clearE();hideA();
   var nome=document.getElementById('cnome').value.trim();
   var email=document.getElementById('cemail').value.trim();
+  var whats=document.getElementById('cwhats').value.trim();
+  var cidade=document.getElementById('ccidade').value.trim();
+  var estado=document.getElementById('cestado').value;
   var senha=document.getElementById('csenha').value;
   var conf=document.getElementById('cconf').value;
   var aceite=document.getElementById('caceite').checked;
   var ok=true;
   if(!nome){document.getElementById('errcn').textContent='Informe seu nome';ok=false;}
   if(!email){document.getElementById('errce').textContent='Informe seu e-mail';ok=false;}
+  if(!whats){document.getElementById('errcw').textContent='Informe seu WhatsApp';ok=false;}
+  if(!cidade){document.getElementById('errcc2').textContent='Informe sua cidade';ok=false;}
+  if(!estado){document.getElementById('errce2').textContent='Selecione seu estado';ok=false;}
   if(senha.length<6){document.getElementById('errcs').textContent='Mínimo 6 caracteres';ok=false;}
   if(senha!==conf){document.getElementById('errcc').textContent='Senhas não coincidem';ok=false;}
   if(!aceite){document.getElementById('errca').textContent='Você precisa aceitar a Política de Privacidade para continuar';ok=false;}
   if(!ok)return;
   setLd('btncad',true,'Criar conta grátis — 7 dias');
-  sbPost('/auth/v1/signup',{email:email,password:senha,data:{full_name:nome,plano:'trial',trial_start:new Date().toISOString(),apostilas_mes:0}})
+  sbPost('/auth/v1/signup',{email:email,password:senha,data:{full_name:nome,whatsapp:whats,cidade:cidade,estado:estado,plano:'trial',trial_start:new Date().toISOString(),apostilas_mes:0}})
     .then(function(d){
       setLd('btncad',false,'Criar conta grátis — 7 dias');
       if(d.error){showA('err',d.error.message||'Erro ao criar conta.');return;}
