@@ -2652,10 +2652,10 @@ function imprimirMapaMental(){
 // LINKS DE CHECKOUT HOTMART
 // ══════════════════════════════════════
 var HOTMART_LINKS = {
-  essencial_mensal: 'https://pay.hotmart.com/K106557882U?off=aqho4mg0',
-  essencial_anual:  'https://pay.hotmart.com/K106557882U?off=3hmm9l46',
-  pro_mensal:        'https://pay.hotmart.com/K106557882U?off=z74o6jlh',
-  pro_anual:         'https://pay.hotmart.com/K106557882U?off=t8v8if3i'
+  essencial_mensal: 'https://pay.hotmart.com/K106557882U?off=dsi4mezg',
+  essencial_anual:  'https://pay.hotmart.com/K106557882U?off=j2ffpxzl',
+  pro_mensal:        'https://pay.hotmart.com/K106557882U?off=5aotvif3',
+  pro_anual:         'https://pay.hotmart.com/K106557882U?off=i6xse3xs'
 };
   
 function goCheckout(plano){
@@ -2909,7 +2909,7 @@ function mostraRenovacao() {
   try { user = JSON.parse(localStorage.getItem('sb_usr') || 'null'); } catch(e) {}
   var meta = (user && user.user_metadata) ? user.user_metadata : {};
   var proxRen = meta.proxima_renovacao;
-  var offer = meta.hotmart_offer || 'z74o6jlh';
+  var offer = meta.hotmart_offer || '5aotvif3';
   if (!proxRen) return;
   var msLeft = new Date(proxRen) - new Date();
   var daysLeft = Math.ceil(msLeft / 86400000);
