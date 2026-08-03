@@ -13,7 +13,7 @@ body{font-family:'Inter',sans-serif;color:var(--text);background:var(--white);}
 nav{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(10,22,40,0.97);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;padding:0 4%;height:66px;border-bottom:1px solid rgba(240,180,41,0.15);}
 .logo{display:flex;align-items:center;gap:9px;text-decoration:none;cursor:pointer;}
 .logo-icon{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:var(--navy);}
-.logo-text{font-size:1.25rem;font-weight:800;color:#fff;letter-spacing:-.5px;}.logo-text span{color:var(--gold);}
+.logo-text{font-size:1.25rem;font-weight:800;color:#fff;letter-spacing:-.5px;}.logo-text span{color:vhar(--gold);}
 .logo-col{display:flex;flex-direction:column;}
 .logo-beta{font-size:.55rem;font-weight:800;color:var(--navy);background:linear-gradient(135deg,var(--gold),var(--gold2));padding:.04rem .35rem;border-radius:4px;letter-spacing:.5px;margin-top:2px;width:fit-content;text-transform:uppercase;}
 .nav-r{display:flex;gap:.6rem;align-items:center;}
@@ -716,16 +716,16 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 
 <section class="lp-sec" id="planos" style="background:var(--gray);">
   <div class="si"><div class="ctr"><div class="sl">Planos e preços</div><h2 class="st">Escolha seu <em>plano</em></h2><p class="ss">Comece grátis por 7 dias. Sem cartão de crédito.</p></div>
-  <div class="tw"><span class="tl on" id="lm">Mensal</span><div class="tog" id="tog" onclick="toggleB()"><div class="tth"></div></div><span class="tl" id="la">Anual</span><span class="db">−30% OFF</span></div>
+  <div class="tw"><span class="tl on" id="lm">Mensal</span><div class="tog" id="tog" onclick="toggleB()"><div class="tth"></div></div><span class="tl" id="la">Anual</span><span class="db">−20% no Pix</span></div>
   <div class="plgrid">
     <div class="plcard"><div class="pln">Essencial</div><div class="pld">Para o concurseiro que está começando</div>
-      <div class="plp">          <div class="pm show" id="em"><span class="cu">R$</span><span class="am">59</span><span class="pe">,90/mês</span><div class="ec">💚 No Pix: R$ 53,91/mês</div></div>
-          <div class="pm" id="ea"><span class="cu">R$</span><span class="am">41</span><span class="pe">,93/mês</span><div class="ec">💰 Economia de R$ 215,64/ano · R$ 37,74/mês no Pix</div></div></div>
+      <div class="plp">          <div class="pm show" id="em"><span class="cu">R$</span><span class="am">59</span><span class="pe">,90/mês</span><div class="ec">💳 Cartão ou boleto</div></div>
+          <div class="pm" id="ea"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 718,80/ano</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−20% Pix</span></div><span class="cu">R$</span><span class="am">47</span><span class="pe">,92/mês</span><div class="ec">🏦 Pix à vista: R$ 575,04 · 💳 10× R$ 71,88 sem juros</div></div></div>
       <ul class="plf"><li>Até <strong>30 apostilas por mês</strong></li><li>Bancas FCC, CEBRASPE e FGV</li><li>Teoria, Ancoragem e Alerta</li><li>Raio-X da Banca incluso</li><li>Mapa Mental gerado por IA</li><li>Teste com gabarito comentado</li><li class="off">Download / impressão em PDF</li></ul>
       <button class="plbtn o" onclick="goCheckout('essencial')">Assinar agora</button><p style="font-size:.7rem;color:var(--muted);text-align:center;margin-top:.6rem;">🔒 Cancele a qualquer momento</p></div>
     <div class="plcard hl"><div class="plbadge">⭐ Mais completo</div><div class="pln">Pro</div><div class="pld">Gere e imprima <strong>até 150 apostilas por mês</strong> — para qualquer assunto que precisar</div>
-      <div class="plp">          <div class="pm show" id="pm"><span class="cu">R$</span><span class="am">119</span><span class="pe">,90/mês</span><div class="ec">💚 No Pix: R$ 107,91/mês</div></div>
-          <div class="pm" id="pa"><span class="cu">R$</span><span class="am">83</span><span class="pe">,93/mês</span><div class="ec">💰 Economia de R$ 431,64/ano · R$ 75,54/mês no Pix</div></div></div>
+      <div class="plp">          <div class="pm show" id="pm"><span class="cu">R$</span><span class="am">119</span><span class="pe">,90/mês</span><div class="ec">💳 Cartão ou boleto</div></div>
+          <div class="pm" id="pa"><div style="display:flex;align-items:baseline;gap:.35rem;"><span style="font-size:.78rem;color:var(--muted);text-decoration:line-through;">R$ 1.438,80/ano</span><span style="background:#dcfce7;color:#16a34a;font-size:.62rem;font-weight:700;padding:.08rem .35rem;border-radius:50px;">−20% Pix</span></div><span class="cu">R$</span><span class="am">95</span><span class="pe">,92/mês</span><div class="ec">🏦 Pix à vista: R$ 1.151,04 · 💳 10× R$ 143,88 sem juros</div></div></div>
       <ul class="plf"><li><strong>Até 150 apostilas por mês</strong> — raramente atingido</li><li>Bancas FCC, CEBRASPE, FGV e outras</li><li>Teoria, Ancoragem e Alerta</li><li>Raio-X da Banca incluso</li><li>Mapa Mental gerado por IA</li><li>Teste com gabarito comentado</li><li><strong>🖨️ Imprima qualquer apostila em PDF</strong></li></ul>
       <button class="plbtn g" onclick="goCheckout('pro')">Assinar agora</button>
       <div style="margin-top:.85rem;background:linear-gradient(135deg,rgba(240,180,41,0.12),rgba(240,180,41,0.05));border:1px solid rgba(240,180,41,0.3);border-radius:8px;padding:.6rem .85rem;font-size:.76rem;color:var(--navy);line-height:1.5;">📚 <strong>Estude do zero ao edital:</strong> gere assunto por assunto e imprima tudo sem custo adicional.</div></div>
@@ -762,7 +762,7 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
     <div class="chdr"><h2 id="ctitle">Bem-vindo ao AprendAI</h2><p id="csub">Acesse sua conta ou crie uma gratuitamente</p></div>
     <div class="cbody">
       <div class="tabs"><button class="tab on" onclick="stab('login')">Entrar</button><button class="tab" onclick="stab('cadastro')">Criar conta</button></div>
-      <div class="promo-a">🔥 <strong>7 dias grátis</strong> + 50% OFF nos primeiros 100 membros</div>
+      <div class="promo-a">🎁 <strong>7 dias grátis</strong> — sem cartão de crédito</div>
       <div class="alert ae" id="aerr"><span id="aerrmsg"></span></div>
       <div class="alert as" id="aok"><span id="aokmsg"></span></div>
       <div id="flogin">
@@ -849,7 +849,7 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
       <!-- Banner trial (mantido com id original) -->
       <div class="tbanner" id="trial-banner" style="display:none;margin-bottom:16px;">
         <p>🎉 Você está no <strong>período gratuito de 7 dias</strong>. Aproveite todos os recursos!</p>
-        <button class="sbtn" id="trial-cta" style="background:var(--gold);color:var(--navy);font-weight:700;" onclick="document.getElementById('trial-cta').onclick">Assinar com 50% OFF →</button>
+        <button class="sbtn" id="trial-cta" style="background:var(--gold);color:var(--navy);font-weight:700;" onclick="document.getElementById('trial-cta').onclick">Assinar agora →</button>
       </div>
 
       <!-- Saudação -->
