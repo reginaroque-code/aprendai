@@ -764,7 +764,7 @@ function abrirFormEdicao(id){
   document.getElementById('f-ordem').value = e.ordem || 0;
   document.getElementById('f-ativo').checked = e.ativo !== false;
   renderComunsGrid(e.comuns || []);
-  especFields = (e.disciplinas || []).map(d => ({nome: d.nome || '', modulosText: (d.modulos||[]).join('\n')}));
+  especFields = (e.disciplinas || []).map(d => ({nome: d.nome || '', modulosText: (d.modulos||[]).join('\n'), grupo: d.grupo || 'especifico'}));
   renderEspecList();
   document.getElementById('form-card').classList.add('show');
   window.scrollTo({top:0, behavior:'smooth'});
@@ -789,7 +789,8 @@ async function salvar(){
   const disciplinas = especFields
     .map(f => ({
       nome: (f.nome||'').trim(),
-      modulos: (f.modulosText||'').split('\n').map(s=>s.trim()).filter(Boolean)
+      modulos: (f.modulosText||'').split('\n').map(s=>s.trim()).filter(Boolean),
+      grupo: f.grupo === 'basico' ? 'basico' : 'especifico'
     }))
     .filter(d => d.nome && d.modulos.length > 0);
 
