@@ -482,6 +482,7 @@ function login(){
   err.textContent = '';
   SENHA = senha;
   carregarLista(true);
+  carregarIndiceDisciplinas();
 }
 
 document.getElementById('senha-input').addEventListener('keydown', function(e){
