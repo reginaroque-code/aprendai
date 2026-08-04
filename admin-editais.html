@@ -620,7 +620,6 @@ function renderComunsGrid(marcados){
 function comunsMarcados(){
   return Array.from(document.querySelectorAll('#comuns-grid input[type="checkbox"]:checked')).map(el => el.value);
 }
-
 function renderEspecList(){
   const wrap = document.getElementById('espec-list');
   if(especFields.length === 0){
@@ -631,18 +630,96 @@ function renderEspecList(){
     <div class="espec-item">
       <div class="field">
         <label>Nome da disciplina <button type="button" class="remove-btn" style="float:right;" onclick="removerEspecifica(${i})">Remover</button></label>
-        <input type="text" data-idx="${i}" class="espec-nome" placeholder="Ex: Conhecimentos Específicos — Direito Penal" value="${escapeHtml(f.nome)}" oninput="especFields[${i}].nome=this.value">
+        <input type="text" data-idx="${i}" class="espec-nome" autocomplete="off" placeholder="Ex: Direito Administrativo" value="${escapeHtml(f.nome)}"
+          oninput="especFields[${i}].nome=this.value; mostrarSugestoes(${i}, this.value)"
+          onfocus="mostrarSugestoes(${i}, this.value)"
+          onblur="setTimeout(()=>esconderSugestoes(${i}), 200)">
+        <div id="sugestoes-${i}" class="sugestoes-box" style="display:none;"></div>
       </div>
-      <div class="field">
-        <label>Assuntos <span class="hint">— um por linha</span></label>
-        <textarea data-idx="${i}" class="espec-modulos" oninput="especFields[${i}].modulosText=this.value">${escapeHtml(f.modulosText)}</textarea>
+      <div class="row2">
+        <div class="field" style="flex:0 0 200px;">
+          <label>Classificação</label>
+          <select data-idx="${i}" onchange="especFields[${i}].grupo=this.value">
+            <option value="basico" ${f.grupo==='basico'?'selected':''}>Conhecimentos Básicos</option>
+            <option value="especifico" ${f.grupo!=='basico'?'selected':''}>Conhecimentos Específicos</option>
+          </select>
+        </div>
+        <div class="field" style="flex:1;">
+          <label>Assuntos <span class="hint">— um por linha</span>
+            <button type="button" class="btn btn-ghost btn-sm" style="float:right;padding:2px 8px;font-size:.72rem;" onclick="salvarNoBancoCentral(${i})">💾 Salvar no banco central</button>
+          </label>
+          <textarea data-idx="${i}" class="espec-modulos" oninput="especFields[${i}].modulosText=this.value">${escapeHtml(f.modulosText)}</textarea>
+        </div>
       </div>
     </div>
   `).join('');
 }
 
+function mostrarSugestoes(i, valor){
+  const box = document.getElementById('sugestoes-'+i);
+  if(!box) return;
+  if(!indiceCarregado){ box.style.display='none'; return; }
+  const achados = buscarNoIndice(valor);
+  if(achados.length === 0){ box.style.display='none'; box.innerHTML=''; return; }
+  box.innerHTML = achados.map((d, j) => `
+    <div class="sugestao-item">
+      <div class="sugestao-topo">
+        <span class="sugestao-nome">${escapeHtml(d.nome)}</span>
+        <span class="sugestao-meta">${d.modulos.length} assunto(s) já cadastrado(s) · usada em ${d.fontes.length} lugar(es)</span>
+      </div>
+      <div class="sugestao-acoes">
+        <button type="button" class="btn btn-ghost btn-sm" onclick="usarSugestao(${i}, ${j})">Ver e reaproveitar assuntos</button>
+      </div>
+    </div>
+  `).join('');
+  box.dataset.achados = JSON.stringify(achados);
+  box.style.display = 'block';
+}
+
+function esconderSugestoes(i){
+  const box = document.getElementById('sugestoes-'+i);
+  if(box) box.style.display = 'none';
+}
+
+function usarSugestao(i, j){
+  const box = document.getElementById('sugestoes-'+i);
+  if(!box || !box.dataset.achados) return;
+  const achados = JSON.parse(box.dataset.achados);
+  const d = achados[j];
+  if(!d) return;
+
+  especFields[i].nome = d.nome;
+  // Junta os assuntos já existentes com os que ela já tiver digitado, sem duplicar
+  const atuais = (especFields[i].modulosText||'').split('\n').map(s=>s.trim()).filter(Boolean);
+  const existentes = d.modulos || [];
+  const jaTem = new Set(atuais.map(normalizarNome));
+  const combinados = atuais.concat(existentes.filter(m => !jaTem.has(normalizarNome(m))));
+  especFields[i].modulosText = combinados.join('\n');
+
+  esconderSugestoes(i);
+  renderEspecList();
+  mostrarMsg(`"${d.nome}": ${existentes.length} assunto(s) já cadastrado(s) foram trazidos para o texto. Revise e acrescente só o que for novo neste edital.`, 'ok');
+}
+
+async function salvarNoBancoCentral(i){
+  const f = especFields[i];
+  const nome = (f.nome||'').trim();
+  const modulos = (f.modulosText||'').split('\n').map(s=>s.trim()).filter(Boolean);
+  if(!nome || modulos.length === 0){
+    mostrarMsg('Preencha o nome e pelo menos um assunto antes de salvar no banco central.', 'err');
+    return;
+  }
+  try{
+    await chamarAPI('POST', { nome, modulos, palavras_chave: [], ordem: 0, ativo: true }, '/api/admin-disciplinas');
+    mostrarMsg(`"${nome}" salva no banco central — vai aparecer nas sugestões e no Modo Livre.`, 'ok');
+    await carregarIndiceDisciplinas();
+  }catch(e){
+    mostrarMsg('Erro ao salvar no banco central: ' + e.message, 'err');
+  }
+}
+
 function adicionarEspecifica(){
-  especFields.push({nome:'', modulosText:''});
+  especFields.push({nome:'', modulosText:'', grupo:'especifico'});
   renderEspecList();
 }
 
@@ -650,6 +727,7 @@ function removerEspecifica(i){
   especFields.splice(i,1);
   renderEspecList();
 }
+
 
 function abrirFormNovo(){
   document.getElementById('form-title').textContent = 'Novo edital';
