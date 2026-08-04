@@ -1426,6 +1426,21 @@ function disciplinasDoEdital(ed){
   var comuns = (ed.comuns||[]).map(function(cid){return DISCIPLINAS_COMUNS[cid];}).filter(Boolean);
   return comuns.concat(ed.disciplinas||[]);
 }
+// Classifica as disciplinas do edital em Básicos/Específicos respeitando o campo
+// "grupo" (basico/especifico) de cada disciplina. Editais antigos que ainda não
+// têm esse campo caem no comportamento anterior (comuns=básico, disciplinas=específico).
+function classificarDisciplinas(ed){
+  var comuns = (ed.comuns||[]).map(function(cid){return DISCIPLINAS_COMUNS[cid];}).filter(Boolean);
+  var especificas = ed.disciplinas||[];
+  var basicos=[], especificos=[];
+  comuns.forEach(function(d){
+    (d.grupo==='especifico' ? especificos : basicos).push(d);
+  });
+  especificas.forEach(function(d){
+    (d.grupo==='basico' ? basicos : especificos).push(d);
+  });
+  return {basicos:basicos, especificos:especificos};
+}
 function renderEditaisCards(filtro){
   var lista=document.getElementById('edital-list');
   lista.innerHTML='';
