@@ -504,7 +504,7 @@ function mostrarMsg(texto, tipo){
   setTimeout(()=>{ el.className = 'msg'; }, 4000);
 }
 
-async function chamarAPI(method, body){
+async function chamarAPI(method, body, endpoint){
   const opts = {
     method: method,
     headers: {
@@ -513,7 +513,7 @@ async function chamarAPI(method, body){
     }
   };
   if(body) opts.body = JSON.stringify(body);
-  const r = await fetch('/api/admin-editais', opts);
+  const r = await fetch(endpoint || '/api/admin-editais', opts);
   const data = await r.json().catch(()=>({}));
   if(r.status === 401){
     throw new Error('SENHA_INVALIDA');
