@@ -445,8 +445,35 @@ const AREA_LABEL = {
   educacao:'Educação', legislativo:'Legislativo',
 };
 
-let especFields = []; // [{nome:'', modulosText:''}]
+let especFields = []; // [{nome:'', modulosText:'', grupo:'especifico'}]
 
+// ───────── Índice de disciplinas já cadastradas (banco central + outros editais) ─────────
+// Usado para sugerir disciplinas/assuntos existentes ANTES de deixar cadastrar do zero,
+// evitando redundância (ex: "Direito Administrativo" digitado 5 vezes diferentes).
+let INDICE_DISCIPLINAS = [];
+let indiceCarregado = false;
+
+function normalizarNome(s){
+  return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
+}
+
+async function carregarIndiceDisciplinas(){
+  try{
+    const r = await fetch('/api/disciplinas-indice');
+    if(!r.ok) return;
+    INDICE_DISCIPLINAS = await r.json();
+    indiceCarregado = true;
+  }catch(e){
+    // busca de sugestões é um auxílio, não pode travar o cadastro do edital se falhar
+    console.warn('Não foi possível carregar o índice de disciplinas.', e);
+  }
+}
+
+function buscarNoIndice(termo){
+  const q = normalizarNome(termo);
+  if(q.length < 3) return [];
+  return INDICE_DISCIPLINAS.filter(d => normalizarNome(d.nome).includes(q)).slice(0, 6);
+}
 function login(){
   const input = document.getElementById('senha-input');
   const err = document.getElementById('login-err');
