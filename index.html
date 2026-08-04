@@ -1529,15 +1529,13 @@ function renderTrilhaDisciplinas(ed){
   document.getElementById('trilha-config').style.display='none';
   document.getElementById('trilha-crumb-disc').innerHTML=escHTML(ed.orgao+' '+ed.ano)+'<span class="tc-sep">·</span>Banca <b>'+escHTML(ed.banca)+'</b>';
 
-  var comuns=(ed.comuns||[]).map(function(cid){return DISCIPLINAS_COMUNS[cid];}).filter(Boolean);
-  var especificas=ed.disciplinas||[];
+  var classif=classificarDisciplinas(ed);
 
-  document.getElementById('trilha-label-basicos').style.display=comuns.length?'':'none';
-  renderTrilhaGrid('trilha-grid-basicos', comuns, ed);
+  document.getElementById('trilha-label-basicos').style.display=classif.basicos.length?'':'none';
+  renderTrilhaGrid('trilha-grid-basicos', classif.basicos, ed);
 
-  document.getElementById('trilha-label-especificos').style.display=especificas.length?'':'none';
-  renderTrilhaGrid('trilha-grid-especificos', especificas, ed);
-
+  document.getElementById('trilha-label-especificos').style.display=classif.especificos.length?'':'none';
+  renderTrilhaGrid('trilha-grid-especificos', classif.especificos, ed);
   document.getElementById('trilha-disciplinas').style.display='';
 }
 function abrirTrilhaAssuntos(disc, ed){
