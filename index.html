@@ -452,6 +452,10 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 /* ── MOBILE HAMBURGER ── */
 .dash-hamburger{display:none;background:none;border:none;color:rgba(255,255,255,0.75);font-size:20px;cursor:pointer;padding:4px 8px;line-height:1;margin-right:8px;flex-shrink:0;}
 #dash-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:290;}
+#onb-overlay{display:none;position:fixed;inset:0;background:rgba(10,22,40,0.72);z-index:1000;align-items:center;justify-content:center;padding:20px;overflow-y:auto;}
+#onb-overlay .card{max-width:460px;max-height:90vh;overflow-y:auto;margin:auto;}
+.onb-skip{display:block;text-align:center;margin-top:.9rem;font-size:.82rem;color:var(--muted);cursor:pointer;text-decoration:underline;}
+.onb-skip:hover{color:var(--navy);}
 #dash-overlay.show{display:block;}
 @media(max-width:900px){
   .dash-hamburger{display:flex;align-items:center;justify-content:center;}
@@ -817,6 +821,7 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
     <button class="ds-nav-item active" id="ds-nav-inicio" onclick="dashSec('inicio')">🏠 &nbsp;Início</button>
     <button class="ds-nav-item" id="ds-nav-apostilas" onclick="dashSec('apostilas')">📚 &nbsp;Apostilas Geradas <span class="ds-nav-badge" id="ds-apo-badge">0</span></button>
     <div class="ds-nav-label" style="margin-top:10px">Conta</div>
+    <button class="ds-nav-item" id="ds-nav-perfilestudo" onclick="abrirPerfilParaEdicao()">🎯 &nbsp;Meu Perfil de Estudo</button>
     <button class="ds-nav-item" id="ds-nav-financeiro" onclick="dashSec('financeiro')">💰 &nbsp;Financeiro</button>
     <button class="ds-nav-item" id="ds-nav-sugestoes" onclick="dashSec('sugestoes')">💡 &nbsp;Sugestões</button>
     <button class="ds-nav-item" id="ds-nav-suporte" onclick="dashSec('suporte')">🎧 &nbsp;Suporte</button>
@@ -1050,6 +1055,59 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 <div id="dash-overlay" onclick="toggleSidebar()"></div>
 </div><!-- #page-dash -->
 
+<!-- ══ ONBOARDING — PERFIL DE ESTUDO ══ -->
+<div id="onb-overlay">
+  <div class="card">
+    <div class="chdr">
+      <h2 id="onb-titulo">Vamos personalizar seus estudos</h2>
+      <p id="onb-sub">Leva menos de 1 minuto — isso ajusta suas apostilas ao seu nível</p>
+    </div>
+    <div class="cbody">
+      <div class="alert ae" id="onb-err"><span id="onb-errmsg"></span></div>
+
+      <div class="fg">
+        <label>Qual concurso ou banca você está estudando?</label>
+        <select class="gsel" id="onb-edital" onchange="onbToggleBanca()">
+          <option value="">Ainda não sei / me recomende depois</option>
+        </select>
+      </div>
+      <div class="fg" id="onb-banca-wrap" style="display:none;">
+        <label>Se souber, digite a banca (opcional)</label>
+        <input type="text" class="gsel" id="onb-banca-custom" placeholder="Ex: FCC, CESPE, FGV...">
+      </div>
+      <div class="fg">
+        <label>Há quanto tempo você estuda para concursos?</label>
+        <select class="gsel" id="onb-tempo">
+          <option value="nunca">Ainda não comecei</option>
+          <option value="menos_6m">Menos de 6 meses</option>
+          <option value="6m_2anos">Entre 6 meses e 2 anos</option>
+          <option value="mais_2anos">Mais de 2 anos</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Quantas horas por semana você consegue estudar?</label>
+        <select class="gsel" id="onb-horas">
+          <option value="3">Até 5h</option>
+          <option value="8" selected>5h a 10h</option>
+          <option value="15">10h a 20h</option>
+          <option value="25">Mais de 20h</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Qual seu objetivo agora?</label>
+        <select class="gsel" id="onb-objetivo">
+          <option value="primeira_tentativa">Primeira tentativa nesse concurso</option>
+          <option value="reforco_materia">Reforçar uma matéria específica</option>
+          <option value="reta_final">Reta final — prova já tem data marcada</option>
+        </select>
+      </div>
+
+      <button class="abtn abtn-g" id="onb-btn-salvar" onclick="salvarPerfil()">Salvar e continuar</button>
+      <span class="onb-skip" id="onb-skip" onclick="fecharOnboarding()">Pular por agora</span>
+    </div>
+    <div class="cft">Você pode alterar essas respostas quando quiser, em "Meu Perfil de Estudo".</div>
+  </div>
+</div>
 
 <!-- ══ GERADOR ══ -->
 <div id="page-gen" class="page">
@@ -1809,7 +1867,7 @@ function doLogin(){
     STORAGE.setItem('sb_tok',d.access_token);
     if(d.refresh_token)STORAGE.setItem('sb_rtok',d.refresh_token);
     fetch(SB_URL+'/auth/v1/logout?scope=others',{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+d.access_token}}).catch(function(){});
-    try{STORAGE.setItem('sb_usr',JSON.stringify(d.user||{}));renderDash(d.user);go('dash');}catch(e){console.error('post-login:',e);setLd('btnlogin',false,'Entrar');try{go('dash');}catch(e2){}}
+    try{CUR_USER=d.user;STORAGE.setItem('sb_usr',JSON.stringify(d.user||{}));renderDash(d.user);go('dash');checarPerfil();}catch(e){console.error('post-login:',e);setLd('btnlogin',false,'Entrar');try{go('dash');}catch(e2){}}
   },function(){
     setLd('btnlogin',false,'Entrar');
     showA('err','Erro de conexão. Verifique sua internet e tente novamente.');
@@ -1840,7 +1898,7 @@ function doCad(){
         CUR_USER=d.user;
         showA('ok','Conta criada! Verifique seu e-mail para confirmar.');
         if(d.access_token)enviarEmailBoasVindas(d.access_token);
-        setTimeout(function(){renderDash(d.user);go('dash');},1800);
+        setTimeout(function(){renderDash(d.user);go('dash');checarPerfil();},1800);
       } else {showA('ok','Quase lá! Confirme seu e-mail para ativar a conta.');}
     }).catch(function(){setLd('btncad',false,'Criar conta grátis — 7 dias');showA('err','Erro de conexão.');});
 }
@@ -1858,6 +1916,112 @@ function doForgot(){
     .catch(function(){setLd('btnforgot',false,'Enviar link de recuperação');});
 }
 function doLogout(){STORAGE.removeItem('sb_tok');STORAGE.removeItem('sb_rtok');STORAGE.removeItem('sb_usr');CUR_USER=null;go('landing');}
+
+// ══════════════════════════════════════
+// PERFIL DE ESTUDO (ONBOARDING)
+// ══════════════════════════════════════
+var ONB_PERFIL_ATUAL = null;
+
+function checarPerfil(){
+  var tok=STORAGE.getItem('sb_tok');
+  if(!tok)return;
+  fetch('/api/perfil',{headers:{Authorization:'Bearer '+tok}})
+    .then(function(r){return r.json();})
+    .then(function(perfil){
+      ONB_PERFIL_ATUAL=perfil||null;
+      if(!perfil){montarOnboarding(null);abrirOnboarding(false);}
+    }).catch(function(){});
+}
+
+function abrirPerfilParaEdicao(){
+  var tok=STORAGE.getItem('sb_tok');
+  if(!tok)return;
+  fetch('/api/perfil',{headers:{Authorization:'Bearer '+tok}})
+    .then(function(r){return r.json();})
+    .then(function(perfil){ONB_PERFIL_ATUAL=perfil||null;montarOnboarding(perfil);abrirOnboarding(true);})
+    .catch(function(){montarOnboarding(null);abrirOnboarding(true);});
+}
+
+function montarOnboarding(perfil){
+  carregarEditaisData(function(){
+    var sel=document.getElementById('onb-edital');
+    sel.innerHTML='<option value="">Ainda não sei / me recomende depois</option>';
+    EDITAIS_DATA.forEach(function(ed){
+      var o=document.createElement('option');
+      o.value=ed.id;
+      o.textContent=ed.orgao+' — '+ed.cargo+' ('+ed.banca+'/'+ed.ano+')';
+      sel.appendChild(o);
+    });
+    if(perfil){
+      sel.value=perfil.edital_alvo||'';
+      document.getElementById('onb-banca-custom').value=perfil.banca_alvo||'';
+      document.getElementById('onb-tempo').value=perfil.tempo_estudo||'nunca';
+      document.getElementById('onb-horas').value=(perfil.horas_semana!=null)?String(perfil.horas_semana):'8';
+      document.getElementById('onb-objetivo').value=perfil.objetivo||'primeira_tentativa';
+    } else {
+      sel.value='';
+      document.getElementById('onb-banca-custom').value='';
+      document.getElementById('onb-tempo').value='nunca';
+      document.getElementById('onb-horas').value='8';
+      document.getElementById('onb-objetivo').value='primeira_tentativa';
+    }
+    onbToggleBanca();
+  });
+}
+
+function onbToggleBanca(){
+  var sel=document.getElementById('onb-edital');
+  document.getElementById('onb-banca-wrap').style.display=sel.value?'none':'';
+}
+
+function abrirOnboarding(editar){
+  document.getElementById('onb-titulo').textContent=editar?'Meu perfil de estudo':'Vamos personalizar seus estudos';
+  document.getElementById('onb-sub').textContent=editar?'Ajuste suas respostas quando quiser':'Leva menos de 1 minuto — isso ajusta suas apostilas ao seu nível';
+  document.getElementById('onb-skip').textContent=editar?'Fechar':'Pular por agora';
+  onbHideErr();
+  document.getElementById('onb-overlay').style.display='flex';
+}
+function fecharOnboarding(){
+  document.getElementById('onb-overlay').style.display='none';
+}
+function onbShowErr(msg){
+  document.getElementById('onb-errmsg').textContent=msg;
+  document.getElementById('onb-err').classList.add('show');
+}
+function onbHideErr(){
+  document.getElementById('onb-err').classList.remove('show');
+}
+
+function salvarPerfil(){
+  onbHideErr();
+  var tok=STORAGE.getItem('sb_tok');
+  if(!tok){onbShowErr('Sessão expirada. Faça login novamente.');return;}
+  var editalSel=document.getElementById('onb-edital').value;
+  var bancaCustom=document.getElementById('onb-banca-custom').value.trim();
+  var tempo=document.getElementById('onb-tempo').value;
+  var horas=parseInt(document.getElementById('onb-horas').value,10);
+  var objetivo=document.getElementById('onb-objetivo').value;
+  setLd('onb-btn-salvar',true,'Salvar e continuar');
+  fetch('/api/perfil',{
+    method:'POST',
+    headers:{'Content-Type':'application/json',Authorization:'Bearer '+tok},
+    body:JSON.stringify({
+      tempo_estudo:tempo,
+      horas_semana:horas,
+      objetivo:objetivo,
+      edital_alvo:editalSel||null,
+      banca_alvo:editalSel?null:(bancaCustom||null)
+    })
+  }).then(function(r){return r.json();}).then(function(d){
+    setLd('onb-btn-salvar',false,'Salvar e continuar');
+    if(d&&d.error){onbShowErr(d.error);return;}
+    ONB_PERFIL_ATUAL=d;
+    fecharOnboarding();
+  }).catch(function(){
+    setLd('onb-btn-salvar',false,'Salvar e continuar');
+    onbShowErr('Erro de conexão. Tente novamente.');
+  });
+}
 
 // ══════════════════════════════════════
 // DASHBOARD
@@ -2711,7 +2875,7 @@ window.addEventListener('load',function(){
   var tok=STORAGE.getItem('sb_tok');
   var cached=STORAGE.getItem('sb_usr');
   if(tok&&cached){
-    try{CUR_USER=JSON.parse(cached);renderDash(CUR_USER);go('dash');}catch(e){}
+    try{CUR_USER=JSON.parse(cached);renderDash(CUR_USER);go('dash');checarPerfil();}catch(e){}
     fetch(SB_URL+'/auth/v1/user',{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+tok}}).then(function(r){return r.json();}).then(function(u){
       if(u&&u.id){CUR_USER=u;STORAGE.setItem('sb_usr',JSON.stringify(u));renderDash(u);return;}
       // sessão vencida: renova o token e busca o perfil real de novo
@@ -2747,7 +2911,7 @@ function dashSec(sec) {
 // ── Sync sidebar e novos elementos após renderDash() original
 function sincronizarDash() {
   let user = null;
-  try { user = JSON.parse(localStorage.getItem('sb_usr') || 'null'); } catch(e) {}
+  try { user = JSON.parse(STORAGE.getItem('sb_usr') || 'null'); } catch(e) {}
   const meta = user?.user_metadata || {};
 
   const nomeCompleto = meta.full_name || user?.email?.split('@')[0] || document.getElementById('dash-name')?.textContent || 'Usuário';
@@ -2902,7 +3066,7 @@ function dashBuscar() {
 }
 function mostraRenovacao() {
   var user = null;
-  try { user = JSON.parse(localStorage.getItem('sb_usr') || 'null'); } catch(e) {}
+  try { user = JSON.parse(STORAGE.getItem('sb_usr') || 'null'); } catch(e) {}
   var meta = (user && user.user_metadata) ? user.user_metadata : {};
   var proxRen = meta.proxima_renovacao;
   var offer = meta.hotmart_offer || '5aotvif3';
@@ -2944,7 +3108,7 @@ function carregarFinanceiro() {
   if (!dst) return;
   dst.innerHTML = '<div style="padding:24px;text-align:center;font-size:13px;color:rgba(255,255,255,0.35);">Carregando...</div>';
   let user = null;
-  try { user = JSON.parse(localStorage.getItem('sb_usr') || 'null'); } catch(e) {}
+  try { user = JSON.parse(STORAGE.getItem('sb_usr') || 'null'); } catch(e) {}
   const meta = user?.user_metadata || {};
   const planoRaw = meta.plano || 'trial';
   const planoLabel = planoRaw === 'pro' ? 'Pro' : planoRaw === 'pro_anual' ? 'Pro Anual' : 'Trial Gratuito';
@@ -2974,7 +3138,7 @@ function carregarFinanceiro() {
 function carregarAvatar() {
   if (window._avatarCarregando) return;
   var user = null;
-  try { user = JSON.parse(localStorage.getItem('sb_usr') || 'null'); } catch(e) {}
+  try { user = JSON.parse(STORAGE.getItem('sb_usr') || 'null'); } catch(e) {}
   var uid = user ? (user.id || '') : '';
   var avatarEl = document.getElementById('ds-avatar');
   if (!avatarEl) return;
@@ -3014,9 +3178,9 @@ function uploadFoto(input) {
   var file = input.files && input.files[0];
   if (!file) return;
   var user = null;
-  try { user = JSON.parse(localStorage.getItem('sb_usr') || 'null'); } catch(e) {}
+  try { user = JSON.parse(STORAGE.getItem('sb_usr') || 'null'); } catch(e) {}
   var uid = user ? (user.id || '') : '';
-  var tok = localStorage.getItem('sb_tok') || '';
+  var tok = STORAGE.getItem('sb_tok') || '';
   var reader = new FileReader();
   reader.onload = function(e) {
     var img = new Image();
