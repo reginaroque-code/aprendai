@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>AprendAI — Administração de Legislação</title>
+<style>
+  :root{
+    --navy:#0D2550;
+    --navy-light:#16386f;
+    --gold:#F0A500;
+    --bg:#f4f6fb;
+    --card:#ffffff;
+    --line:#e2e6ef;
+    --text:#1c2740;
+    --muted:#68728a;
+    --danger:#c0392b;
+    --danger-bg:#fdecea;
+    --ok:#1e8e5a;
+    --ok-bg:#e8f7f0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--text);
+  }
+
+  /* ---------- Tela de login ---------- */
+  #login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+  .login-box{background:var(--card);border-radius:16px;padding:40px 32px;width:100%;max-width:360px;box-shadow:0 10px 40px rgba(13,37,80,0.12);text-align:center;}
+  .login-box .logo{font-weight:800;font-size:1.4rem;color:var(--navy);margin-bottom:4px;}
+  .login-box .sub{color:var(--muted);font-size:.85rem;margin-bottom:24px;}
+  .login-box input{width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid var(--line);font-size:.95rem;margin-bottom:12px;}
+  .login-box input:focus{outline:none;border-color:var(--gold);}
+  .btn{display:inline-block;border:none;border-radius:10px;padding:12px 20px;font-size:.92rem;font-weight:700;cursor:pointer;transition:transform .1s ease, opacity .15s ease;}
+  .btn:active{transform:scale(.98);}
+  .btn-primary{background:var(--navy);color:#fff;width:100%;}
+  .btn-primary:hover{background:var(--navy-light);}
+  .btn-gold{background:var(--gold);color:var(--navy);}
+  .btn-gold:hover{opacity:.9;}
+  .btn-ghost{background:transparent;color:var(--muted);border:1.5px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--muted);}
+  .btn-danger{background:var(--danger-bg);color:var(--danger);}
+  .btn-danger:hover{background:#fbdbd7;}
+  .btn-sm{padding:7px 12px;font-size:.78rem;}
+  .login-err{color:var(--danger);font-size:.82rem;margin-bottom:10px;min-height:1em;}
+
+  /* ---------- App principal ---------- */
+  #app{display:none;}
+  header.top{background:var(--navy);color:#fff;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+  header.top h1{font-size:1.15rem;margin:0;font-weight:800;}
+  header.top h1 span{color:var(--gold);}
+  header.top .actions{display:flex;gap:10px;align-items:center;}
+
+  main{max-width:960px;margin:0 auto;padding:28px 20px 80px;}
+
+  .toolbar{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;}
+  .toolbar input[type="text"]{flex:1;min-width:200px;padding:10px 14px;border-radius:10px;border:1.5px solid var(--line);font-size:.9rem;}
+
+  .msg{padding:10px 14px;border-radius:10px;font-size:.85rem;margin-bottom:16px;display:none;}
+  .msg.show{display:block;}
+  .msg.ok{background:var(--ok-bg);color:var(--ok);}
+  .msg.err{background:var(--danger-bg);color:var(--danger);}
+
+  .empty, .loading{color:var(--muted);font-size:.88rem;padding:18px 4px;}
+
+  .ed-card{background:var(--card);border:1.5px solid var(--line);border-radius:14px;margin-bottom:12px;padding:14px 18px;}
+  .ed-top{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:6px;}
+  .badge{font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:50px;}
+  .badge.banca{background:#eef2fb;color:var(--navy);}
+  .badge.count{background:#fff6e6;color:#8a6100;}
+  .badge.count.zero{background:#f0f1f5;color:var(--muted);}
+  .ed-nome{font-size:.92rem;font-weight:700;color:var(--navy);}
+  .ed-meta{font-size:.78rem;color:var(--muted);margin-bottom:10px;}
+  .ed-actions{display:flex;gap:8px;}
+  .ed-actions .btn{padding:8px 14px;font-size:.8rem;}
+
+  /* ---------- Formulário ---------- */
+  #form-card{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:22px;margin-bottom:24px;display:none;}
+  #form-card.show{display:block;}
+  #form-card h2{font-size:1.02rem;margin:0 0 4px;}
+  #form-card .form-sub{font-size:.82rem;color:var(--muted);margin-bottom:18px;}
+  .lei-row{background:#fafbfd;border:1.5px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px;position:relative;}
+  .lei-row .field{margin-bottom:10px;}
+  .lei-row .field:last-child{margin-bottom:0;}
+  .field label{display:block;font-size:.8rem;font-weight:700;color:var(--navy);margin-bottom:5px;}
+  .field .hint{font-weight:400;color:var(--muted);font-size:.76rem;}
+  .field input[type="text"], .field input[type="url"]{
+    width:100%;padding:10px 12px;border-radius:9px;border:1.5px solid var(--line);font-size:.86rem;font-family:inherit;background:#fff;
+  }
+  .field input:focus{outline:none;border-color:var(--gold);}
+  .row2{display:flex;gap:12px;flex-wrap:wrap;}
+  .row2 > div{flex:1;min-width:160px;}
+  .lei-remove{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--danger);cursor:pointer;font-size:.85rem;font-weight:700;}
+  .form-actions{display:flex;gap:10px;margin-top:6px;flex-wrap:wrap;}
+  .add-lei-btn{background:#fff;border:1.5px dashed var(--line);color:var(--navy);border-radius:10px;padding:12px;width:100%;font-size:.86rem;font-weight:700;cursor:pointer;margin-bottom:16px;}
+  .add-lei-btn:hover{border-color:var(--gold);}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ LOGIN ═══════════ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="logo">Aprend<span style="color:#F0A500">AI</span></div>
+    <div class="sub">Administração de Legislação</div>
+    <input type="password" id="senha-input" placeholder="Senha de administrador"/>
+    <div class="login-err" id="login-err"></div>
+    <button class="btn btn-primary" onclick="login()">Entrar</button>
+  </div>
+</div>
+
+<!-- ═══════════ APP ═══════════ -->
+<div id="app">
+  <header class="top">
+    <h1>Aprend<span>AI</span> · Legislação</h1>
+    <div class="actions">
+      <button class="btn btn-ghost btn-sm" onclick="sair()">Sair</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="msg" id="msg"></div>
+
+    <div class="toolbar">
+      <input type="text" id="busca" placeholder="Buscar edital por órgão, cargo ou banca..." oninput="renderLista()"/>
+    </div>
+
+    <!-- ---- Formulário (edição da legislação de UM edital) ---- -->
+    <div id="form-card">
+      <h2 id="form-titulo">Legislação do edital</h2>
+      <div class="form-sub" id="form-sub"></div>
+      <input type="hidden" id="f-edital-id"/>
+
+      <div id="leis-lista"><!-- linhas montadas por renderLeisForm() --></div>
+
+      <button type="button" class="add-lei-btn" onclick="adicionarLinhaLei()">+ Adicionar lei</button>
+
+      <div class="form-actions">
+        <button class="btn btn-primary" style="width:auto;" onclick="salvarLegislacao()">Salvar legislação deste edital</button>
+        <button class="btn btn-ghost" onclick="fecharForm()">Cancelar</button>
+      </div>
+    </div>
+
+    <!-- ---- Lista de editais ---- -->
+    <div id="lista"><div class="loading">Carregando editais...</div></div>
+  </main>
+</div>
+
+<script>
+var SENHA = '';
+var EDITAIS = [];       // vem de /api/admin-legislacao (id, orgao, cargo, banca, ano, legislacao)
+var LEIS_EDITANDO = []; // array de leis do edital atualmente aberto no formulário
+
+// ══════════════ login ══════════════
+function login(){
+  SENHA = document.getElementById('senha-input').value;
+  document.getElementById('login-err').textContent = '';
+  carregarLista(true);
+}
+document.getElementById('senha-input').addEventListener('keydown', function(e){
+  if(e.key === 'Enter') login();
+});
+function sair(){
+  SENHA = ''; EDITAIS = [];
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('senha-input').value = '';
+}
+function mostrarMsg(texto, tipo){
+  var el = document.getElementById('msg');
+  el.textContent = texto; el.className = 'msg show ' + tipo;
+  setTimeout(function(){ el.className = 'msg'; }, 4000);
+}
+async function chamarAPI(method, body){
+  var opts = { method: method, headers: { 'Content-Type':'application/json', 'x-admin-password': SENHA } };
+  if(body) opts.body = JSON.stringify(body);
+  var r = await fetch('/api/admin-legislacao', opts);
+  var data = await r.json().catch(function(){ return {}; });
+  if(r.status === 401) throw new Error('SENHA_INVALIDA');
+  if(!r.ok) throw new Error(data.error || 'Erro na operação');
+  return data;
+}
+async function carregarLista(primeiraVez){
+  var lista = document.getElementById('lista');
+  if(primeiraVez) lista.innerHTML = '<div class="loading">Carregando editais...</div>';
+  try{
+    var data = await chamarAPI('GET');
+    EDITAIS = Array.isArray(data) ? data : [];
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    renderLista();
+  }catch(e){
+    if(e.message === 'SENHA_INVALIDA'){
+      document.getElementById('login-err').textContent = 'Senha incorreta.';
+    }else{
+      lista.innerHTML = '<div class="empty">Não foi possível carregar os editais. Tente novamente.</div>';
+      mostrarMsg('Erro ao carregar: ' + e.message, 'err');
+    }
+  }
+}
+function escHTML(v){
+  return String(v==null?'':v).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+
+// ══════════════ lista de editais ══════════════
+function renderLista(){
+  var termo = (document.getElementById('busca').value||'').toLowerCase();
+  var lista = document.getElementById('lista');
+  var dados = EDITAIS.filter(function(ed){
+    if(!termo) return true;
+    return (ed.orgao||'').toLowerCase().includes(termo) ||
+           (ed.cargo||'').toLowerCase().includes(termo) ||
+           (ed.banca||'').toLowerCase().includes(termo);
+  });
+  if(!dados.length){ lista.innerHTML = '<div class="empty">Nenhum edital encontrado.</div>'; return; }
+  lista.innerHTML = dados.map(function(ed){
+    var n = Array.isArray(ed.legislacao) ? ed.legislacao.length : 0;
+    return '<div class="ed-card">'+
+      '<div class="ed-top">'+
+        '<span class="badge banca">'+escHTML(ed.banca)+'</span>'+
+        '<span class="badge count'+(n===0?' zero':'')+'">'+n+' lei'+(n===1?'':'s')+' cadastrada'+(n===1?'':'s')+'</span>'+
+      '</div>'+
+      '<div class="ed-nome">'+escHTML(ed.orgao)+' — '+escHTML(ed.cargo)+'</div>'+
+      '<div class="ed-meta">'+escHTML(ed.ano)+' · id: '+escHTML(ed.id)+'</div>'+
+      '<div class="ed-actions">'+
+        '<button class="btn btn-ghost btn-sm" onclick="abrirForm(\''+ed.id+'\')">'+(n?'Editar legislação':'Adicionar legislação')+'</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+// ══════════════ formulário ══════════════
+function abrirCard(){
+  document.getElementById('form-card').classList.add('show');
+  var card = document.getElementById('form-card');
+  if(card.scrollIntoView) card.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function fecharForm(){
+  document.getElementById('form-card').classList.remove('show');
+  LEIS_EDITANDO = [];
+}
+function abrirForm(editalId){
+  var ed = EDITAIS.find(function(x){ return x.id === editalId; });
+  if(!ed) return;
+  document.getElementById('form-titulo').textContent = 'Legislação — ' + ed.orgao + ' · ' + ed.cargo;
+  document.getElementById('form-sub').textContent = 'Banca ' + ed.banca + ' · ' + ed.ano + ' — os links devem apontar pra fonte oficial (Planalto, Senado, portal do estado/município etc.)';
+  document.getElementById('f-edital-id').value = ed.id;
+  // cópia local (não editamos o array original até salvar)
+  LEIS_EDITANDO = (Array.isArray(ed.legislacao) ? ed.legislacao : []).map(function(l){
+    return { nome: l.nome||'', descricao: l.descricao||'', link: l.link||'', disciplina: l.disciplina||'' };
+  });
+  if(LEIS_EDITANDO.length === 0) LEIS_EDITANDO.push({nome:'',descricao:'',link:'',disciplina:''});
+  renderLeisForm();
+  abrirCard();
+}
+function renderLeisForm(){
+  var wrap = document.getElementById('leis-lista');
+  wrap.innerHTML = LEIS_EDITANDO.map(function(l, i){
+    return '<div class="lei-row">'+
+      '<button type="button" class="lei-remove" onclick="removerLinhaLei('+i+')" title="Remover esta lei">✕ remover</button>'+
+      '<div class="field"><label>Nome da lei</label>'+
+        '<input type="text" data-idx="'+i+'" data-campo="nome" value="'+escHTML(l.nome)+'" placeholder="Ex: Lei nº 8.112/1990" oninput="atualizarCampoLei(this)"/></div>'+
+      '<div class="field"><label>Descrição <span class="hint">(opcional)</span></label>'+
+        '<input type="text" data-idx="'+i+'" data-campo="descricao" value="'+escHTML(l.descricao)+'" placeholder="Ex: Regime Jurídico dos Servidores Públicos Civis da União" oninput="atualizarCampoLei(this)"/></div>'+
+      '<div class="row2">'+
+        '<div class="field"><label>Link oficial</label>'+
+          '<input type="url" data-idx="'+i+'" data-campo="link" value="'+escHTML(l.link)+'" placeholder="https://www.planalto.gov.br/..." oninput="atualizarCampoLei(this)"/></div>'+
+        '<div class="field"><label>Disciplina relacionada <span class="hint">(opcional)</span></label>'+
+          '<input type="text" data-idx="'+i+'" data-campo="disciplina" value="'+escHTML(l.disciplina)+'" placeholder="Ex: Direito Administrativo" oninput="atualizarCampoLei(this)"/></div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+function atualizarCampoLei(input){
+  var i = parseInt(input.getAttribute('data-idx'), 10);
+  var campo = input.getAttribute('data-campo');
+  if(!LEIS_EDITANDO[i]) return;
+  LEIS_EDITANDO[i][campo] = input.value;
+}
+function adicionarLinhaLei(){
+  LEIS_EDITANDO.push({nome:'',descricao:'',link:'',disciplina:''});
+  renderLeisForm();
+}
+function removerLinhaLei(i){
+  LEIS_EDITANDO.splice(i,1);
+  if(LEIS_EDITANDO.length === 0) LEIS_EDITANDO.push({nome:'',descricao:'',link:'',disciplina:''});
+  renderLeisForm();
+}
+async function salvarLegislacao(){
+  var editalId = document.getElementById('f-edital-id').value;
+  // remove linhas totalmente vazias antes de validar/enviar
+  var leisValidas = LEIS_EDITANDO.filter(function(l){ return (l.nome||'').trim() || (l.link||'').trim(); });
+  for(var i=0;i<leisValidas.length;i++){
+    if(!leisValidas[i].nome.trim()){ mostrarMsg('Toda lei precisa de um nome.', 'err'); return; }
+    if(!leisValidas[i].link.trim()){ mostrarMsg('Toda lei precisa de um link.', 'err'); return; }
+  }
+  try{
+    await chamarAPI('POST', { edital_id: editalId, legislacao: leisValidas });
+    mostrarMsg('Legislação salva com sucesso!', 'ok');
+    fecharForm();
+    carregarLista(false);
+  }catch(e){
+    mostrarMsg('Erro ao salvar: ' + e.message, 'err');
+  }
+}
+</script>
+</body>
+</html>
