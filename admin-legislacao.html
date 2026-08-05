@@ -178,7 +178,7 @@ function mostrarMsg(texto, tipo){
 async function chamarAPI(method, body){
   var opts = { method: method, headers: { 'Content-Type':'application/json', 'x-admin-password': SENHA } };
   if(body) opts.body = JSON.stringify(body);
-  var r = await fetch('/api/admin-legislacao', opts);
+  var r = await fetch('/api/admin-editais?modo=legislacao', opts);
   var data = await r.json().catch(function(){ return {}; });
   if(r.status === 401) throw new Error('SENHA_INVALIDA');
   if(!r.ok) throw new Error(data.error || 'Erro na operação');
