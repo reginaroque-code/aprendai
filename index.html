@@ -2245,6 +2245,27 @@ function _schemaQuestoesIA(n,banca){
   return '['+arr.join(',')+']';
 }
 
+// Traduz o perfil de estudo (Fase 2) em instruções pro prompt da IA.
+// Sem perfil salvo -> devolve string vazia (comportamento igual ao de antes da Fase 3).
+function instrucaoPersonalizacao(){
+  var p=ONB_PERFIL_ATUAL;
+  if(!p||!p.nivel)return '';
+  var txt='\n\nPERFIL DO ALUNO — ajuste o conteúdo a este perfil, sem mencionar o perfil explicitamente no texto gerado:\n';
+  if(p.nivel==='iniciante'){
+    txt+='- Nível: INICIANTE. Explique os conceitos-base antes de aprofundar, não use jargão técnico sem explicar seu significado na primeira aparição, e use analogias simples do dia a dia sempre que ajudarem a fixar o conceito. Vá com calma, como se fosse o primeiro contato do aluno com o tema.';
+  }else if(p.nivel==='avancado'){
+    txt+='- Nível: AVANÇADO. O aluno já domina os conceitos básicos — não perca espaço reexplicando-os. Vá direto aos pontos que mais derrubam candidatos avançados: divergências doutrinárias, jurisprudência recente, comparações entre institutos parecidos e pegadinhas sutis de prova.';
+  }else{
+    txt+='- Nível: INTERMEDIÁRIO. Equilibre teoria e prática — pode usar termos técnicos, mas explique-os brevemente na primeira menção.';
+  }
+  if(p.objetivo==='reta_final'){
+    txt+='\n- O aluno está em RETA FINAL, com prova já marcada: priorize revisão rápida, palavras-chave e pegadinhas de prova em vez de explicações longas.';
+  }else if(p.objetivo==='reforco_materia'){
+    txt+='\n- O aluno está reforçando especificamente esta matéria: pode se aprofundar mais nela do que o padrão.';
+  }
+  return txt;
+}
+
 function prosseguirGeracao(disc,mod,qTeoria,qMapa,qQuestoes,questoesReais){
   var loader=document.getElementById('gloader');
   var aiNecessarias = qQuestoes ? Math.max(0,10-questoesReais.length) : 0;
@@ -2267,6 +2288,7 @@ function prosseguirGeracao(disc,mod,qTeoria,qMapa,qQuestoes,questoesReais){
 
   var prompt='Você é um professor especialista em concursos públicos, com foco absoluto no estilo da banca '+SEL_BANCA+'.\n'+
       'Gere '+(qTeoria&&qMapa&&qQuestoes?'uma apostila COMPLETA e APROFUNDADA':'o material')+' sobre "'+mod+'" da disciplina "'+disc+'", para concurseiros que estudam para provas da banca '+SEL_BANCA+'.'+_editCtx+
+      instrucaoPersonalizacao()+
       (qTeoria?' A teoria deve ser rica e didática — explique o conceito, o fundamento legal/teórico, classificações, requisitos e efeitos práticos, como em um curso completo, sem resumir demais.':' Gere APENAS as seções pedidas abaixo — não inclua teoria nem nenhum outro campo além dos listados no JSON.')+'\n\n'+
       (qTeoria?'Para o texto ficar limpo e agradável de ler, formate o campo "conteudo" de cada tópico usando HTML simples, SEM atributos e SEM aspas dentro das tags: use <p> para parágrafos, <ul><li> para listas de características/requisitos/tipos, <strong> para negrito em termos técnicos e <mark> para destacar pontos que mais caem em prova. NÃO use markdown (nada de ** ou -), apenas essas tags HTML.\n\n':'')+
       'RETORNE APENAS JSON VÁLIDO, sem markdown, sem texto fora do JSON:\n'+_schema+
@@ -2586,7 +2608,7 @@ function gerarMapaSobDemanda(){
   if(btn){btn.disabled=true;btn.textContent='Gerando mapa mental...';}
   var schema='{"mapa_mental":{"centro":"'+CUR_MOD_CTX+'","ramos":[{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]}]}}';
   var prompt='Você é um professor especialista em concursos públicos, com foco absoluto no estilo da banca '+SEL_BANCA+'.\n'+
-    'Gere APENAS um mapa mental sobre "'+CUR_MOD_CTX+'" da disciplina "'+CUR_DISC_CTX+'", pra concurseiros que estudam pra banca '+SEL_BANCA+'.\n\n'+
+    'Gere APENAS um mapa mental sobre "'+CUR_MOD_CTX+'" da disciplina "'+CUR_DISC_CTX+'", pra concurseiros que estudam pra banca '+SEL_BANCA+'.'+instrucaoPersonalizacao()+'\n\n'+
     'RETORNE APENAS JSON VÁLIDO, sem markdown, sem texto fora do JSON:\n'+schema;
   fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:prompt})})
     .then(function(r){return r.json();})
