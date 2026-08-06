@@ -248,6 +248,10 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 .ksugg.show{display:block;}
 .kitem{padding:.55rem .95rem;font-size:.85rem;color:rgba(255,255,255,0.8);cursor:pointer;transition:background .15s;}
 .kitem:hover{background:rgba(240,180,41,0.12);color:var(--gold);}
+.field-clear{position:absolute;right:.5rem;top:50%;transform:translateY(-50%);width:20px;height:20px;border:none;border-radius:50%;background:#e9ecef;color:#6c757d;font-size:.72rem;line-height:1;cursor:pointer;display:none;align-items:center;justify-content:center;padding:0;font-family:inherit;z-index:5;}
+.field-clear:hover{background:#dee2e6;color:#212529;}
+.field-clear.show{display:flex;}
+.kinput.has-val,.dash-search-input.has-val{padding-right:2.1rem;}
 .gbtn{width:100%;padding:.9rem;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);box-shadow:0 4px 18px rgba(240,180,41,0.3);transition:all .25s;}
 .gbtn:hover{transform:translateY(-1px);}.gbtn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
 /* seções a gerar (checkbox) */
@@ -367,6 +371,8 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 .topico-text li::marker{color:var(--gold);font-weight:700;}
 .topico-text strong{color:var(--navy);}
 .topico-text mark{background:rgba(240,165,0,.22);color:var(--navy);padding:.05rem .25rem;border-radius:3px;font-weight:600;}
+.topico.topico-hidden{display:none;}
+.search-hit,.topico-nome .search-hit{background:#fff3a3;color:#212529;padding:0 1px;border-radius:2px;box-shadow:0 0 0 1px rgba(240,180,41,0.6);}
 .anc{background:#eff6ff;border-left:3px solid #3b82f6;padding:.6rem .85rem;border-radius:0 7px 7px 0;margin-bottom:.5rem;font-size:.82rem;color:#1e40af;line-height:1.6;}
 .anc strong{display:block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem;color:#1d4ed8;}
 .alt{background:#fff7ed;border-left:3px solid #f97316;padding:.6rem .85rem;border-radius:0 7px 7px 0;font-size:.82rem;color:#9a3412;line-height:1.6;}
@@ -479,6 +485,14 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 .dash-search-input::placeholder{color:#adb5bd;}
 .dash-search-results{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#162036;border:1px solid rgba(240,180,41,0.2);border-radius:10px;z-index:300;display:none;max-height:300px;overflow-y:auto;box-shadow:0 12px 32px rgba(0,0,0,0.4);}
 .dash-search-results.show{display:block;}
+.dash-search-item{padding:.6rem .9rem;font-size:.82rem;color:rgba(255,255,255,0.85);cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:.55rem;}
+.dash-search-item:hover{background:rgba(240,180,41,0.12);}
+.dash-search-item .dsi-ico{font-size:.9rem;flex-shrink:0;}
+.dash-search-item .dsi-txt{min-width:0;flex:1;}
+.dash-search-item .dsi-main{font-weight:600;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.dash-search-item .dsi-sub{font-size:.72rem;color:rgba(255,255,255,0.45);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.dash-search-item.dash-search-jump{color:var(--gold);font-weight:600;justify-content:space-between;}
+.dash-search-empty{padding:.85rem .9rem;font-size:.8rem;color:rgba(255,255,255,0.45);text-align:center;}
 .dash-sr-item{padding:10px 14px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.04);transition:background .1s;}
 .dash-sr-item:last-child{border-bottom:none;}
 .dash-sr-item:hover{background:rgba(240,180,41,0.07);}
@@ -902,7 +916,8 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
       <span class="dash-search-icon">🔍</span>
       <input class="dash-search-input" id="dash-search" type="text"
         placeholder="Buscar disciplina, assunto, concurso, banca ou cargo..."
-        oninput="dashBuscar(this.value)" onblur="setTimeout(()=>fecharBusca(),200)">
+        oninput="dashBuscar(this.value)" onfocus="dashBuscar(this.value)" onblur="setTimeout(()=>fecharBusca(),200)" autocomplete="off">
+      <button type="button" class="field-clear" id="dash-search-clear" aria-label="Limpar busca" onclick="dashSearchClear()">✕</button>
       <div class="dash-search-results" id="dash-search-results"></div>
     </div>
   </header>
@@ -1215,6 +1230,7 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
             <span class="gfl">PALAVRA-CHAVE (opcional)</span>
             <div class="kinput-wrap">
               <input class="kinput" id="gkey" type="text" placeholder="Ex: crédito tributário, lançamento..." oninput="onKey()" autocomplete="off"/>
+              <button type="button" class="field-clear" id="gkey-clear" aria-label="Limpar" onclick="gkeyClear()">✕</button>
               <div class="ksugg" id="ksugg"></div>
             </div>
             <span class="gfl">O QUE VOCÊ QUER GERAR?</span>
@@ -2186,9 +2202,24 @@ function atualizarModulos(){
     DISCS[d].mod.forEach(function(m){var o=document.createElement('option');o.value=m;o.textContent=m;sel.appendChild(o);});
   }
 }
+function toggleFieldClear(inputId,btnId){
+  var inp=document.getElementById(inputId),btn=document.getElementById(btnId);
+  if(!inp||!btn)return;
+  var has=!!inp.value;
+  btn.classList.toggle('show',has);
+  inp.classList.toggle('has-val',has);
+}
+function gkeyClear(){
+  var inp=document.getElementById('gkey');
+  if(!inp)return;
+  inp.value='';
+  onKey();
+  inp.focus();
+}
 function onKey(){
   var v=document.getElementById('gkey').value.toLowerCase().trim();
   var sugg=document.getElementById('ksugg');
+  toggleFieldClear('gkey','gkey-clear');
   sugg.innerHTML='';
   if(v.length<2){sugg.classList.remove('show');return;}
   var disc=document.getElementById('gdisc').value;
@@ -2508,6 +2539,8 @@ function renderApostila(d,disc,mod,orgaoNome,pillsOverride){
     b.onclick=function(){
       document.getElementById('apostila-view').style.display='none';
       document.getElementById('gform').style.display='block';
+      dashSearchReset();
+      dashSearchSetPlaceholder('catalogo');
       if(MODO_GERADOR==='edital'&&SEL_EDITAL&&TRILHA_DISC_ATUAL){
         abrirTrilhaConfig(TRILHA_DISC_ATUAL,m,SEL_EDITAL);
       } else {
@@ -2597,6 +2630,8 @@ function renderApostila(d,disc,mod,orgaoNome,pillsOverride){
     '<span class="lock-msg">🔒 PDF disponível no plano Pro</span>');
   document.getElementById('apostila-view').style.display='block';
   document.getElementById('apostila-view').scrollIntoView({behavior:'smooth'});
+  dashSearchReset();
+  dashSearchSetPlaceholder('teoria');
 }
 function escHTML(str){return (str||'').replace(/`/g,"'").replace(/"/g,"'");}
 function responder(qi,letra,gab,comentario){
@@ -2788,6 +2823,8 @@ function novaApostila(){
   document.getElementById('apostila-view').style.display='none';
   document.getElementById('gerro').classList.remove('show');
   document.getElementById('gform').style.display='block';
+  dashSearchReset();
+  dashSearchSetPlaceholder('catalogo');
   window.scrollTo(0,0);
 }
 function imprimirPDF(){
@@ -2917,6 +2954,8 @@ function dashSec(sec) {
   if (sec === 'financeiro') carregarFinanceiro();
   if (sec === 'apostilas') renderAposFull(window.MINHAS_APOSTILAS || []);
   if (sec === 'legislacao' && !window._legCarregada) { window._legCarregada = true; buscarLegislacao(''); }
+  if (typeof dashSearchReset === 'function') dashSearchReset();
+  if (typeof dashSearchSetPlaceholder === 'function') dashSearchSetPlaceholder(sec === 'gen' ? dashSearchContext() : 'catalogo');
 }
 // ── Sync sidebar e novos elementos após renderDash() original
 function sincronizarDash() {
@@ -3043,24 +3082,211 @@ function regerarApostila(id) {
     }
   }, 600);
 }
-function dashBuscar() {
-  var input = document.getElementById('dash-search-input');
-  var q = (input ? input.value : '').toLowerCase().trim();
-  var apostilas = window.MINHAS_APOSTILAS || [];
+// ══════════════ BARRA DE BUSCA DO TOPO (área de membros) ══════════════
+// Um único campo com dois comportamentos, conforme o contexto:
+//  - fora de uma apostila aberta: sugere assuntos/disciplinas já cadastrados (+ apostilas já geradas)
+//  - com uma apostila aberta: busca o termo dentro da teoria gerada, destacando e filtrando os tópicos
+var _DASH_SEARCH_ITEMS = [];
+function dashSearchContext() {
+  var av = document.getElementById('apostila-view');
+  var genSec = document.getElementById('dash-sec-gen');
+  var genVisible = genSec && genSec.style.display === 'block';
+  return (genVisible && av && av.style.display === 'block') ? 'teoria' : 'catalogo';
+}
+function dashBuscar(v) {
+  var inp = document.getElementById('dash-search');
+  var q = (v != null ? v : (inp ? inp.value : '')).trim();
+  toggleFieldClear('dash-search', 'dash-search-clear');
   var res = document.getElementById('dash-search-results');
+  if (!res) return;
   if (!q) {
-    renderAposFull(apostilas.slice(0, 6));
-    if (res) res.textContent = '';
+    res.classList.remove('show');
+    res.innerHTML = '';
+    if (dashSearchContext() === 'teoria') resetTeoriaHighlight();
     return;
   }
-  var filtered = apostilas.filter(function(apo) {
-    return (apo.disciplina || '').toLowerCase().includes(q) ||
-           (apo.assunto || '').toLowerCase().includes(q) ||
-           (apo.banca || '').toLowerCase().includes(q) ||
-           (apo.edital_orgao || '').toLowerCase().includes(q);
+  if (dashSearchContext() === 'teoria') {
+    dashBuscarNaTeoria(q, res);
+  } else {
+    dashBuscarCatalogo(q, res);
+  }
+}
+function fecharBusca() {
+  var res = document.getElementById('dash-search-results');
+  if (res) res.classList.remove('show');
+}
+function dashSearchClear() {
+  var inp = document.getElementById('dash-search');
+  if (!inp) return;
+  inp.value = '';
+  dashBuscar('');
+  inp.focus();
+}
+function dashSearchReset() {
+  var inp = document.getElementById('dash-search');
+  if (inp) inp.value = '';
+  toggleFieldClear('dash-search', 'dash-search-clear');
+  var res = document.getElementById('dash-search-results');
+  if (res) { res.classList.remove('show'); res.innerHTML = ''; }
+}
+function dashSearchSetPlaceholder(modo) {
+  var inp = document.getElementById('dash-search');
+  if (!inp) return;
+  inp.placeholder = modo === 'teoria'
+    ? 'Buscar um termo dentro da teoria desta apostila...'
+    : 'Buscar disciplina, assunto, concurso, banca ou cargo...';
+}
+function dashBuscarCatalogo(q, res) {
+  if (!DISCS_LOADED) {
+    res.innerHTML = '<div class="dash-search-empty">Carregando sugestões...</div>';
+    res.classList.add('show');
+    garantirDiscsCarregadas(function() {
+      var cur = document.getElementById('dash-search');
+      if (cur && cur.value.trim() === q) dashBuscar(q);
+    });
+    return;
+  }
+  var ql = q.toLowerCase();
+  var items = [];
+  Object.keys(DISCS).forEach(function(d) {
+    var data = DISCS[d] || {};
+    (data.mod || []).forEach(function(m) {
+      if (m.toLowerCase().includes(ql)) items.push({ tipo: 'assunto', disc: d, mod: m, label: m, sub: d });
+    });
+    (data.ext || []).forEach(function(e) {
+      if (e.toLowerCase().includes(ql)) items.push({ tipo: 'assunto', disc: d, mod: (data.mod || [])[0], key: e, label: e, sub: d });
+    });
+    if (d.toLowerCase().includes(ql)) items.push({ tipo: 'disciplina', disc: d, mod: (data.mod || [])[0], label: d, sub: 'Disciplina' });
   });
-  renderAposFull(filtered);
-  if (res) res.textContent = filtered.length + ' apostila(s) encontrada(s)';
+  (window.MINHAS_APOSTILAS || []).forEach(function(apo) {
+    var hay = [apo.disciplina, apo.assunto, apo.banca, apo.edital_orgao].filter(Boolean).join(' ').toLowerCase();
+    if (hay.includes(ql)) {
+      items.push({
+        tipo: 'apostila', id: apo.id,
+        label: apo.assunto || apo.disciplina,
+        sub: '📄 já gerada — ' + [apo.disciplina, apo.banca].filter(Boolean).join(' · ')
+      });
+    }
+  });
+  var seen = {}, list = [];
+  items.forEach(function(it) {
+    var k = it.tipo + '|' + it.label + '|' + (it.disc || '') + '|' + (it.id || '');
+    if (!seen[k]) { seen[k] = true; list.push(it); }
+  });
+  list = list.slice(0, 8);
+  _DASH_SEARCH_ITEMS = list;
+  if (!list.length) {
+    res.innerHTML = '<div class="dash-search-empty">Nenhum assunto encontrado para "' + escLeg(q) + '"</div>';
+    res.classList.add('show');
+    return;
+  }
+  res.innerHTML = list.map(function(it, idx) {
+    var icon = it.tipo === 'apostila' ? '📄' : it.tipo === 'disciplina' ? '📚' : '📝';
+    return '<div class="dash-search-item" onmousedown="event.preventDefault();dashSearchSelect(' + idx + ')">' +
+      '<span class="dsi-ico">' + icon + '</span>' +
+      '<div class="dsi-txt"><div class="dsi-main">' + escLeg(it.label) + '</div><div class="dsi-sub">' + escLeg(it.sub || '') + '</div></div>' +
+      '</div>';
+  }).join('');
+  res.classList.add('show');
+}
+function dashSearchSelect(idx) {
+  var it = _DASH_SEARCH_ITEMS[idx];
+  if (!it) return;
+  fecharBusca();
+  dashSearchReset();
+  if (it.tipo === 'apostila') {
+    go('gen');
+    setTimeout(function() { abrirApostilaSalva(it.id); }, 350);
+    return;
+  }
+  go('gen');
+  setTimeout(function() {
+    garantirDiscsCarregadas(function() {
+      var discSel = document.getElementById('gdisc');
+      if (discSel && it.disc) { discSel.value = it.disc; atualizarModulos(); }
+      var modSel = document.getElementById('gmod');
+      if (modSel && it.mod) modSel.value = it.mod;
+      var keyInput = document.getElementById('gkey');
+      if (keyInput) { keyInput.value = it.key || ''; onKey(); }
+    });
+  }, 350);
+}
+// ── busca dentro da teoria gerada (apostila aberta) ──
+var ACCENT_FOLD_MAP = { 'á':'a','à':'a','ã':'a','â':'a','ä':'a','é':'e','è':'e','ê':'e','ë':'e','í':'i','ì':'i','î':'i','ï':'i','ó':'o','ò':'o','õ':'o','ô':'o','ö':'o','ú':'u','ù':'u','û':'u','ü':'u','ç':'c','ñ':'n' };
+function foldAccents(s) {
+  return String(s || '').replace(/[áàãâäéèêëíìîïóòõôöúùûüçñÁÀÃÂÄÉÈÊËÍÌÎÏÓÒÕÔÖÚÙÛÜÇÑ]/g, function(c) {
+    return ACCENT_FOLD_MAP[c.toLowerCase()] || c;
+  });
+}
+function highlightMatches(container, rawTerm) {
+  var term = foldAccents(rawTerm.toLowerCase());
+  if (!term) return 0;
+  var count = 0;
+  var walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+  var textNodes = [];
+  var node;
+  while ((node = walker.nextNode())) textNodes.push(node);
+  textNodes.forEach(function(tn) {
+    var text = tn.nodeValue;
+    var folded = foldAccents(text.toLowerCase());
+    var idx = folded.indexOf(term);
+    if (idx === -1) return;
+    var frag = document.createDocumentFragment();
+    var lastIdx = 0;
+    while (idx !== -1) {
+      count++;
+      if (idx > lastIdx) frag.appendChild(document.createTextNode(text.slice(lastIdx, idx)));
+      var span = document.createElement('span');
+      span.className = 'search-hit';
+      span.textContent = text.slice(idx, idx + term.length);
+      frag.appendChild(span);
+      lastIdx = idx + term.length;
+      idx = folded.indexOf(term, lastIdx);
+    }
+    if (lastIdx < text.length) frag.appendChild(document.createTextNode(text.slice(lastIdx)));
+    tn.parentNode.replaceChild(frag, tn);
+  });
+  return count;
+}
+function resetTeoriaHighlight() {
+  document.querySelectorAll('#a-body .topico').forEach(function(t) {
+    if (t._origHtml !== undefined) t.innerHTML = t._origHtml;
+    t.classList.remove('topico-hidden');
+  });
+}
+function dashBuscarNaTeoria(q, res) {
+  var topicos = document.querySelectorAll('#a-body .topico');
+  if (!topicos.length) {
+    res.innerHTML = '<div class="dash-search-empty">Esta apostila não tem teoria gerada para buscar.</div>';
+    res.classList.add('show');
+    return;
+  }
+  var totalTopicos = 0, totalOcorr = 0;
+  topicos.forEach(function(t) {
+    if (t._origHtml === undefined) t._origHtml = t.innerHTML;
+    t.innerHTML = t._origHtml;
+    var textoPlano = foldAccents(t.textContent.toLowerCase());
+    if (textoPlano.includes(foldAccents(q.toLowerCase()))) {
+      totalOcorr += highlightMatches(t, q);
+      totalTopicos++;
+      t.classList.remove('topico-hidden');
+    } else {
+      t.classList.add('topico-hidden');
+    }
+  });
+  if (!totalTopicos) {
+    res.innerHTML = '<div class="dash-search-empty">Nenhum resultado para "' + escLeg(q) + '" nesta apostila.</div>';
+  } else {
+    res.innerHTML = '<div class="dash-search-item dash-search-jump" onmousedown="event.preventDefault();dashSearchJumpTeoria()">' +
+      '🔎 ' + totalOcorr + ' ocorrência(s) em ' + totalTopicos + ' tópico(s) <span>ver na teoria ↓</span></div>';
+  }
+  res.classList.add('show');
+}
+function dashSearchJumpTeoria() {
+  fecharBusca();
+  var target = document.querySelector('#a-body .topico:not(.topico-hidden) .search-hit') ||
+               document.querySelector('#a-body .topico:not(.topico-hidden)');
+  if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 function mostraRenovacao() {
   var user = null;
