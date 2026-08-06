@@ -584,6 +584,113 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
 .dash-gen-hero{flex-direction:column;}
 }
 @media(max-width:600px){.dash-stats-row{grid-template-columns:1fr;}}
+
+/* ── FIX: dash-icon-btn colors for light bg */
+.dash-icon-btn{background:#f8f9fa !important;border:1px solid #e2e6ea !important;color:#6c757d !important;}
+.dash-icon-btn:hover{background:#e9ecef !important;color:#212529 !important;}
+/* ── Grouped apostilas label */
+.dash-grupo-label{font-size:11px;font-weight:700;color:#6c757d;text-transform:uppercase;letter-spacing:.8px;margin:18px 0 8px;padding-bottom:6px;border-bottom:1px solid #e2e6ea;display:flex;justify-content:space-between;align-items:center;}
+.dash-grupo-label span{font-size:10px;background:#e9ecef;color:#495057;padding:2px 7px;border-radius:10px;font-weight:600;text-transform:none;letter-spacing:0;}
+/* ── Edital alvo card */
+.dash-edital-card{background:linear-gradient(135deg,#0a2240 0%,#1a3a6a 100%);border:1px solid rgba(240,180,41,0.22);border-radius:14px;padding:20px 24px;margin-bottom:20px;}
+.dash-edital-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
+.dash-edital-badge{font-size:9px;font-weight:700;color:var(--gold);letter-spacing:1px;text-transform:uppercase;background:rgba(240,180,41,0.12);border:1px solid rgba(240,180,41,0.25);padding:3px 9px;border-radius:10px;display:inline-block;margin-bottom:4px;}
+.dash-edital-orgao{font-size:1rem;font-weight:800;color:#fff;line-height:1.2;margin-bottom:2px;}
+.dash-edital-meta{font-size:12px;color:rgba(255,255,255,0.5);}
+.dash-edital-actions{display:flex;gap:6px;flex-shrink:0;}
+.dash-edital-btn{border:none;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;}
+.dash-edital-btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);}
+.dash-edital-btn-ghost{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.15) !important;}
+.dash-edital-btn-ghost:hover{background:rgba(255,255,255,0.14);}
+.dash-edital-progress-label{font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:6px;display:flex;justify-content:space-between;}
+.dash-edital-progress-label b{color:#fff;}
+.dash-edital-bar{height:6px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;}
+.dash-edital-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .5s;}
+.dash-edital-discs{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;}
+.dash-edital-disc-chip{font-size:11px;padding:3px 9px;border-radius:12px;font-weight:500;}
+.dash-edital-disc-chip.done{background:rgba(22,163,74,0.2);color:#4ade80;}
+.dash-edital-disc-chip.todo{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.45);}
+/* ── Filtros apostilas (light bg variant para .dash-filter-tabs) */
+.dash-filter-tabs .dash-ftab{border:1.5px solid #dee2e6;color:#495057;background:#fff;}
+.dash-filter-tabs .dash-ftab.active{background:#0D2550;color:#fff;border-color:#0D2550;font-weight:700;}
+.dash-filter-tabs .dash-ftab:hover:not(.active){background:#e9ecef;border-color:#ced4da;color:#212529;}
+/* ── GEN SECTION INSIDE DASH (light mode overrides) */
+#dash-sec-gen .gbar h2{color:#0D2550;font-size:1.2rem;}
+#dash-sec-gen .sbtn-o{border-color:#dee2e6;color:#6c757d;}
+#dash-sec-gen .sbtn-o:hover{border-color:#0D2550;color:#0D2550;}
+#dash-sec-gen .gform{background:#fff;border:1px solid #e2e6ea;}
+#dash-sec-gen .gform-title{color:#0D2550;}
+#dash-sec-gen .gfl{color:#495057;}
+#dash-sec-gen .gsel{background:#fff;color:#212529;border:1.5px solid #dee2e6;}
+#dash-sec-gen .gsel:focus{border-color:#0D2550;}
+#dash-sec-gen .gsel option{background:#fff;color:#212529;}
+#dash-sec-gen .kinput{background:#fff;color:#212529;border:1.5px solid #dee2e6;}
+#dash-sec-gen .kinput:focus{border-color:#0D2550;}
+#dash-sec-gen .ksugg{background:#fff;border:1.5px solid #dee2e6;box-shadow:0 8px 24px rgba(0,0,0,0.1);}
+#dash-sec-gen .kitem{color:#212529;}
+#dash-sec-gen .kitem:hover{background:#f8f9fa;color:#0D2550;}
+#dash-sec-gen .bp{border:2px solid #dee2e6;color:#6c757d;background:#fff;}
+#dash-sec-gen .bp.on{border-color:#0D2550;color:#0D2550;background:rgba(13,37,80,0.06);}
+#dash-sec-gen .ap{border:2px solid #dee2e6;color:#6c757d;background:#fff;}
+#dash-sec-gen .ap.on{border-color:#0D2550;color:#0D2550;background:rgba(13,37,80,0.06);}
+#dash-sec-gen .plan-bar{background:#fff;border:1px solid #e2e6ea;}
+#dash-sec-gen .plan-bar span{color:#495057;}
+#dash-sec-gen .plan-bar strong{color:#0D2550;}
+#dash-sec-gen .limit-bar{background:rgba(13,37,80,0.1);}
+#dash-sec-gen .limit-fill{background:linear-gradient(90deg,#0D2550,#1a3a6a);}
+#dash-sec-gen .secao-chk{border-color:#dee2e6;color:#6c757d;}
+#dash-sec-gen .secao-chk.on{border-color:#0D2550;color:#0D2550;background:rgba(13,37,80,0.06);}
+#dash-sec-gen .modo-toggle{background:#f8f9fa;border:1px solid #e2e6ea;}
+#dash-sec-gen .modo-btn{color:#6c757d;}
+#dash-sec-gen .modo-btn.on{background:#0D2550;color:#fff;}
+#dash-sec-gen .edital-search{background:#fff;color:#212529;border:1.5px solid #dee2e6;}
+#dash-sec-gen .edital-search:focus{border-color:#0D2550;}
+#dash-sec-gen .edital-list{scrollbar-color:#ced4da transparent;}
+#dash-sec-gen .edital-card{background:#f8f9fa;border:1.5px solid #dee2e6;}
+#dash-sec-gen .edital-card:hover{border-color:#0D2550;background:#f0f4ff;}
+#dash-sec-gen .edital-card.sel{border-color:#0D2550;background:rgba(13,37,80,0.06);}
+#dash-sec-gen .edital-card-orgao{color:#0D2550;}
+#dash-sec-gen .edital-card-cargo{color:#212529;}
+#dash-sec-gen .edital-card-meta{color:#6c757d;}
+#dash-sec-gen .edital-banca-info{background:#f0f4ff;border-color:#c7d2fe;color:#0D2550;}
+#dash-sec-gen .loader p{color:#495057;}
+#dash-sec-gen .loader small{color:#6c757d;}
+#dash-sec-gen .loader-ring{border:4px solid rgba(13,37,80,0.15);border-top-color:#0D2550;}
+#dash-sec-gen .limit-wall{background:#fff;border:1px solid #e2e6ea;}
+#dash-sec-gen .limit-wall h3{color:#0D2550;}
+#dash-sec-gen .limit-wall p{color:#495057;}
+#dash-sec-gen .trilha-card{background:#fff;border:1px solid #e2e6ea;}
+#dash-sec-gen .trilha-card:hover{border-color:#0D2550;box-shadow:0 6px 18px rgba(13,37,80,0.1);}
+#dash-sec-gen .trilha-card-nome{color:#0D2550;}
+#dash-sec-gen .trilha-card-meta{color:#6c757d;}
+#dash-sec-gen .trilha-assunto-btn{background:#fff;border:1px solid #e2e6ea;color:#212529;}
+#dash-sec-gen .trilha-assunto-btn:hover{border-color:#0D2550;}
+#dash-sec-gen .trilha-assunto-btn::before{background:#f8f9fa;border:2px solid #0D2550;}
+#dash-sec-gen .trilha-assunto-btn.feito::before{background:#0D2550;}
+#dash-sec-gen .trilha-titulo{color:#0D2550;}
+#dash-sec-gen .trilha-back{color:#6c757d;border-color:#dee2e6;}
+#dash-sec-gen .trilha-back:hover{border-color:#0D2550;color:#0D2550;}
+#dash-sec-gen .trilha-crumb{color:#6c757d;}
+#dash-sec-gen .trilha-crumb b{color:#0D2550;}
+#dash-sec-gen .trilha-grupo-label{color:#0D2550;}
+#dash-sec-gen .trilha-badge-salva{background:rgba(22,163,74,0.08);border:1px solid rgba(22,163,74,0.25);color:#166534;}
+#dash-sec-gen .trilha-badge-salva b{color:#212529;}
+#dash-sec-gen .trilha-chk{background:#f0f4ff;border-color:rgba(13,37,80,0.15);}
+#dash-sec-gen .trilha-chk b{color:#0D2550;}
+#dash-sec-gen .trilha-chk span{color:#6c757d;}
+#dash-sec-gen .apo-sidebar{background:#fff;border:1px solid #e2e6ea;}
+#dash-sec-gen .apo-sidebar-title{color:#0D2550;}
+#dash-sec-gen .apo-sidebar-empty{color:#6c757d;}
+#dash-sec-gen .apo-sidebar-item{border-color:#e2e6ea;background:#f8f9fa;}
+#dash-sec-gen .apo-sidebar-item:hover{border-color:#0D2550;background:rgba(13,37,80,0.04);}
+#dash-sec-gen .apo-sidebar-item.on{border-color:#0D2550;background:rgba(13,37,80,0.08);}
+#dash-sec-gen .apo-si-txt{color:#212529;}
+#dash-sec-gen .apo-si-data{color:#6c757d;}
+#dash-sec-gen .qcard{background:#fff;}
+#dash-sec-gen .qgab{background:#f0fdf4;}
+#dash-sec-gen .btn-mapa-demanda{border-color:#dee2e6;color:#0D2550;}
+#dash-sec-gen .btn-mapa-demanda:hover{background:rgba(13,37,80,0.04);}
+#dash-sec-gen .gen-shell{padding:0;max-width:none;}
 </style>
 </head>
 <body>
@@ -812,6 +919,26 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
         <h2 class="dash-greeting-title">Olá, <span id="dash-name">usuário</span>! 👋</h2>
         <p class="dash-greeting-sub" id="dash-data-hoje"></p>
       </div>
+      <!-- Edital Alvo Card (visível quando perfil tem edital_alvo) -->
+      <div class="dash-edital-card" id="dash-edital-card" style="display:none">
+        <div class="dash-edital-hdr">
+          <div>
+            <div class="dash-edital-badge">🎯 Meu edital alvo</div>
+            <div class="dash-edital-orgao" id="dash-edital-orgao">—</div>
+            <div class="dash-edital-meta" id="dash-edital-meta">—</div>
+          </div>
+          <div class="dash-edital-actions">
+            <button class="dash-edital-btn dash-edital-btn-gold" onclick="go('gen');setTimeout(()=>{const b=document.querySelector('.modo-btn:last-child');if(b)b.click();},500)">🎯 Estudar pelo edital</button>
+            <button class="dash-edital-btn dash-edital-btn-ghost" onclick="abrirPerfilParaEdicao()">✏️ Trocar edital</button>
+          </div>
+        </div>
+        <div class="dash-edital-progress-label">
+          <span>Progresso de disciplinas</span>
+          <b id="dash-edital-prog-txt">0 / 0</b>
+        </div>
+        <div class="dash-edital-bar"><div class="dash-edital-bar-fill" id="dash-edital-bar-fill" style="width:0%"></div></div>
+        <div class="dash-edital-discs" id="dash-edital-discs"></div>
+      </div>
       <!-- Stats row (mantém ids originais: dash-count, dash-limit, dash-plan) -->
       <div class="dash-stats-row">
         <div class="dash-stat">
@@ -1009,6 +1136,180 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
       </div>
     </div>
   </div>
+  <!-- ── SEÇÃO: GERADOR ── -->
+  <div class="dash-section" id="dash-sec-gen" style="display:none">
+    <div class="dash-page-pad" style="padding-bottom:2rem">
+      <div class="dash-section-title" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <span>📚 Gerar Apostila</span>
+        <button class="sbtn sbtn-o" onclick="dashSec('inicio')" style="font-size:12px;padding:6px 14px;">← Voltar ao Início</button>
+      </div>
+      <div class="gen-shell">
+      <div class="gw">
+        <div class="gbar">
+          <h2>⚡ Configurar apostila</h2>
+        </div>
+        <!-- barra de plano -->
+        <div class="plan-bar">
+          <span>Plano: <strong id="gplano">—</strong></span>
+          <span id="gcnt-txt">Apostilas: <strong id="gcnt">0</strong><span id="glim-txt">/30</span></span>
+          <div class="limit-bar" id="glimbar"><div class="limit-fill" id="gfill" style="width:0%"></div></div>
+        </div>
+        <!-- muro de limite -->
+        <div class="limit-wall" id="limit-wall" style="display:none;">
+          <h3>🚫 Limite do plano atingido</h3>
+          <p>Você usou todas as apostilas disponíveis no seu plano este mês.</p>
+          <button class="btn-gold" id="wall-btn-assinar" onclick="dashSec('inicio');setTimeout(()=>document.getElementById('planos') && document.getElementById('planos').scrollIntoView({behavior:'smooth'}),250)">Ver planos e assinar →</button>
+        </div>
+        <div id="wall-opcoes-renovacao" style="display:none;flex-direction:column;gap:.6rem;align-items:center;margin-top:.5rem;">
+          <button class="btn-gold" onclick="goRenovar()">🔄 Renovar agora</button>
+          <button class="btn-ghost" onclick="goCheckoutAnualAtual()">📆 Mudar para o plano anual e economizar</button>
+          <button class="btn-ghost" id="wall-btn-aguardar" onclick="dashSec('inicio')">🗓️ Vou aguardar — renova em <span id="wall-renova-data">breve</span></button>
+        </div>
+        <!-- formulário -->
+        <div class="gform" id="gform">
+          <div class="gform-title">📋 Configure sua apostila</div>
+          <!-- toggle de modo -->
+          <div class="modo-toggle">
+            <button class="modo-btn on" id="btn-modo-livre" onclick="setModoGerador('livre')">📝 Modo Livre</button>
+            <button class="modo-btn" id="btn-modo-edital" onclick="setModoGerador('edital')">🎯 Por Edital</button>
+          </div>
+          <!-- edital picker -->
+          <div class="edital-picker" id="edital-picker">
+            <span class="gfl">ÓRGÃO / EDITAL</span>
+            <div class="area-pills" id="area-pills">
+              <button class="ap on" data-a="" onclick="selArea(this)">Todas</button>
+              <button class="ap" data-a="fiscal" onclick="selArea(this)">Fiscal</button>
+              <button class="ap" data-a="controle" onclick="selArea(this)">Controle</button>
+              <button class="ap" data-a="judiciario" onclick="selArea(this)">Judiciário</button>
+              <button class="ap" data-a="tribunal_contas" onclick="selArea(this)">Tribunal de Contas</button>
+              <button class="ap" data-a="policial" onclick="selArea(this)">Policial</button>
+              <button class="ap" data-a="bancario" onclick="selArea(this)">Bancário</button>
+              <button class="ap" data-a="administrativo" onclick="selArea(this)">Administrativo</button>
+              <button class="ap" data-a="educacao" onclick="selArea(this)">Educação</button>
+            </div>
+            <input class="edital-search" id="edital-search" type="text" placeholder="Buscar órgão, cargo ou banca..." oninput="filtrarEditais()"/>
+            <div class="edital-list" id="edital-list"></div>
+            <div id="edital-banca-selecionada" style="display:none;margin-top:.7rem;"></div>
+          </div>
+          <!-- bloco clássico -->
+          <div id="bloco-form-classico">
+            <div id="secao-banca-livre">
+              <span class="gfl">BANCA</span>
+              <div class="banca-pills">
+                <button class="bp on" data-b="FCC" onclick="selB(this)">FCC</button>
+                <button class="bp" data-b="CEBRASPE" onclick="selB(this)">CEBRASPE</button>
+                <button class="bp" data-b="FGV" onclick="selB(this)">FGV</button>
+                <button class="bp" data-b="VUNESP" onclick="selB(this)">VUNESP</button>
+                <button class="bp" data-b="IBFC" onclick="selB(this)">IBFC</button>
+                <button class="bp" data-b="IADES" onclick="selB(this)">IADES</button>
+                <button class="bp" id="bp-outra" onclick="selOutraBanca(this)">✏️ Outra banca...</button>
+              </div>
+              <input class="kinput" id="banca-custom" type="text" placeholder="Digite o nome da banca (ex: AOCP, IBFC, Quadrix...)" style="display:none;margin-bottom:1.2rem;" oninput="SEL_BANCA=this.value||'banca personalizada'"/>
+            </div>
+            <span class="gfl">DISCIPLINA</span>
+            <select class="gsel" id="gdisc" onchange="atualizarModulos()">
+              <option value="">Selecione a disciplina...</option>
+            </select>
+            <span class="gfl">ASSUNTO</span>
+            <select class="gsel" id="gmod"><option value="">Selecione o assunto...</option></select>
+            <span class="gfl">PALAVRA-CHAVE (opcional)</span>
+            <div class="kinput-wrap">
+              <input class="kinput" id="gkey" type="text" placeholder="Ex: crédito tributário, lançamento..." oninput="onKey()" autocomplete="off"/>
+              <div class="ksugg" id="ksugg"></div>
+            </div>
+            <span class="gfl">O QUE VOCÊ QUER GERAR?</span>
+            <div class="secoes-wrap" id="secoes-wrap">
+              <label class="secao-chk on"><input type="checkbox" id="chk-teoria" checked onchange="toggleSecaoChk(this)"/> 📖 Teoria</label>
+              <label class="secao-chk on"><input type="checkbox" id="chk-questoes" checked onchange="toggleSecaoChk(this)"/> ✅ Questões</label>
+            </div>
+            <input type="checkbox" id="chk-mapa" style="display:none;"/>
+            <button class="gbtn" id="gbtn" onclick="gerar()">⚡ Gerar Apostila com IA</button>
+          </div>
+          <!-- trilha de estudos -->
+          <div class="trilha" id="trilha-disciplinas" style="display:none;">
+            <button class="trilha-back" onclick="voltarParaEditalPicker()">‹ Trocar de edital</button>
+            <div class="trilha-crumb" id="trilha-crumb-disc"></div>
+            <div class="trilha-grupo-label" id="trilha-label-basicos">📘 Conhecimentos Básicos</div>
+            <div class="trilha-grid" id="trilha-grid-basicos"></div>
+            <div class="trilha-grupo-label" id="trilha-label-especificos">🎯 Conhecimentos Específicos</div>
+            <div class="trilha-grid" id="trilha-grid-especificos"></div>
+          </div>
+          <div class="trilha" id="trilha-assuntos" style="display:none;">
+            <button class="trilha-back" onclick="voltarParaDisciplinas()">‹ Voltar para disciplinas</button>
+            <div class="trilha-crumb" id="trilha-crumb-assunto"></div>
+            <h3 class="trilha-titulo" id="trilha-titulo-disc"></h3>
+            <div class="trilha-lista" id="trilha-lista-assuntos"></div>
+          </div>
+          <div class="trilha" id="trilha-config" style="display:none;">
+            <button class="trilha-back" onclick="voltarParaAssuntos()">‹ Voltar para assuntos</button>
+            <div class="trilha-crumb" id="trilha-crumb-config"></div>
+            <div class="trilha-badge-salva" id="trilha-badge-salva" style="display:none;">
+              <span>📌 Você já gerou essa apostila em <b id="trilha-badge-data">—</b> — sem gastar um novo crédito</span>
+              <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+                <button class="trilha-btn-abrir" onclick="trilhaAbrirExistente()">Abrir apostila</button>
+                <button class="trilha-btn-regerar" onclick="trilhaGerarNovaVersao()">🔁 Gerar versão nova</button>
+              </div>
+            </div>
+            <div class="trilha-painel" id="trilha-painel">
+              <h3 id="trilha-titulo-assunto"></h3>
+              <label class="trilha-chk" for="trilha-chk-questoes">
+                <input type="checkbox" id="trilha-chk-questoes"/>
+                <div>
+                  <b>Quero praticar questões desse assunto também</b>
+                  <span>Até 10 questões — provas reais quando existirem no nosso banco, complementadas por questões geradas no padrão da banca</span>
+                </div>
+              </label>
+              <button class="gbtn" onclick="trilhaGerar()">✨ Gerar apostila</button>
+            </div>
+          </div>
+        </div><!-- /gform -->
+        <!-- loader -->
+        <div class="loader" id="gloader">
+          <div class="loader-ring"></div>
+          <p id="loader-msg">Gerando sua apostila...</p>
+          <small>A IA está preparando o conteúdo focado na sua banca</small>
+        </div>
+        <!-- erro -->
+        <div class="loader" id="gerro">
+          <div style="font-size:2.2rem;margin-bottom:.9rem;">⚠️</div>
+          <p id="gerro-msg">Não foi possível carregar sua apostila.</p>
+          <small>Nenhuma apostila foi descontada do seu limite.</small>
+          <div style="margin-top:1.4rem;">
+            <button class="gbtn" style="width:auto;padding:.75rem 1.7rem;" onclick="retomarGeracao()">🔄 Solicitar apostila novamente</button>
+          </div>
+        </div>
+        <!-- resultado -->
+        <div id="apostila-view">
+          <div class="apost-nav" id="apost-pills"></div>
+          <div class="apostila" id="apostila-doc">
+            <div class="apo-brand-header">
+              <div class="apo-brand-logo">A</div>
+              <div class="apo-brand-txt">
+                <div class="apo-brand-name">Aprend<span>AI</span> — Apostilas Inteligentes</div>
+                <div class="apo-brand-tag">Inteligência artificial a favor do concurseiro</div>
+              </div>
+            </div>
+            <div class="acapa" id="a-capa"></div>
+            <div class="abody" id="a-body"></div>
+            <div class="aactions" id="a-actions"></div>
+            <div class="apo-brand-footer">
+              <a href="https://aprendai.net.br" target="_blank">aprendai.net.br</a>
+              <span class="fdot">•</span>
+              <a href="https://instagram.com/aprendaiconcursos" target="_blank">@aprendaiconcursos</a>
+            </div>
+          </div>
+        </div>
+      </div><!-- /gw -->
+      <!-- sidebar apostilas -->
+      <aside class="apo-sidebar" id="apo-sidebar">
+        <div class="apo-sidebar-title">📂 Minhas Apostilas</div>
+        <div class="apo-sidebar-list" id="apo-sidebar-list">
+          <div class="apo-sidebar-empty">Nenhuma apostila gerada ainda.</div>
+        </div>
+      </aside>
+      </div><!-- /gen-shell -->
+    </div><!-- /dash-page-pad -->
+  </div><!-- /dash-sec-gen -->
 </div><!-- .dash-main -->
 <div id="dash-overlay" onclick="toggleSidebar()"></div>
 </div><!-- #page-dash -->
@@ -1064,183 +1365,7 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
   </div>
 </div>
 <!-- ══ GERADOR ══ -->
-<div id="page-gen" class="page">
-  <div class="gen-shell">
-  <div class="gw">
-    <div class="gbar">
-      <h2>📚 Gerador de Apostilas</h2>
-      <button class="sbtn sbtn-o" onclick="go('dash')">← Voltar ao painel</button>
-    </div>
-    <!-- barra de plano -->
-    <div class="plan-bar">
-      <span>Plano: <strong id="gplano">—</strong></span>
-      <span id="gcnt-txt">Apostilas: <strong id="gcnt">0</strong><span id="glim-txt">/30</span></span>
-      <div class="limit-bar" id="glimbar"><div class="limit-fill" id="gfill" style="width:0%"></div></div>
-    </div>
-    <!-- muro de limite -->
-    <div class="limit-wall" id="limit-wall" style="display:none;">
-      <h3>🚫 Limite do plano atingido</h3>
-      <p>Você usou todas as apostilas disponíveis no seu plano este mês.</p>
-      
-      <button class="btn-gold" id="wall-btn-assinar" onclick="go('landing');setTimeout(()=>document.getElementById('planos').scrollIntoView({behavior:'smooth'}),250)">Ver planos e assinar →</button>
-    </div>
-  <div id="wall-opcoes-renovacao" style="display:none;flex-direction:column;gap:.6rem;align-items:center;margin-top:.5rem;">
-    <button class="btn-gold" onclick="goRenovar()">🔄 Renovar agora</button>
-    <button class="btn-ghost" onclick="goCheckoutAnualAtual()">📆 Mudar para o plano anual e economizar</button>
-    <button class="btn-ghost" id="wall-btn-aguardar" onclick="go('dash')">🗓️ Vou aguardar — renova em <span id="wall-renova-data">breve</span></button>
-  </div>
-    <!-- formulário -->
-    <div class="gform" id="gform">
-      <div class="gform-title">📋 Configure sua apostila</div>
-      <!-- toggle de modo -->
-      <div class="modo-toggle">
-        <button class="modo-btn on" id="btn-modo-livre" onclick="setModoGerador('livre')">📝 Modo Livre</button>
-        <button class="modo-btn" id="btn-modo-edital" onclick="setModoGerador('edital')">🎯 Por Edital</button>
-      </div>
-      <!-- edital picker (visível só no modo Por Edital) -->
-      <div class="edital-picker" id="edital-picker">
-        <span class="gfl">ÓRGÃO / EDITAL</span>
-       <div class="area-pills" id="area-pills">
-          <button class="ap on" data-a="" onclick="selArea(this)">Todas</button>
-          <button class="ap" data-a="fiscal" onclick="selArea(this)">Fiscal</button>
-          <button class="ap" data-a="controle" onclick="selArea(this)">Controle</button>
-          <button class="ap" data-a="judiciario" onclick="selArea(this)">Judiciário</button>
-          <button class="ap" data-a="tribunal_contas" onclick="selArea(this)">Tribunal de Contas</button>
-          <button class="ap" data-a="policial" onclick="selArea(this)">Policial</button>
-          <button class="ap" data-a="bancario" onclick="selArea(this)">Bancário</button>
-          <button class="ap" data-a="administrativo" onclick="selArea(this)">Administrativo</button>
-          <button class="ap" data-a="educacao" onclick="selArea(this)">Educação</button>
-        </div>
-        <input class="edital-search" id="edital-search" type="text" placeholder="Buscar órgão, cargo ou banca..." oninput="filtrarEditais()"/>
-        <div class="edital-list" id="edital-list"></div>
-        <div id="edital-banca-selecionada" style="display:none;margin-top:.7rem;"></div>
-      </div>
-      <!-- bloco clássico: usado no Modo Livre. No modo Por Edital, some da vista e dá lugar à Trilha de Estudos (cards + assuntos) -->
-      <div id="bloco-form-classico">
-      <!-- seção de banca (oculta no modo Por Edital) -->
-      <div id="secao-banca-livre">
-      <span class="gfl">BANCA</span>
-      <div class="banca-pills">
-        <button class="bp on" data-b="FCC" onclick="selB(this)">FCC</button>
-        <button class="bp" data-b="CEBRASPE" onclick="selB(this)">CEBRASPE</button>
-        <button class="bp" data-b="FGV" onclick="selB(this)">FGV</button>
-        <button class="bp" data-b="VUNESP" onclick="selB(this)">VUNESP</button>
-        <button class="bp" data-b="IBFC" onclick="selB(this)">IBFC</button>
-        <button class="bp" data-b="IADES" onclick="selB(this)">IADES</button>
-        <button class="bp" id="bp-outra" onclick="selOutraBanca(this)">✏️ Outra banca...</button>
-      </div>
-      <input class="kinput" id="banca-custom" type="text" placeholder="Digite o nome da banca (ex: AOCP, IBFC, Quadrix...)" style="display:none;margin-bottom:1.2rem;" oninput="SEL_BANCA=this.value||'banca personalizada'"/>
-      </div><!-- /secao-banca-livre -->
-      <span class="gfl">DISCIPLINA</span>
-      <select class="gsel" id="gdisc" onchange="atualizarModulos()">
-        <option value="">Selecione a disciplina...</option>
-      </select>
-      <span class="gfl">ASSUNTO</span>
-      <select class="gsel" id="gmod"><option value="">Selecione o assunto...</option></select>
-      <span class="gfl">PALAVRA-CHAVE (opcional — localiza o assunto automaticamente)</span>
-      <div class="kinput-wrap">
-        <input class="kinput" id="gkey" type="text" placeholder="Ex: crédito tributário, lançamento..." oninput="onKey()" autocomplete="off"/>
-        <div class="ksugg" id="ksugg"></div>
-      </div>
-      <span class="gfl">O QUE VOCÊ QUER GERAR?</span>
-      <div class="secoes-wrap" id="secoes-wrap">
-        <label class="secao-chk on"><input type="checkbox" id="chk-teoria" checked onchange="toggleSecaoChk(this)"/> 📖 Teoria</label>
-        <label class="secao-chk on"><input type="checkbox" id="chk-questoes" checked onchange="toggleSecaoChk(this)"/> ✅ Questões</label>
-      </div>
-      <!-- Mapa Mental agora é gerado sob demanda, como botão separado, depois que a apostila é exibida -->
-      <input type="checkbox" id="chk-mapa" style="display:none;"/>
-      <button class="gbtn" id="gbtn" onclick="gerar()">⚡ Gerar Apostila com IA</button>
-      </div><!-- /bloco-form-classico -->
-      <!-- ══ TRILHA DE ESTUDOS (modo Por Edital) ══ -->
-      <!-- Tela 1: disciplinas em cards, separadas por Conhecimentos Básicos / Específicos -->
-      <div class="trilha" id="trilha-disciplinas" style="display:none;">
-        <button class="trilha-back" onclick="voltarParaEditalPicker()">‹ Trocar de edital</button>
-        <div class="trilha-crumb" id="trilha-crumb-disc"></div>
-        <div class="trilha-grupo-label" id="trilha-label-basicos">📘 Conhecimentos Básicos</div>
-        <div class="trilha-grid" id="trilha-grid-basicos"></div>
-        <div class="trilha-grupo-label" id="trilha-label-especificos">🎯 Conhecimentos Específicos</div>
-        <div class="trilha-grid" id="trilha-grid-especificos"></div>
-      </div>
-      <!-- Tela 2: assuntos da disciplina, em lista vertical clicável -->
-      <div class="trilha" id="trilha-assuntos" style="display:none;">
-        <button class="trilha-back" onclick="voltarParaDisciplinas()">‹ Voltar para disciplinas</button>
-        <div class="trilha-crumb" id="trilha-crumb-assunto"></div>
-        <h3 class="trilha-titulo" id="trilha-titulo-disc"></h3>
-        <div class="trilha-lista" id="trilha-lista-assuntos"></div>
-      </div>
-      <!-- Tela 3: gerar apostila do assunto (ou reabrir, se já existir) -->
-      <div class="trilha" id="trilha-config" style="display:none;">
-        <button class="trilha-back" onclick="voltarParaAssuntos()">‹ Voltar para assuntos</button>
-        <div class="trilha-crumb" id="trilha-crumb-config"></div>
-        <div class="trilha-badge-salva" id="trilha-badge-salva" style="display:none;">
-          <span>📌 Você já gerou essa apostila em <b id="trilha-badge-data">—</b> — sem gastar um novo crédito</span>
-          <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
-            <button class="trilha-btn-abrir" onclick="trilhaAbrirExistente()">Abrir apostila</button>
-            <button class="trilha-btn-regerar" onclick="trilhaGerarNovaVersao()">🔁 Gerar versão nova</button>
-          </div>
-        </div>
-        <div class="trilha-painel" id="trilha-painel">
-          <h3 id="trilha-titulo-assunto"></h3>
-          <label class="trilha-chk" for="trilha-chk-questoes">
-            <input type="checkbox" id="trilha-chk-questoes"/>
-            <div>
-              <b>Quero praticar questões desse assunto também</b>
-              <span>Até 10 questões — provas reais quando existirem no nosso banco, complementadas por questões geradas no padrão da banca</span>
-            </div>
-          </label>
-          <button class="gbtn" onclick="trilhaGerar()">✨ Gerar apostila</button>
-        </div>
-      </div>
-    </div><!-- /gform -->
-    <!-- loader -->
-    <div class="loader" id="gloader">
-      <div class="loader-ring"></div>
-      <p id="loader-msg">Gerando sua apostila...</p>
-      <small>A IA está preparando o conteúdo focado na sua banca</small>
-    </div>
-    <!-- erro na geração -->
-    <div class="loader" id="gerro">
-      <div style="font-size:2.2rem;margin-bottom:.9rem;">⚠️</div>
-      <p id="gerro-msg">Não foi possível carregar sua apostila.</p>
-      <small>Nenhuma apostila foi descontada do seu limite.</small>
-      <div style="margin-top:1.4rem;">
-        <button class="gbtn" style="width:auto;padding:.75rem 1.7rem;" onclick="retomarGeracao()">🔄 Solicitar apostila novamente</button>
-      </div>
-    </div>
-    <!-- resultado -->
-    <div id="apostila-view">
-      <!-- pills de assuntos -->
-      <div class="apost-nav" id="apost-pills"></div>
-      <!-- apostila -->
-     <div class="apostila" id="apostila-doc">
-  <div class="apo-brand-header">
-    <div class="apo-brand-logo">A</div>
-    <div class="apo-brand-txt">
-      <div class="apo-brand-name">Aprend<span>AI</span> — Apostilas Inteligentes</div>
-      <div class="apo-brand-tag">Inteligência artificial a favor do concurseiro</div>
-    </div>
-  </div>
-  <div class="acapa" id="a-capa"></div>
-  <div class="abody" id="a-body"></div>
-  <div class="aactions" id="a-actions"></div>
-  <div class="apo-brand-footer">
-    <a href="https://aprendai.net.br" target="_blank">aprendai.net.br</a>
-    <span class="fdot">•</span>
-    <a href="https://instagram.com/aprendaiconcursos" target="_blank">@aprendaiconcursos</a>
-  </div>
-</div>
-      </div>
-    </div>
-    <!-- barra lateral: apostilas já geradas pelo usuário -->
-    <aside class="apo-sidebar" id="apo-sidebar">
-      <div class="apo-sidebar-title">📂 Minhas Apostilas</div>
-      <div class="apo-sidebar-list" id="apo-sidebar-list">
-        <div class="apo-sidebar-empty">Nenhuma apostila gerada ainda.</div>
-      </div>
-    </aside>
-  </div>
-  </div>
-</div>
+<div id="page-gen" class="page" style="display:none"></div>
 <script>
 // ══════════════════════════════════════
 // CONFIGURAÇÃO
@@ -1664,7 +1789,7 @@ function recusarCookies(){
 // NAVEGAÇÃO
 // ══════════════════════════════════════
 function go(page) {
-  var pages = ['landing','auth','dash','gen'];
+  var pages = ['landing','auth','dash','gen']; /* gen content now inside dash */
   pages.forEach(function(p){
     var el = document.getElementById('page-'+p);
     el.style.display = 'none';
@@ -1846,6 +1971,7 @@ function checarPerfil(){
     .then(function(r){return r.json();})
     .then(function(perfil){
       ONB_PERFIL_ATUAL=perfil||null;
+      atualizarCardEdital(perfil);
       if(!perfil){montarOnboarding(null);abrirOnboarding(false);}
     }).catch(function(){});
 }
@@ -1929,6 +2055,7 @@ function salvarPerfil(){
     if(d&&d.error){onbShowErr(d.error);return;}
     ONB_PERFIL_ATUAL=d;
     fecharOnboarding();
+    atualizarCardEdital(d);
   }).catch(function(){
     setLd('onb-btn-salvar',false,'Salvar e continuar');
     onbShowErr('Erro de conexão. Tente novamente.');
@@ -2327,9 +2454,9 @@ function abrirApostilaSalva(id){
   var tok=STORAGE.getItem('sb_tok');
   if(!tok)return;
   // se o link foi clicado fora do Gerador (ex: painel principal), navega até lá primeiro
-  if(document.getElementById('page-gen').style.display!=='flex'){
+  if(document.getElementById('dash-sec-gen').style.display==='none'||document.getElementById('dash-sec-gen').style.display===''){
     go('gen');
-    garantirDiscsCarregadas(function(){abrirApostilaSalva(id);});
+    setTimeout(function(){garantirDiscsCarregadas(function(){abrirApostilaSalva(id);});},300);
     return;
   }
   document.getElementById('gform').style.display='none';
@@ -2780,7 +2907,7 @@ window.addEventListener('load',function(){
 ══════════════════════════════════════════ */
 // ── Troca de seção no dashboard
 function dashSec(sec) {
-  const secs = ['inicio','apostilas','financeiro','sugestoes','suporte','legislacao'];
+  const secs = ['inicio','apostilas','financeiro','sugestoes','suporte','legislacao','gen'];
   secs.forEach(s => {
     const el = document.getElementById('dash-sec-' + s);
     if (el) el.style.display = (s === sec) ? 'block' : 'none';
@@ -2788,7 +2915,7 @@ function dashSec(sec) {
     if (nav) nav.classList.toggle('active', s === sec);
   });
   if (sec === 'financeiro') carregarFinanceiro();
-  if (sec === 'apostilas') renderAposFull('todas');
+  if (sec === 'apostilas') renderAposFull(window.MINHAS_APOSTILAS || []);
   if (sec === 'legislacao' && !window._legCarregada) { window._legCarregada = true; buscarLegislacao(''); }
 }
 // ── Sync sidebar e novos elementos após renderDash() original
@@ -2839,6 +2966,7 @@ function sincronizarDash() {
   carregarAvatar();
   setTimeout(syncRecentes, 400);
   mostraRenovacao();
+  if (typeof ONB_PERFIL_ATUAL !== 'undefined' && ONB_PERFIL_ATUAL) atualizarCardEdital(ONB_PERFIL_ATUAL);
 }
 function syncRecentes() {
   var list = document.getElementById('dash-recent-list');
@@ -3177,6 +3305,95 @@ function enviarSuporteMsg() {
   const m = document.getElementById('sup-mensagem');
   if (m) m.value = '';
 }
+
+// ══════════════════════════════════════
+// FILTRAR APOSTILAS (Por Disciplina / Por Edital)
+// ══════════════════════════════════════
+function filtrarApos(tipo, el) {
+  // Atualiza visual dos tabs (suporta ambas as classes)
+  var parentEl = el ? el.parentElement : null;
+  if (parentEl) {
+    parentEl.querySelectorAll('button').forEach(function(b) { b.classList.remove('active'); });
+    el.classList.add('active');
+  }
+  var apos = window.MINHAS_APOSTILAS || [];
+  // Aplica em ambas as listas (Início + Apostilas)
+  if (tipo === 'todas') {
+    renderAposFull(apos);
+    var recentList = document.getElementById('dash-recent-list');
+    if (recentList) recentList.innerHTML = apos.slice(0,6).map(buildApoItem).join('') || '<p style="color:#8891a4;text-align:center;padding:20px 0">Nenhuma apostila ainda.</p>';
+  } else if (tipo === 'disciplina') {
+    renderAposPorGrupo(apos, 'disciplina');
+  } else if (tipo === 'edital') {
+    renderAposPorGrupo(apos, 'edital_orgao');
+  }
+}
+function renderAposPorGrupo(apos, campo) {
+  var targets = ['dash-apo-full-list','dash-recent-list'];
+  targets.forEach(function(id) {
+    var list = document.getElementById(id);
+    if (!list) return;
+    if (!apos.length) {
+      list.innerHTML = '<p style="color:#8891a4;text-align:center;padding:20px 0">Nenhuma apostila encontrada.</p>';
+      return;
+    }
+    var grupos = {};
+    apos.forEach(function(apo) {
+      var key = (apo[campo] || (campo === 'edital_orgao' ? '📝 Modo Livre' : '—'));
+      if (!grupos[key]) grupos[key] = [];
+      grupos[key].push(apo);
+    });
+    var html = '';
+    Object.keys(grupos).sort().forEach(function(key) {
+      html += '<div class="dash-grupo-label">' + escHTML(key) + '<span>' + grupos[key].length + ' apostila' + (grupos[key].length > 1 ? 's' : '') + '</span></div>';
+      html += grupos[key].map(buildApoItem).join('');
+    });
+    list.innerHTML = html;
+  });
+}
+
+// ══════════════════════════════════════
+// EDITAL ALVO — exibe na área de membros
+// ══════════════════════════════════════
+function atualizarCardEdital(perfil) {
+  var card = document.getElementById('dash-edital-card');
+  if (!card) return;
+  if (!perfil || !perfil.edital_alvo) { card.style.display = 'none'; return; }
+  carregarEditaisData(function() {
+    var ed = EDITAIS_DATA.find(function(e) { return e.id === perfil.edital_alvo; });
+    if (!ed) { card.style.display = 'none'; return; }
+    card.style.display = 'block';
+    var orgaoEl = document.getElementById('dash-edital-orgao');
+    var metaEl = document.getElementById('dash-edital-meta');
+    if (orgaoEl) orgaoEl.textContent = ed.orgao + ' — ' + ed.cargo;
+    if (metaEl) metaEl.textContent = ed.banca + ' · ' + ed.ano;
+    // Progresso: quais disciplinas já têm apostila
+    var discs = [];
+    if (ed.comuns && Array.isArray(ed.comuns)) discs = discs.concat(ed.comuns.map(function(d){return typeof d==='string'?d:(d.nome||'');}));
+    if (ed.disciplinas && Array.isArray(ed.disciplinas)) discs = discs.concat(ed.disciplinas.map(function(d){return typeof d==='string'?d:(d.nome||'');}));
+    discs = discs.filter(Boolean);
+    var minhasApos = window.MINHAS_APOSTILAS || [];
+    var apostiladasSet = {};
+    minhasApos.forEach(function(a){ apostiladasSet[a.disciplina] = true; });
+    var done = discs.filter(function(d){ return apostiladasSet[d]; });
+    var pct = discs.length ? Math.round(done.length / discs.length * 100) : 0;
+    var progTxt = document.getElementById('dash-edital-prog-txt');
+    var barFill = document.getElementById('dash-edital-bar-fill');
+    var discsEl = document.getElementById('dash-edital-discs');
+    if (progTxt) progTxt.textContent = done.length + ' / ' + discs.length + ' disciplinas';
+    if (barFill) barFill.style.width = pct + '%';
+    if (discsEl) {
+      var chips = discs.slice(0, 12).map(function(d) {
+        var cl = apostiladasSet[d] ? 'done' : 'todo';
+        var icon = apostiladasSet[d] ? '✓ ' : '';
+        return '<span class="dash-edital-disc-chip ' + cl + '">' + icon + escHTML(d) + '</span>';
+      });
+      if (discs.length > 12) chips.push('<span class="dash-edital-disc-chip todo">+' + (discs.length-12) + ' mais</span>');
+      discsEl.innerHTML = chips.join('');
+    }
+  });
+}
+
 function toggleSidebar() {
   const sidebar = document.querySelector('.dash-sidebar');
   const overlay = document.getElementById('dash-overlay');
@@ -3189,11 +3406,14 @@ function toggleSidebar() {
   const _origGo = window.go;
   if (typeof _origGo === 'function') {
     window.go = function(page) {
-      _origGo(page);
-      if (page === 'dash') {
+      if (page === 'gen') {
+        _origGo('dash');
         setTimeout(sincronizarDash, 100);
-        setTimeout(sincronizarDash, 700);
+        setTimeout(function() { dashSec('gen'); garantirDiscsCarregadas(initGerador); }, 150);
+        return;
       }
+      _origGo(page);
+      if (page === 'dash') { setTimeout(sincronizarDash, 100); setTimeout(sincronizarDash, 700); }
     };
   }
   const obs = new MutationObserver(function(muts) {
@@ -3208,7 +3428,16 @@ function toggleSidebar() {
     if (dash) obs.observe(dash, { attributes: true, attributeFilter: ['style'] });
     if (typeof window.go === 'function' && typeof sincronizarDash === 'function') {
       const _g = window.go;
-      window.go = function(page) { _g(page); if (page === 'dash') { setTimeout(sincronizarDash, 100); setTimeout(sincronizarDash, 700); } };
+      window.go = function(page) {
+        if (page === 'gen') {
+          _g('dash');
+          setTimeout(sincronizarDash, 100);
+          setTimeout(function() { dashSec('gen'); garantirDiscsCarregadas(initGerador); }, 150);
+          return;
+        }
+        _g(page);
+        if (page === 'dash') { setTimeout(sincronizarDash, 100); setTimeout(sincronizarDash, 700); }
+      };
     }
   });
 })();
