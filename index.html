@@ -928,7 +928,7 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(240,180,41,0.12);
             <div class="dash-edital-meta" id="dash-edital-meta">—</div>
           </div>
           <div class="dash-edital-actions">
-            <button class="dash-edital-btn dash-edital-btn-gold" onclick="go('gen');setTimeout(()=>{const b=document.querySelector('.modo-btn:last-child');if(b)b.click();},500)">🎯 Estudar pelo edital</button>
+            <button class="dash-edital-btn dash-edital-btn-gold" onclick="estudarPeloEditalAlvo()">🎯 Estudar pelo edital</button>
             <button class="dash-edital-btn dash-edital-btn-ghost" onclick="abrirPerfilParaEdicao()">✏️ Trocar edital</button>
           </div>
         </div>
@@ -3309,6 +3309,16 @@ function enviarSuporteMsg() {
 // ══════════════════════════════════════
 // FILTRAR APOSTILAS (Por Disciplina / Por Edital)
 // ══════════════════════════════════════
+function estudarPeloEditalAlvo() {
+  var ed = window.EDITAL_ALVO_OBJ;
+  if (!ed) { dashSec('gen'); setModoGerador('edital'); return; }
+  dashSec('gen');
+  setModoGerador('edital');
+  garantirDiscsCarregadas(function() {
+    initGerador();
+    selecionarEdital(ed, null);
+  });
+}
 function filtrarApos(tipo, el) {
   // Atualiza visual dos tabs (suporta ambas as classes)
   var parentEl = el ? el.parentElement : null;
@@ -3363,6 +3373,7 @@ function atualizarCardEdital(perfil) {
     var ed = EDITAIS_DATA.find(function(e) { return e.id === perfil.edital_alvo; });
     if (!ed) { card.style.display = 'none'; return; }
     card.style.display = 'block';
+    window.EDITAL_ALVO_OBJ = ed;
     var orgaoEl = document.getElementById('dash-edital-orgao');
     var metaEl = document.getElementById('dash-edital-meta');
     if (orgaoEl) orgaoEl.textContent = ed.orgao + ' — ' + ed.cargo;
