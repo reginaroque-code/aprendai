@@ -2171,7 +2171,7 @@ function instrucaoPersonalizacao(){
 function prosseguirGeracao(disc,mod,qTeoria,qMapa,qQuestoes,questoesReais){
   var loader=document.getElementById('gloader');
   var aiNecessarias = qQuestoes ? Math.max(0,10-questoesReais.length) : 0;
-  var editCtx=MODOGERADOR==='edital'&&SEL_EDITAL?' Concurso: '+SEL_EDITAL.orgao+' '+SEL_EDITAL.ano+', cargo '+SEL_EDITAL.cargo+'.':'';
+  var _editCtx=MODO_GERADOR==='edital'&&SEL_EDITAL?' Concurso: '+SEL_EDITAL.orgao+' '+SEL_EDITAL.ano+', cargo '+SEL_EDITAL.cargo+'.':'';
   // monta o schema JSON só com os campos das seções marcadas — assim a IA
   // nem gera (nem cobra) tokens de saída das partes que o usuário não pediu
   var _campos=['"titulo":"título curto da apostila"','"introducao":"introdução contextualizando a importância do tema para a prova (2 a 3 frases)"'];
@@ -2391,7 +2391,7 @@ function renderApostila(d,disc,mod,orgaoNome,pillsOverride){
   });
   // capa
   var capa=document.getElementById('a-capa');
-  var orgaoTag=orgaoNome?'<span class="atag">🏛️ '+escHTML(orgaoNome)+'</span>':(MODOGERADOR==='edital'&&SEL_EDITAL?'<span class="atag">🏛️ '+SEL_EDITAL.orgao+'</span>':'');
+  var _orgaoTag=orgaoNome?'<span class="atag">🏛️ '+escHTML(orgaoNome)+'</span>':(MODO_GERADOR==='edital'&&SEL_EDITAL?'<span class="atag">🏛️ '+SEL_EDITAL.orgao+'</span>':'');
   capa.innerHTML='<div class="acapa-badge">'+disc+' · '+SEL_BANCA+'</div>'+
     '<h2>'+d.titulo+'</h2>'+
     '<p>'+d.introducao+'</p>'+
