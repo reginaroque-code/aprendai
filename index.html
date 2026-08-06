@@ -1613,7 +1613,7 @@ function garantirDiscsCarregadas(cb){
 var CUR_USER = null, CUR_PLANO = 'trial', APO_COUNT = 0, CUR_RENOVACAO = null;
 var CUR_DISC_CTX = null, CUR_MOD_CTX = null;
 var SEL_BANCA = 'FCC', CUR_DATA = null;
-var MINHAS_APOSTILAS = [], ERRORETRY_FN = null;
+var MINHAS_APOSTILAS = [], _ERRO_RETRY_FN = null;
 var loaderIdx = 0, loaderTimer = null;
 // ══════════════════════════════════════
 // CONSENTIMENTO DE COOKIES (LGPD)
@@ -2176,16 +2176,16 @@ function prosseguirGeracao(disc,mod,qTeoria,qMapa,qQuestoes,questoesReais){
   // nem gera (nem cobra) tokens de saída das partes que o usuário não pediu
   var _campos=['"titulo":"título curto da apostila"','"introducao":"introdução contextualizando a importância do tema para a prova (2 a 3 frases)"'];
   if(qTeoria){
-    campos.push('"teoria":[{"topico":"nome do subtópico","conteudo":"teoria aprofundada em HTML (250 a 400 palavras): conceito, base legal, classificações, requisitos e efeitos práticos — use <p>, <ul><li>, <strong> e <mark> como instruído","ancoragem":"exemplo prático, caso concreto ou mnemônico (até 40 palavras)","alerta":"pegadinha específica da banca '+SELBANCA+', com trecho de prova real se possível (até 40 palavras)"}]');
-    campos.push('"raiox_banca":{"pegadinhas":["pegadinha 1","pegadinha 2","pegadinha 3","pegadinha 4"],"temas_quentes":["tema 1","tema 2","tema 3","tema 4"],"dica_banca":"dica sobre o estilo da banca '+SEL_BANCA+' (até 40 palavras)"}');
+    _campos.push('"teoria":[{"topico":"nome do subtópico","conteudo":"teoria aprofundada em HTML (250 a 400 palavras): conceito, base legal, classificações, requisitos e efeitos práticos — use <p>, <ul><li>, <strong> e <mark> como instruído","ancoragem":"exemplo prático, caso concreto ou mnemônico (até 40 palavras)","alerta":"pegadinha específica da banca '+SEL_BANCA+', com trecho de prova real se possível (até 40 palavras)"}]');
+    _campos.push('"raiox_banca":{"pegadinhas":["pegadinha 1","pegadinha 2","pegadinha 3","pegadinha 4"],"temas_quentes":["tema 1","tema 2","tema 3","tema 4"],"dica_banca":"dica sobre o estilo da banca '+SEL_BANCA+' (até 40 palavras)"}');
   }
   if(qMapa){
-    campos.push('"mapamental":{"centro":"'+mod+'","ramos":[{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]}]}');
+    _campos.push('"mapamental":{"centro":"'+mod+'","ramos":[{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]},{"titulo":"ramo curto (máx 3 palavras)","subitens":["item curto","item curto","item curto"]}]}');
   }
   if(qQuestoes&&aiNecessarias>0){
-    campos.push('"testeimediato":'+_schemaQuestoesIA(aiNecessarias,SEL_BANCA));
+    _campos.push('"testeimediato":'+_schemaQuestoesIA(aiNecessarias,SEL_BANCA));
   }
-  var schema='{'+campos.join(',')+'}';
+  var _schema='{'+_campos.join(',')+'}';
   var prompt='Você é um professor especialista em concursos públicos, com foco absoluto no estilo da banca '+SEL_BANCA+'.\n'+
       'Gere '+(qTeoria&&qMapa&&qQuestoes?'uma apostila COMPLETA e APROFUNDADA':'o material')+' sobre "'+mod+'" da disciplina "'+disc+'", para concurseiros que estudam para provas da banca '+SEL_BANCA+'.'+_editCtx+
       instrucaoPersonalizacao()+
@@ -2224,10 +2224,10 @@ function prosseguirGeracao(disc,mod,qTeoria,qMapa,qQuestoes,questoesReais){
 }
 function registrarApostilaGerada(){
   APO_COUNT++;
-  var maxAp=CURPLANO==='essencial'?30:(CUR_PLANO==='pro'?150:5);
-  var gcnt=document.getElementById('gcnt');if(gcnt)_gcnt.textContent=APO_COUNT;
-  var dcnt=document.getElementById('dcnt');if(dcnt)_dcnt.textContent=APO_COUNT;
-  var gfill=document.getElementById('gfill');if(gfill)_gfill.style.width=Math.min(100,APO_COUNT/_maxAp*100)+'%';
+  var _maxAp=CUR_PLANO==='essencial'?30:(CUR_PLANO==='pro'?150:5);
+  var _gcnt=document.getElementById('gcnt');if(_gcnt)_gcnt.textContent=APO_COUNT;
+  var _dcnt=document.getElementById('dcnt');if(_dcnt)_dcnt.textContent=APO_COUNT;
+  var _gfill=document.getElementById('gfill');if(_gfill)_gfill.style.width=Math.min(100,APO_COUNT/_maxAp*100)+'%';
   salvarContador(APO_COUNT);
 }
 // Salva a apostila recém-gerada no histórico do usuário (área de membros).
@@ -2268,7 +2268,7 @@ function salvarApostilaGerada(disc,mod){
 function mostrarErroGeracao(msg,retryFn){
   document.getElementById('apostila-view').style.display='none';
   document.getElementById('gerro-msg').textContent=msg;
-  ERRORETRY_FN=retryFn||gerar;
+  _ERRO_RETRY_FN=retryFn||gerar;
   document.getElementById('gerro').classList.add('show');
 }
 function retomarGeracao(){
@@ -2347,7 +2347,7 @@ function abrirApostilaSalva(id){
       SEL_BANCA=row.banca||SEL_BANCA;
       CUR_DATA=row.dados;
       if(MODO_GERADOR==='edital'&&SEL_EDITAL){
-        var d=disciplinasDoEdital(SELEDITAL).find(function(x){return x.nome===row.disciplina;});
+        var _d=disciplinasDoEdital(SEL_EDITAL).find(function(x){return x.nome===row.disciplina;});
         if(_d)TRILHA_DISC_ATUAL=_d;
       }
       var pillsOverride=DISCS[row.disciplina]?DISCS[row.disciplina].mod:[];
@@ -2437,8 +2437,8 @@ function renderApostila(d,disc,mod,orgaoNome,pillsOverride){
   }
   // questões para praticar — mistura questões REAIS já cadastradas com as geradas por IA, até 10 no total
   var questoesReais=d.questoes_reais||[];
-  var questoesIA=(d.testeimediato||[]).map(function(q){return {q:q,fonte:'ia'};});
-  var questoesTodas=questoesReais.map(function(q){return {q:q,fonte:'real'};}).concat(_questoesIA).slice(0,10);
+  var _questoesIA=(d.testeimediato||[]).map(function(q){return {q:q,fonte:'ia'};});
+  var _questoesTodas=questoesReais.map(function(q){return {q:q,fonte:'real'};}).concat(_questoesIA).slice(0,10);
   if(_questoesTodas.length){
     html+='<div class="ablock"><div class="ablock-title">✅ Questões para praticar <span style="font-size:.7rem;color:rgba(255,255,255,.4);font-weight:500;">('+_questoesTodas.length+' selecionadas)</span></div>';
     _questoesTodas.forEach(function(item,qi){
