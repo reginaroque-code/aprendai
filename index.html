@@ -2616,7 +2616,7 @@ function renderApostila(d,disc,mod,orgaoNome,pillsOverride){
       html+='<div class="qcard" id="q'+qi+'">'+origemTag+'<div class="qnum">Questão '+(qi+1)+'</div><div class="qenunc">'+q.enunciado+'</div><div class="qalts">';
       ['A','B','C','D','E'].forEach(function(l){
         if(alternativasObj[l])
-          html+='<button class="qalt" onclick="responder('+qi+',\''+l+'\',\''+gabaritoVal+'\''+escHTML(comentarioVal)+')">'+l+') '+alternativasObj[l]+'</button>';
+          html+='<button class="qalt" onclick="responder('+qi+',\''+l+'\',\''+gabaritoVal+'\',\''+escHTML(comentarioVal)+'\')">'+l+') '+alternativasObj[l]+'</button>';
       });
       html+='</div><div class="qgab" id="gab'+qi+'">📘 <strong>Gabarito: '+gabaritoVal+'</strong>'+(comentarioVal?(' — '+escHTML(comentarioVal)):'')+'</div></div>';
     });
